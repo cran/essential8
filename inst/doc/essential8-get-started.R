@@ -79,3 +79,20 @@ percentile_scores[
   c("diet_value", "le8_diet_score", "le8_composite_score")
 ]
 
+## ----incomplete-data----------------------------------------------------------
+incomplete_data <- adult_data
+incomplete_data$sleep_hours[1] <- NA_real_
+incomplete_data$bmi[2] <- NA_real_
+
+incomplete_scores <- score_le8(
+  incomplete_data,
+  min_components = 7
+)
+
+incomplete_scores[c(
+  "id",
+  "le8_composite_score",
+  "le8_n_components",
+  "le8_complete"
+)]
+

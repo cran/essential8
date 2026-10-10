@@ -1,19 +1,34 @@
 Package: essential8
 Title: Reproducible Cardiovascular Health Metric Scoring
-Version: 0.1.0
-Authors@R: 
+Version: 0.2.0
+Authors@R: c(
     person(
       given = "Carson",
       family = "Richardson",
       email = "carson.richardson@outlook.com",
       role = c("aut", "cre", "cph"),
       comment = c(ORCID = "0009-0004-8710-1097")
+    ),
+    person(
+      given = "Amrik",
+      family = "Khalsa",
+      email = "Amrik.Khalsa@nationwidechildrens.org",
+      role = "ctb",
+      comment = c(ORCID = "0000-0002-4609-5194")
+    ),
+    person(
+      given = "Sara",
+      family = "Conroy",
+      role = "ctb",
+      comment = c(ORCID = "0000-0001-9155-9456")
     )
+  )
 Description: Provides a reproducible R implementation of the American Heart
     Association Life's Essential 8 cardiovascular health scoring framework for
-    complete adult records from people aged 20 years or older. Calculates the
-    eight component scores and their unweighted composite score using the 2022
-    adult definition described by Lloyd-Jones et al. (2022)
+    adult records from people aged 20 years or older. Calculates the eight
+    component scores and their unweighted composite score from available
+    component data using the 2022 adult definition described by Lloyd-Jones et
+    al. (2022)
     <doi:10.1161/CIR.0000000000001078>.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -26,11 +41,13 @@ Config/Needs/website: pkgdown
 URL: https://thatoneguy006.github.io/essential8/,
         https://github.com/thatoneguy006/essential8
 BugReports: https://github.com/thatoneguy006/essential8/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 NeedsCompilation: no
-Packaged: 2026-08-23 01:51:46 UTC; Carso
+Packaged: 2026-10-10 14:31:17 UTC; Carso
 Author: Carson Richardson [aut, cre, cph] (ORCID:
-    <https://orcid.org/0009-0004-8710-1097>)
+    <https://orcid.org/0009-0004-8710-1097>),
+  Amrik Khalsa [ctb] (ORCID: <https://orcid.org/0000-0002-4609-5194>),
+  Sara Conroy [ctb] (ORCID: <https://orcid.org/0000-0001-9155-9456>)
 Maintainer: Carson Richardson <carson.richardson@outlook.com>
 Repository: CRAN
-Date/Publication: 2026-09-03 11:20:09 UTC
+Date/Publication: 2026-10-10 14:50:02 UTC

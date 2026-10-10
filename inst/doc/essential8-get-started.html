@@ -348,16 +348,16 @@ Essential 8 (LE8) cardiovascular health scores. The current
 implementation scores adults aged 20 years or older using the American
 Heart Association’s 2022 definition. Pediatric scoring is not yet
 available.</p>
-<p>This vignette shows the basic complete-data workflow. See
+<p>This vignette shows complete and incomplete-data workflows. See
 <code>?score_le8</code> for the full input contract and scoring
 details.</p>
 </div>
 <div id="create-an-adult-data-frame" class="section level2">
 <h2>Create an adult data frame</h2>
-<p>Supply one row per person. The example below uses base R and includes
-two adults with raw responses to the 16-item Mediterranean Eating
-Pattern for Americans (MEPA) screener. It also demonstrates both
-possible BMI profiles and both possible glucose measures.</p>
+<p>Supply one row per person. The example below includes two adults with
+raw responses to the 16-item Mediterranean Eating Pattern for Americans
+(MEPA) screener. It also demonstrates both possible BMI profiles and
+both possible glucose measures.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(essential8)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>adult_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -405,7 +405,8 @@ possible BMI profiles and both possible glucose measures.</p>
 <h2>Compute LE8 scores</h2>
 <p>Pass the data frame to <code>score_le8()</code>. The returned data
 frame retains the input columns and appends the derived activity
-measure, eight component scores, composite score, and category.</p>
+measure, eight component scores, the number of contributing components,
+composite score, completeness indicator, and category.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>scored <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(adult_data, <span class="at">diet_method =</span> <span class="st">&quot;mepa&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>scored[<span class="fu">c</span>(</span>
@@ -429,7 +430,7 @@ measure, eight component scores, composite score, and category.</p>
 and is recorded as
 <code>physical_activity_moderate_equivalent_minutes</code>. The
 <code>le8_composite_score</code> is the mean of the eight component
-scores. Categories are <code>&quot;low&quot;</code> below 50,
+scores for complete records. Categories are <code>&quot;low&quot;</code> below 50,
 <code>&quot;moderate&quot;</code> from 50 to less than 80, and <code>&quot;high&quot;</code>
 at 80 or higher.</p>
 <p>The component scores are available for analysis and quality
@@ -491,10 +492,11 @@ percentile inputs, split the rows into separate data frames and call
 <ul>
 <li>For <code>diet_method = &quot;mepa&quot;</code>, <code>diet_value</code> must
 be absent or contain only missing values.</li>
-<li>For <code>diet_method = &quot;percentile&quot;</code>, <code>diet_value</code>
-is required; MEPA columns are ignored. Supply a DASH or HEI-2015
-percentile from 1 to 100, calculated against the relevant reference
-population before calling <code>score_le8()</code>.</li>
+<li>For <code>diet_method = &quot;percentile&quot;</code>, MEPA columns are
+ignored. Supply <code>diet_value</code> as a DASH or HEI-2015 percentile
+from 1 to 100, calculated against the relevant reference population
+before calling <code>score_le8()</code>. If it is absent or missing, the
+diet component cannot be scored.</li>
 <li>Set <code>bmi_profile</code> to either <code>&quot;general&quot;</code> or
 <code>&quot;asian_pacific&quot;</code>. The function does not infer a BMI profile
 from race or ethnicity.</li>
@@ -521,11 +523,47 @@ adjustments: <code>apply_lean_muscular_bmi_override</code>,
 <code>apply_prediabetes_metformin_penalty</code>. When these columns are
 absent, their adjustments are not applied.</p>
 </div>
-<div id="complete-and-source-defined-inputs" class="section level2">
-<h2>Complete and source-defined inputs</h2>
-<p>The current implementation requires complete, finite values for every
-required input. It does not impute missing data, convert units, or round
-raw measurements before scoring.</p>
+<div id="work-with-incomplete-component-data" class="section level2">
+<h2>Work with incomplete component data</h2>
+<p>Component inputs may be missing for individual adults.
+Component-specific columns may also be omitted when an entire domain is
+unavailable. The package does not impute missing data, convert units, or
+round raw measurements before scoring. <code>age</code> remains required
+and complete because the package must establish that every record is
+eligible for adult scoring.</p>
+<p>By default, <code>score_le8()</code> calculates the composite when at
+least seven of the eight component scores are available. Choose any
+threshold from 1 through 8 with <code>min_components</code>. The
+composite is the mean of the available components when the threshold is
+met.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>incomplete_data <span class="ot">&lt;-</span> adult_data</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>incomplete_data<span class="sc">$</span>sleep_hours[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA_real_</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>incomplete_data<span class="sc">$</span>bmi[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA_real_</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>incomplete_scores <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  incomplete_data,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">min_components =</span> <span class="dv">7</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>incomplete_scores[<span class="fu">c</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="st">&quot;id&quot;</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="st">&quot;le8_composite_score&quot;</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="st">&quot;le8_n_components&quot;</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="st">&quot;le8_complete&quot;</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>)]</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;          id le8_composite_score le8_n_components le8_complete</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 1 patient_1            97.14286                7        FALSE</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 2 patient_2            51.42857                7        FALSE</span></span></code></pre></div>
+<p><code>le8_n_components</code> makes the denominator explicit, and
+<code>le8_complete</code> is <code>TRUE</code> only when all eight
+components are available. Row-level missingness is silent; when a
+component cannot be calculated for any observation, one consolidated
+warning identifies every unavailable component. If structural
+missingness makes <code>min_components</code> impossible, the warning
+also states that no composite scores can be calculated.</p>
+</div>
+<div id="source-defined-inputs" class="section level2">
+<h2>Source-defined inputs</h2>
 <p><code>score_le8()</code> also rejects combinations for which the AHA
 source does not define a score. Examples include an underweight BMI that
 requires clinical judgment, a diagnostic-range glucose value paired with

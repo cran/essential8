@@ -1,6 +1,23 @@
+# essential8 0.2.0
+
+## Major Changes
+
+- `score_le8()` can now work with data that have missing values (#7).
+- Added `min_components`, an argument to control how many available
+  components are required for `le8_composite_score`. Valid options range from
+  1-8.
+
+## Minor Changes
+
+- Added `le8_n_components` and `le8_complete` outputs for transparent reporting
+  of the available components for LE8 composite scores.
+- Added consolidated, classed warnings when one or more LE8 components cannot
+  be calculated for any observation, including a stronger warning when
+  structural missingness makes `min_components` impossible to reach.
+
 # essential8 0.1.0
 
-## Adult Life's Essential 8 scoring
+## Major Changes
 
 - Added `score_le8()` for complete adult records aged 20 years or
   older, using the eight component definitions in the AHA 2022 Presidential
