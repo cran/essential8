@@ -343,89 +343,85 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p><code>essential8</code> computes component and composite Life’s
-Essential 8 (LE8) cardiovascular health scores. The current
-implementation scores adults aged 20 years or older using the American
-Heart Association’s 2022 definition. Pediatric scoring is not yet
-available.</p>
-<p>This vignette shows complete and incomplete-data workflows. See
-<code>?score_le8</code> for the full input contract and scoring
-details.</p>
+<p><code>essential8</code> computes Life’s Essential 8 (LE8)
+cardiovascular health scores using the American Heart Association’s 2022
+definitions. Subjects aged 20 years or older are scored using the adult
+definitions whereas subjects aged 4 months to 19 years are scored using
+the pediatric definitions; this vignette scores adults, see
+<code>vignette(&quot;pediatric-scoring&quot;)</code> for details about pediatric
+scoring.</p>
+<p>This vignette shows how to score complete and incomplete data. The
+examples use <code>dplyr</code> and the native pipe (<code>|&gt;</code>,
+available in R 4.1+). See <code>?score_le8</code> for all input
+requirements and scoring details.</p>
 </div>
 <div id="create-an-adult-data-frame" class="section level2">
 <h2>Create an adult data frame</h2>
-<p>Supply one row per person. The example below includes two adults with
-raw responses to the 16-item Mediterranean Eating Pattern for Americans
-(MEPA) screener. It also demonstrates both possible BMI profiles and
-both possible glucose measures.</p>
+<p>Supply one row per person. This example includes two adults with
+responses to the 16-item Mediterranean Eating Pattern for Americans
+(MEPA) questionnaire. It shows both BMI profiles and both glucose
+measures.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(essential8)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>adult_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;patient_1&quot;</span>, <span class="st">&quot;patient_2&quot;</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">61</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="co"># Daily servings</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="at">olive_oil =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>),</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="at">green_leafy_vegetables =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="at">other_vegetables =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="at">whole_grains =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="co"># Weekly servings</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="at">berries =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>),</span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="at">other_fruit =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>),</span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="at">meat =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),</span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="at">fish =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>),</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="at">chicken =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>),</span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  <span class="at">cheese =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>),</span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="at">butter_cream =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="at">beans =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>),</span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  <span class="at">sweets_and_pastries =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>  <span class="at">nuts =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>),</span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="at">fast_food =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="at">alcohol =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">0</span>),</span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="at">moderate_activity_minutes =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">60</span>),</span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  <span class="at">vigorous_activity_minutes =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">0</span>),</span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="at">smoking_status =</span> <span class="fu">c</span>(<span class="st">&quot;never&quot;</span>, <span class="st">&quot;former&quot;</span>),</span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="at">years_since_quit =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>),</span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  <span class="at">current_inhaled_nds =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>),</span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  <span class="at">secondhand_smoke_home =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>),</span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  <span class="at">sleep_hours =</span> <span class="fu">c</span>(<span class="fl">7.5</span>, <span class="fl">6.5</span>),</span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>  <span class="at">bmi =</span> <span class="fu">c</span>(<span class="fl">24.2</span>, <span class="fl">24.0</span>),</span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="at">bmi_profile =</span> <span class="fu">c</span>(<span class="st">&quot;general&quot;</span>, <span class="st">&quot;asian_pacific&quot;</span>),</span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>  <span class="at">non_hdl_cholesterol =</span> <span class="fu">c</span>(<span class="dv">125</span>, <span class="dv">145</span>),</span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>  <span class="at">lipid_lowering_treatment =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>),</span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>  <span class="at">diabetes =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>),</span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>  <span class="at">glucose_measure =</span> <span class="fu">c</span>(<span class="st">&quot;fasting_glucose&quot;</span>, <span class="st">&quot;hba1c&quot;</span>),</span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>  <span class="at">glucose_value =</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="fl">6.0</span>),</span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>  <span class="at">systolic_bp =</span> <span class="fu">c</span>(<span class="dv">118</span>, <span class="dv">132</span>),</span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>  <span class="at">diastolic_bp =</span> <span class="fu">c</span>(<span class="dv">76</span>, <span class="dv">84</span>),</span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a>  <span class="at">antihypertensive_treatment =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>adult_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;patient_1&quot;</span>, <span class="st">&quot;patient_2&quot;</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">61</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="co"># Daily servings</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="at">olive_oil =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="at">green_leafy_vegetables =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="at">other_vegetables =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="at">whole_grains =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="co"># Weekly servings</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="at">berries =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="at">other_fruit =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="at">meat =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="at">fish =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  <span class="at">chicken =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="at">cheese =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="at">butter_cream =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  <span class="at">beans =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>  <span class="at">sweets_and_pastries =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="at">nuts =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>),</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="at">fast_food =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="at">alcohol =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">0</span>),</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  <span class="at">moderate_activity_minutes =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">60</span>),</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="at">vigorous_activity_minutes =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">0</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="at">smoking_status =</span> <span class="fu">c</span>(<span class="st">&quot;never&quot;</span>, <span class="st">&quot;former&quot;</span>),</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  <span class="at">years_since_quit =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>),</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  <span class="at">current_inhaled_nds =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  <span class="at">secondhand_smoke_home =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>  <span class="at">sleep_hours =</span> <span class="fu">c</span>(<span class="fl">7.5</span>, <span class="fl">6.5</span>),</span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="at">bmi =</span> <span class="fu">c</span>(<span class="fl">24.2</span>, <span class="fl">24.0</span>),</span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>  <span class="at">bmi_profile =</span> <span class="fu">c</span>(<span class="st">&quot;general&quot;</span>, <span class="st">&quot;asian_pacific&quot;</span>),</span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>  <span class="at">non_hdl_cholesterol =</span> <span class="fu">c</span>(<span class="dv">125</span>, <span class="dv">145</span>),</span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>  <span class="at">lipid_lowering_treatment =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>  <span class="at">diabetes =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>  <span class="at">glucose_measure =</span> <span class="fu">c</span>(<span class="st">&quot;fasting_glucose&quot;</span>, <span class="st">&quot;hba1c&quot;</span>),</span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>  <span class="at">glucose_value =</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="fl">6.0</span>),</span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>  <span class="at">systolic_bp =</span> <span class="fu">c</span>(<span class="dv">118</span>, <span class="dv">132</span>),</span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a>  <span class="at">diastolic_bp =</span> <span class="fu">c</span>(<span class="dv">76</span>, <span class="dv">84</span>),</span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>  <span class="at">antihypertensive_treatment =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div id="compute-le8-scores" class="section level2">
 <h2>Compute LE8 scores</h2>
 <p>Pass the data frame to <code>score_le8()</code>. The returned data
 frame retains the input columns and appends the derived activity
 measure, eight component scores, the number of contributing components,
-composite score, completeness indicator, and category.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>scored <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(adult_data, <span class="at">diet_method =</span> <span class="st">&quot;mepa&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>scored[<span class="fu">c</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="st">&quot;id&quot;</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="st">&quot;mepa_total&quot;</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="st">&quot;le8_diet_score&quot;</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="st">&quot;physical_activity_moderate_equivalent_minutes&quot;</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="st">&quot;le8_composite_score&quot;</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="st">&quot;le8_category&quot;</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>)]</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;          id mepa_total le8_diet_score</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 1 patient_1         14             80</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 2 patient_2          4             25</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;   physical_activity_moderate_equivalent_minutes le8_composite_score</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; 1                                           150              97.500</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; 2                                            60              54.375</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;   le8_category</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; 1         high</span></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; 2     moderate</span></span></code></pre></div>
+composite score, a completeness indicator, and cardiovascular health
+category.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>scored <span class="ot">&lt;-</span> adult_data <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">diet_method =</span> <span class="st">&quot;mepa&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>scored <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">select</span>(id, mepa_total, diet_score, le8_composite_score, le8_category)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 5</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;   id        mepa_total diet_score le8_composite_score le8_category</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;int&gt;      &lt;dbl&gt;               &lt;dbl&gt; &lt;chr&gt;       </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 1 patient_1         14         80                97.5 high        </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 2 patient_2          4         25                54.4 moderate</span></span></code></pre></div>
 <p>Each vigorous activity minute counts as two moderate activity minutes
 and is recorded as
 <code>physical_activity_moderate_equivalent_minutes</code>. The
@@ -435,27 +431,22 @@ scores for complete records. Categories are <code>&quot;low&quot;</code> below 5
 at 80 or higher.</p>
 <p>The component scores are available for analysis and quality
 checks:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>component_columns <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">&quot;^le8_.*_score$&quot;</span>, <span class="fu">names</span>(scored), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="st">&quot;le8_composite_score&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>scored[<span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, component_columns)]</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;          id le8_diet_score le8_physical_activity_score le8_nicotine_score</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 1 patient_1             80                         100                100</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 2 patient_2             25                          60                 75</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;   le8_sleep_score le8_bmi_score le8_blood_lipids_score le8_blood_glucose_score</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 1             100           100                    100                     100</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; 2              70            75                     40                      60</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;   le8_blood_pressure_score</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; 1                      100</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; 2                       30</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>scored <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">select</span>(id, <span class="fu">ends_with</span>(<span class="st">&quot;_score&quot;</span>), <span class="sc">-</span>le8_composite_score)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 9</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;   id      diet_score physical_activity_sc…¹ nicotine_score sleep_score bmi_score</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;                  &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 1 patien…         80                    100            100         100       100</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 2 patien…         25                     60             75          70        75</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; # ℹ abbreviated name: ¹​physical_activity_score</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 more variables: blood_lipids_score &lt;dbl&gt;, blood_glucose_score &lt;dbl&gt;,</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; #   blood_pressure_score &lt;dbl&gt;</span></span></code></pre></div>
 </div>
-<div id="understand-the-mepa-inputs" class="section level2">
-<h2>Understand the MEPA inputs</h2>
-<p>The MEPA response columns use the 16 screener-item labels in snake
-case. The column names should reflect as seen below, but you can map
-custom columns using <code>mepa_columns = c()</code>.</p>
+<div id="understanding-the-mepa-inputs" class="section level2">
+<h2>Understanding the MEPA inputs</h2>
+<p>The MEPA response columns use the 16 screener-item labels shown
+above. Use <code>mepa_columns</code> to map different column names to
+these labels.</p>
 <ul>
 <li><code>olive_oil</code>, <code>green_leafy_vegetables</code>,
 <code>other_vegetables</code>, and <code>whole_grains</code> are
@@ -481,20 +472,44 @@ recognized automatically; map any other name with, for example,
 and matched case-insensitively as <code>&quot;m&quot;</code>/<code>&quot;f&quot;</code> or
 <code>&quot;male&quot;</code>/<code>&quot;female&quot;</code>. Numeric or character
 <code>0</code>/<code>1</code> values are also accepted, where
-<code>0</code> is male and <code>1</code> is female.</p>
+<code>0</code> is male and <code>1</code> is female. A logical
+<code>female</code> column (<code>TRUE</code> for female) is also
+accepted.</p>
 </div>
-<div id="choose-other-input-methods-explicitly" class="section level2">
-<h2>Choose other input methods explicitly</h2>
+<div id="choosing-a-diet-scoring-method" class="section level2">
+<h2>Choosing a diet scoring method</h2>
 <p>The <code>diet_method</code> argument defaults to
-<code>&quot;mepa&quot;</code>. If a source data set contains both MEPA and
-percentile inputs, split the rows into separate data frames and call
+<code>&quot;mepa&quot;</code>. If your data contains both MEPA and percentile
+inputs, split the rows into separate data frames and call
 <code>score_le8()</code> separately for each method.</p>
+<p><code>essential8</code> can also compute DASH/HEI-2015 percentiles if
+you collected data for those instruments. Use
+<code>diet_method = &quot;dash&quot;</code> or <code>&quot;hei2015&quot;</code> with raw
+food and nutrient inputs,the resulting data-frame is similar to the MEPA
+call. Otherwise supply the DASH/HEI-2015 scores to be converted to
+percentiles, or the percentiles themselves in the data-frame via
+<code>diet_value</code>. See
+<code>vignette(&quot;population-diets&quot;, package = &quot;essential8&quot;)</code> for
+the background, scoring rules, and examples.</p>
+<p>Here is an example where the percentiles are user-supplied:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>adult_data <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diet_value =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">95</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">diet_method =</span> <span class="st">&quot;percentile&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">select</span>(id, diet_value, diet_score, le8_composite_score)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;   id        diet_value diet_score le8_composite_score</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 1 patient_1         35         25                90.6</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 2 patient_2         95        100                63.8</span></span></code></pre></div>
+</div>
+<div id="scoring-tips" class="section level2">
+<h2>Scoring tips</h2>
 <ul>
 <li>For <code>diet_method = &quot;mepa&quot;</code>, <code>diet_value</code> must
 be absent or contain only missing values.</li>
 <li>For <code>diet_method = &quot;percentile&quot;</code>, MEPA columns are
 ignored. Supply <code>diet_value</code> as a DASH or HEI-2015 percentile
-from 1 to 100, calculated against the relevant reference population
+from 0 to 100, calculated against the relevant reference population
 before calling <code>score_le8()</code>. If it is absent or missing, the
 diet component cannot be scored.</li>
 <li>Set <code>bmi_profile</code> to either <code>&quot;general&quot;</code> or
@@ -504,72 +519,129 @@ from race or ethnicity.</li>
 for a value in mg/dL or <code>&quot;hba1c&quot;</code> for a percentage. Diagnosed
 diabetes requires HbA1c for scoring.</li>
 </ul>
-<p>The percentile workflow is executable without removing the unused
-MEPA columns:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>percentile_data <span class="ot">&lt;-</span> adult_data[<span class="dv">1</span>, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>percentile_data<span class="sc">$</span>diet_value <span class="ot">&lt;-</span> <span class="dv">95</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>percentile_scores <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  percentile_data,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">diet_method =</span> <span class="st">&quot;percentile&quot;</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>)</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>percentile_scores[</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;diet_value&quot;</span>, <span class="st">&quot;le8_diet_score&quot;</span>, <span class="st">&quot;le8_composite_score&quot;</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>]</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;   diet_value le8_diet_score le8_composite_score</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 1         95            100                 100</span></span></code></pre></div>
-<p>Three optional, caller-adjudicated flags control clinical-judgment
-adjustments: <code>apply_lean_muscular_bmi_override</code>,
+<p>Three optional flags apply adjustments that require clinical
+judgment: <code>apply_lean_muscular_bmi_override</code>,
 <code>apply_sleep_apnea_penalty</code>, and
 <code>apply_prediabetes_metformin_penalty</code>. When these columns are
 absent, their adjustments are not applied.</p>
 </div>
-<div id="work-with-incomplete-component-data" class="section level2">
-<h2>Work with incomplete component data</h2>
-<p>Component inputs may be missing for individual adults.
-Component-specific columns may also be omitted when an entire domain is
-unavailable. The package does not impute missing data, convert units, or
-round raw measurements before scoring. <code>age</code> remains required
-and complete because the package must establish that every record is
-eligible for adult scoring.</p>
-<p>By default, <code>score_le8()</code> calculates the composite when at
-least seven of the eight component scores are available. Choose any
-threshold from 1 through 8 with <code>min_components</code>. The
+<div id="working-with-incomplete-component-data" class="section level2">
+<h2>Working with incomplete component data</h2>
+<p>Component inputs may be missing, their columns may be omitted, or
+optionally, you can choose to impute missing data using
+<code>score_le8(impute = TRUE)</code>. Supply values in the documented
+units. <code>age</code> must be complete and at least 20 for every
+row.</p>
+<p>By default, <code>score_le8()</code> calculates the composite score
+when at least seven of the eight component scores are available. Choose
+any threshold from 1 through 8 with <code>min_components</code>. The
 composite is the mean of the available components when the threshold is
 met.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>incomplete_data <span class="ot">&lt;-</span> adult_data</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>incomplete_data<span class="sc">$</span>sleep_hours[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA_real_</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>incomplete_data<span class="sc">$</span>bmi[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA_real_</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>incomplete_scores <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  incomplete_data,</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">min_components =</span> <span class="dv">7</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>)</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>incomplete_scores[<span class="fu">c</span>(</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="st">&quot;id&quot;</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="st">&quot;le8_composite_score&quot;</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="st">&quot;le8_n_components&quot;</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="st">&quot;le8_complete&quot;</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>)]</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;          id le8_composite_score le8_n_components le8_complete</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 1 patient_1            97.14286                7        FALSE</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 2 patient_2            51.42857                7        FALSE</span></span></code></pre></div>
-<p><code>le8_n_components</code> makes the denominator explicit, and
-<code>le8_complete</code> is <code>TRUE</code> only when all eight
-components are available. Row-level missingness is silent; when a
-component cannot be calculated for any observation, one consolidated
-warning identifies every unavailable component. If structural
-missingness makes <code>min_components</code> impossible, the warning
-also states that no composite scores can be calculated.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>adult_data <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sleep_hours =</span> <span class="fu">c</span>(<span class="cn">NA_real_</span>, <span class="fl">6.5</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">min_components =</span> <span class="dv">7</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">select</span>(id, le8_composite_score, n_components, le8_complete)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;   id        le8_composite_score n_components le8_complete</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                   &lt;dbl&gt;        &lt;int&gt; &lt;lgl&gt;       </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 1 patient_1                97.1            7 FALSE       </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 2 patient_2                54.4            8 TRUE</span></span></code></pre></div>
+<p><code>n_components</code> reports how many components were scored.
+<code>le8_complete</code> is <code>TRUE</code> when all eight are
+available. Missing values in individual rows do not trigger warnings. If
+a component cannot be scored for anyone, a warning names it. The warning
+also explains when too few components are available to calculate any
+composite scores.</p>
+</div>
+<div id="summarize-reshape-and-plot-scores" class="section level2">
+<h2>Summarize, reshape, and plot scores</h2>
+<p><code>score_le8()</code> returns its input with the extra class
+<code>essential8_scores</code>, which adds methods for summarizing and
+plotting. <code>summary()</code> reports how many rows were scored, the
+distribution of each score, and the categories:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(scored)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; LE8 scores: 2 rows (2 adult)</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Diet method: mepa; min_components: 7</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; Composite score available for 2 of 2; all 8 components for 2.</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;                   n mean   sd median       IQR      range</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; LE8 composite     2 75.9 30.5   75.9 65.2-86.7  54.4-97.5</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; Diet              2 52.5 38.9   52.5 38.8-66.2  25.0-80.0</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; Physical activity 2 80.0 28.3   80.0 70.0-90.0 60.0-100.0</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; Nicotine exposure 2 87.5 17.7   87.5 81.2-93.8 75.0-100.0</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; Sleep             2 85.0 21.2   85.0 77.5-92.5 70.0-100.0</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; BMI               2 87.5 17.7   87.5 81.2-93.8 75.0-100.0</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; Blood lipids      2 70.0 42.4   70.0 55.0-85.0 40.0-100.0</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; Blood glucose     2 80.0 28.3   80.0 70.0-90.0 60.0-100.0</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; Blood pressure    2 65.0 49.5   65.0 47.5-82.5 30.0-100.0</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; Category (rows with a composite score):</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;            n percent</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;   low      0    0.0%</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;   moderate 1   50.0%</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;   high     1   50.0%</span></span></code></pre></div>
+<p><code>dplyr::summarise()</code> without any expressions returns the
+same statistics as a data frame, one row per measure, optionally by
+group with <code>.by</code>. Ordinary summaries, such as
+<code>summarise(scored, mean_le8 = mean(le8_composite_score))</code>,
+work as usual.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">summarise</span>(scored)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 9 × 10</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt;   measure               n n_missing  mean    sd   min   q25 median   q75   max</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;             &lt;int&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 1 composite             2         0  75.9  30.5  54.4  65.2   75.9  86.7  97.5</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 2 diet                  2         0  52.5  38.9  25    38.8   52.5  66.2  80  </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 3 physical_activity     2         0  80    28.3  60    70     80    90   100  </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 4 nicotine              2         0  87.5  17.7  75    81.2   87.5  93.8 100  </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 5 sleep                 2         0  85    21.2  70    77.5   85    92.5 100  </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 6 bmi                   2         0  87.5  17.7  75    81.2   87.5  93.8 100  </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 7 blood_lipids          2         0  70    42.4  40    55     70    85   100  </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; 8 blood_glucose         2         0  80    28.3  60    70     80    90   100  </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 9 blood_pressure        2         0  65    49.5  30    47.5   65    82.5 100</span></span></code></pre></div>
+<p><code>tidy()</code> reshapes the scores into long format, one row per
+person and measure, ready for grouped analyses or custom plots:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">tidy</span>(scored, <span class="at">id_cols =</span> <span class="st">&quot;id&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 18 × 5</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;      row id        le8_population measure           score</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;fct&gt;             &lt;dbl&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;  1     1 patient_1 adult          composite          97.5</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt;  2     1 patient_1 adult          diet               80  </span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt;  3     1 patient_1 adult          physical_activity 100  </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;  4     1 patient_1 adult          nicotine          100  </span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;  5     1 patient_1 adult          sleep             100  </span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;  6     1 patient_1 adult          bmi               100  </span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;  7     1 patient_1 adult          blood_lipids      100  </span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt;  8     1 patient_1 adult          blood_glucose     100  </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt;  9     1 patient_1 adult          blood_pressure    100  </span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 10     2 patient_2 adult          composite          54.4</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 11     2 patient_2 adult          diet               25  </span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; 12     2 patient_2 adult          physical_activity  60  </span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 13     2 patient_2 adult          nicotine           75  </span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 14     2 patient_2 adult          sleep              70  </span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 15     2 patient_2 adult          bmi                75  </span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; 16     2 patient_2 adult          blood_lipids       40  </span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; 17     2 patient_2 adult          blood_glucose      60  </span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; 18     2 patient_2 adult          blood_pressure     30</span></span></code></pre></div>
+<p><code>plot()</code> draws the mean scores with ggplot2. Use
+<code>type = &quot;distribution&quot;</code> for box plots and
+<code>type = &quot;composite&quot;</code> for a histogram of the composite score
+by category. The result is a ggplot object that you can modify
+further.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">plot</span>(scored)</span></code></pre></div>
+<p><img role="img" aria-label="Bar chart of the mean LE8 composite and component scores, with dashed lines at the moderate (50) and high (80) thresholds." src="data:image/png;base64,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" alt="Bar chart of the mean LE8 composite and component scores, with dashed lines at the moderate (50) and high (80) thresholds." /></p>
+<p>Row-wise verbs such as <code>filter()</code>, <code>mutate()</code>,
+and joins keep the class; <code>group_by()</code> and saving to a file
+drop it. Use <code>as_le8_scores()</code> to restore it, for example
+after reading saved scores back into R.</p>
 </div>
 <div id="source-defined-inputs" class="section level2">
 <h2>Source-defined inputs</h2>
-<p><code>score_le8()</code> also rejects combinations for which the AHA
-source does not define a score. Examples include an underweight BMI that
-requires clinical judgment, a diagnostic-range glucose value paired with
-no diabetes diagnosis, and simultaneous current combustible smoking and
-inhaled nicotine-delivery-system use. Reconcile these records before
-scoring.</p>
+<p><code>score_le8()</code> returns an error when the AHA definition
+does not assign a score. Examples include a BMI below 18.5, which
+requires clinical judgment; a glucose value in the diabetes range with
+no recorded diabetes diagnosis; and current use of both combustible
+tobacco and an inhaled nicotine-delivery system. Review these records
+before scoring.</p>
 </div>
 
 

@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Case study: cardiovascular health across the lifespan</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Case study: cardiovascular health across
+the lifespan</h1>
+
+
+
+<p>This article works through a complete project with essential8:
+preparing survey data for children and adults, scoring Life’s Essential
+8 (LE8), checking what was scored, and summarizing and plotting the
+results for a report. The data are simulated for 500 people aged 2 to 79
+years.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(essential8)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div id="the-study" class="section level2">
+<h2>The study</h2>
+<p>Suppose a community health survey collected cardiovascular health
+measures for 500 household members aged 2 years or older. We are
+interested in:</p>
+<ol style="list-style-type: decimal">
+<li>How many participants have enough data for an LE8 composite
+score?</li>
+<li>What is the distribution of cardiovascular health, overall and by
+life stage?</li>
+<li>Which LE8 components are weakest (have the lowest scores) at each
+life stage?</li>
+</ol>
+</div>
+<div id="prepare-the-data" class="section level2">
+<h2>Prepare the data</h2>
+<p>Each participant needs the inputs for the components that apply at
+their age. The survey recorded:</p>
+<ul>
+<li>the 16-item MEPA diet questionnaire for everyone (children aged 2-5
+use 10 of the items, and their sweets include sugar-sweetened
+beverages);</li>
+<li>daily active play for children aged 2-5, and weekly moderate and
+vigorous activity minutes from age 6;</li>
+<li>nicotine exposure, secondhand smoke, and sleep;</li>
+<li>BMI for adults, and the CDC BMI percentile and percent of the 95th
+percentile for children;</li>
+<li>non-HDL cholesterol and glucose, where blood was drawn;</li>
+<li>blood pressure, with the child’s AAP 2017 90th and 95th percentile
+thresholds at ages 1-12.</li>
+</ul>
+<p>In a real project, the children’s growth-chart and blood-pressure
+reference values would come from height, weight, sex, and age with
+<code>add_pediatric_references()</code>, which uses the packages
+<code>cdcanthro</code> and <code>pedbp</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>survey <span class="ot">&lt;-</span> <span class="fu">add_pediatric_references</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  survey,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">sex =</span> <span class="st">&quot;sex&quot;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">height =</span> <span class="st">&quot;height_cm&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">weight =</span> <span class="st">&quot;weight_kg&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>)</span></code></pre></div>
+<details>
+<summary>
+Simulation code
+</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">60</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">13</span><span class="sc">:</span><span class="dv">19</span>, <span class="dv">60</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">79</span>, n <span class="sc">-</span> <span class="dv">170</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>child <span class="ot">&lt;-</span> age <span class="sc">&lt;</span> <span class="dv">20</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>preschool <span class="ot">&lt;-</span> age <span class="sc">&lt;</span> <span class="dv">6</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>under_13 <span class="ot">&lt;-</span> age <span class="sc">&lt;</span> <span class="dv">13</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>), n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>clamp <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">lower =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">upper =</span> <span class="cn">Inf</span>) <span class="fu">pmin</span>(<span class="fu">pmax</span>(x, lower), upper)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> <span class="sc">!</span>child <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">4.2</span> <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> age)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>smoking_status <span class="ot">&lt;-</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  age <span class="sc">&lt;</span> <span class="dv">13</span> <span class="sc">~</span> <span class="st">&quot;never&quot;</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>  child <span class="sc">~</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;never&quot;</span>, <span class="st">&quot;former&quot;</span>, <span class="st">&quot;current&quot;</span>), n, <span class="cn">TRUE</span>, <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.15</span>, <span class="fl">0.05</span>)),</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>  <span class="at">.default =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;never&quot;</span>, <span class="st">&quot;former&quot;</span>, <span class="st">&quot;current&quot;</span>), n, <span class="cn">TRUE</span>, <span class="fu">c</span>(<span class="fl">0.58</span>, <span class="fl">0.28</span>, <span class="fl">0.14</span>))</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>)</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>bmi_percentile <span class="ot">&lt;-</span> <span class="fu">if_else</span>(child, <span class="fu">round</span>(<span class="fu">clamp</span>(<span class="fu">rbeta</span>(n, <span class="fl">2.2</span>, <span class="fl">1.2</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">5</span>, <span class="fl">99.9</span>), <span class="dv">1</span>), <span class="cn">NA_real_</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>adult_bmi <span class="ot">&lt;-</span> <span class="fu">if_else</span>(child, <span class="cn">NA_real_</span>, <span class="fu">round</span>(<span class="fu">clamp</span>(<span class="fu">exp</span>(<span class="fu">rnorm</span>(n, <span class="fu">log</span>(<span class="dv">28</span>), <span class="fl">0.17</span>)), <span class="fl">18.5</span>), <span class="dv">1</span>))</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co"># Heavier participants are more likely to have blood drawn, and their</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co"># cholesterol and glucose run higher: the labs are missing at random given BMI.</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>weight_z <span class="ot">&lt;-</span> <span class="fu">if_else</span>(child, (bmi_percentile <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">/</span> <span class="dv">29</span>, (adult_bmi <span class="sc">-</span> <span class="dv">28</span>) <span class="sc">/</span> <span class="dv">5</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>blood_drawn <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fu">if_else</span>(</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>  child,</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>  <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">0.4</span> <span class="sc">+</span> <span class="fl">1.2</span> <span class="sc">*</span> weight_z),</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>  <span class="fu">plogis</span>(<span class="fl">1.6</span> <span class="sc">+</span> <span class="fl">0.03</span> <span class="sc">*</span> (age <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">+</span> <span class="fl">0.9</span> <span class="sc">*</span> weight_z)</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>)</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>survey <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">&quot;S%03d&quot;</span>, <span class="fu">seq_len</span>(n)),</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>  <span class="at">age =</span> age,</span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>  <span class="at">sex =</span> sex,</span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>  <span class="co"># MEPA: servings per day</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a>  <span class="at">olive_oil =</span> <span class="fu">rpois</span>(n, <span class="fl">0.8</span>),</span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>  <span class="at">green_leafy_vegetables =</span> <span class="fu">rpois</span>(n, <span class="fu">if_else</span>(child, <span class="fl">0.6</span>, <span class="fl">0.8</span>)),</span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>  <span class="at">other_vegetables =</span> <span class="fu">rpois</span>(n, <span class="fl">1.2</span>),</span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>  <span class="at">whole_grains =</span> <span class="fu">rpois</span>(n, <span class="fl">1.6</span>),</span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a>  <span class="co"># MEPA: servings per week (sweets include sugary drinks under age 6)</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>  <span class="at">berries =</span> <span class="fu">rpois</span>(n, <span class="dv">2</span>),</span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a>  <span class="at">other_fruit =</span> <span class="fu">rpois</span>(n, <span class="fu">if_else</span>(child, <span class="dv">7</span>, <span class="dv">5</span>)),</span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a>  <span class="at">meat =</span> <span class="fu">rpois</span>(n, <span class="dv">4</span>),</span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>  <span class="at">fish =</span> <span class="fu">rpois</span>(n, <span class="fl">1.2</span>),</span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a>  <span class="at">chicken =</span> <span class="fu">rpois</span>(n, <span class="fl">2.5</span>),</span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a>  <span class="at">cheese =</span> <span class="fu">rpois</span>(n, <span class="dv">3</span>),</span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a>  <span class="at">butter_cream =</span> <span class="fu">rpois</span>(n, <span class="dv">3</span>),</span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a>  <span class="at">beans =</span> <span class="fu">rpois</span>(n, <span class="fl">1.5</span>),</span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a>  <span class="at">sweets_and_pastries =</span> <span class="fu">rpois</span>(n, <span class="fu">if_else</span>(child, <span class="dv">6</span>, <span class="dv">4</span>)),</span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a>  <span class="at">nuts =</span> <span class="fu">rpois</span>(n, <span class="dv">2</span>),</span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a>  <span class="at">alcohol =</span> <span class="fu">if_else</span>(age <span class="sc">&lt;</span> <span class="dv">18</span>, <span class="dv">0</span><span class="dt">L</span>, <span class="fu">rpois</span>(n, <span class="dv">3</span>)),</span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a>  <span class="at">fast_food =</span> <span class="fu">rpois</span>(n, <span class="fl">1.2</span>),</span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a>  <span class="co"># Physical activity</span></span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a>  <span class="at">active_play_minutes =</span> <span class="fu">if_else</span>(preschool, </span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a>                                <span class="fu">round</span>(<span class="fu">rgamma</span>(n, <span class="dv">6</span>, <span class="at">scale =</span> <span class="dv">25</span>)),</span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a>                                <span class="cn">NA_real_</span>),</span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a>  <span class="at">moderate_activity_minutes =</span> </span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a>    <span class="fu">if_else</span>(preschool, </span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a>            <span class="cn">NA_real_</span>, </span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a>            <span class="fu">round</span>(</span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a>              <span class="fu">rgamma</span>(n, <span class="fl">1.3</span>, <span class="at">scale =</span> <span class="fu">if_else</span>(child, <span class="dv">140</span>, <span class="dv">85</span>)))</span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a>            ),</span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a>  <span class="at">vigorous_activity_minutes =</span> </span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a>    <span class="fu">if_else</span>(preschool, </span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a>            <span class="cn">NA_real_</span>, </span>
+<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a>            <span class="fu">round</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>) <span class="sc">*</span> <span class="fu">rgamma</span>(n, <span class="fl">1.2</span>, <span class="at">scale =</span> <span class="fu">if_else</span>(child, <span class="dv">80</span>,</span>
+<span id="cb3-68"><a href="#cb3-68" tabindex="-1"></a>                                                                     <span class="dv">45</span>)))</span>
+<span id="cb3-69"><a href="#cb3-69" tabindex="-1"></a>            ),</span>
+<span id="cb3-70"><a href="#cb3-70" tabindex="-1"></a>  <span class="co"># Nicotine and sleep</span></span>
+<span id="cb3-71"><a href="#cb3-71" tabindex="-1"></a>  <span class="at">smoking_status =</span> smoking_status,</span>
+<span id="cb3-72"><a href="#cb3-72" tabindex="-1"></a>  <span class="at">years_since_quit =</span> <span class="fu">if_else</span>(<span class="sc">!</span>child <span class="sc">&amp;</span> smoking_status <span class="sc">==</span> <span class="st">&quot;former&quot;</span>, </span>
+<span id="cb3-73"><a href="#cb3-73" tabindex="-1"></a>                             <span class="fu">round</span>(<span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">25</span>), <span class="dv">1</span>), <span class="cn">NA_real_</span>),</span>
+<span id="cb3-74"><a href="#cb3-74" tabindex="-1"></a>  </span>
+<span id="cb3-75"><a href="#cb3-75" tabindex="-1"></a>  <span class="at">current_inhaled_nds =</span> smoking_status <span class="sc">!=</span> <span class="st">&quot;current&quot;</span> <span class="sc">&amp;</span> </span>
+<span id="cb3-76"><a href="#cb3-76" tabindex="-1"></a>    age <span class="sc">&gt;=</span> <span class="dv">13</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fu">if_else</span>(child, <span class="fl">0.12</span>, <span class="fl">0.05</span>),</span>
+<span id="cb3-77"><a href="#cb3-77" tabindex="-1"></a>  </span>
+<span id="cb3-78"><a href="#cb3-78" tabindex="-1"></a>  <span class="at">secondhand_smoke_home =</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.12</span>,</span>
+<span id="cb3-79"><a href="#cb3-79" tabindex="-1"></a>  </span>
+<span id="cb3-80"><a href="#cb3-80" tabindex="-1"></a>  <span class="at">sleep_hours =</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(n, </span>
+<span id="cb3-81"><a href="#cb3-81" tabindex="-1"></a>                                <span class="fu">case_when</span>(preschool <span class="sc">~</span> <span class="dv">11</span>, </span>
+<span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a>                                          under_13 <span class="sc">~</span> <span class="fl">9.5</span>, </span>
+<span id="cb3-83"><a href="#cb3-83" tabindex="-1"></a>                                          child <span class="sc">~</span> <span class="fl">7.6</span>, <span class="at">.default =</span> <span class="dv">7</span>), <span class="dv">1</span>)) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb3-84"><a href="#cb3-84" tabindex="-1"></a>  </span>
+<span id="cb3-85"><a href="#cb3-85" tabindex="-1"></a>  <span class="co"># BMI: adults in kg/m^2, children as CDC percentiles</span></span>
+<span id="cb3-86"><a href="#cb3-86" tabindex="-1"></a>  <span class="at">bmi =</span> adult_bmi,</span>
+<span id="cb3-87"><a href="#cb3-87" tabindex="-1"></a>  <span class="at">bmi_profile =</span> <span class="fu">if_else</span>(child, </span>
+<span id="cb3-88"><a href="#cb3-88" tabindex="-1"></a>                        <span class="cn">NA_character_</span>, </span>
+<span id="cb3-89"><a href="#cb3-89" tabindex="-1"></a>                        <span class="fu">if_else</span>(<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.1</span>, <span class="st">&quot;asian_pacific&quot;</span>, <span class="st">&quot;general&quot;</span>)),</span>
+<span id="cb3-90"><a href="#cb3-90" tabindex="-1"></a>  <span class="at">bmi_percentile =</span> bmi_percentile,</span>
+<span id="cb3-91"><a href="#cb3-91" tabindex="-1"></a>  <span class="at">bmi_percent_of_p95 =</span> <span class="fu">if_else</span>(</span>
+<span id="cb3-92"><a href="#cb3-92" tabindex="-1"></a>    bmi_percentile <span class="sc">&gt;=</span> <span class="dv">95</span>,</span>
+<span id="cb3-93"><a href="#cb3-93" tabindex="-1"></a>    <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">+</span> <span class="fu">rexp</span>(n, <span class="dv">1</span> <span class="sc">/</span> <span class="dv">12</span>), <span class="dv">1</span>),</span>
+<span id="cb3-94"><a href="#cb3-94" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">clamp</span>(<span class="dv">100</span> <span class="sc">-</span> (<span class="dv">95</span> <span class="sc">-</span> bmi_percentile) <span class="sc">*</span> <span class="fl">0.45</span>, <span class="dv">60</span>, <span class="fl">99.9</span>), <span class="dv">1</span>)</span>
+<span id="cb3-95"><a href="#cb3-95" tabindex="-1"></a>  ),</span>
+<span id="cb3-96"><a href="#cb3-96" tabindex="-1"></a>  </span>
+<span id="cb3-97"><a href="#cb3-97" tabindex="-1"></a>  <span class="co"># Laboratory values (masked below where no blood was drawn)</span></span>
+<span id="cb3-98"><a href="#cb3-98" tabindex="-1"></a>  <span class="at">non_hdl_cholesterol =</span> </span>
+<span id="cb3-99"><a href="#cb3-99" tabindex="-1"></a>    <span class="fu">round</span>(</span>
+<span id="cb3-100"><a href="#cb3-100" tabindex="-1"></a>      <span class="fu">clamp</span>(</span>
+<span id="cb3-101"><a href="#cb3-101" tabindex="-1"></a>        <span class="fu">rnorm</span>(n,</span>
+<span id="cb3-102"><a href="#cb3-102" tabindex="-1"></a>              <span class="fu">if_else</span>(child, </span>
+<span id="cb3-103"><a href="#cb3-103" tabindex="-1"></a>                      <span class="dv">112</span> <span class="sc">+</span> <span class="dv">14</span> <span class="sc">*</span> weight_z, </span>
+<span id="cb3-104"><a href="#cb3-104" tabindex="-1"></a>                      <span class="dv">138</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> (age <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">+</span> <span class="dv">12</span> <span class="sc">*</span> weight_z),</span>
+<span id="cb3-105"><a href="#cb3-105" tabindex="-1"></a>              <span class="fu">if_else</span>(child, <span class="dv">22</span>, <span class="dv">32</span>)), <span class="dv">50</span>)),</span>
+<span id="cb3-106"><a href="#cb3-106" tabindex="-1"></a>  </span>
+<span id="cb3-107"><a href="#cb3-107" tabindex="-1"></a>  <span class="at">lipid_lowering_treatment =</span> <span class="sc">!</span>child <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">3.5</span> <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> age),</span>
+<span id="cb3-108"><a href="#cb3-108" tabindex="-1"></a>  <span class="at">diabetes =</span> diabetes,</span>
+<span id="cb3-109"><a href="#cb3-109" tabindex="-1"></a>  <span class="at">glucose_measure =</span> <span class="fu">if_else</span>(diabetes, <span class="st">&quot;hba1c&quot;</span>, <span class="st">&quot;fasting_glucose&quot;</span>),</span>
+<span id="cb3-110"><a href="#cb3-110" tabindex="-1"></a>  </span>
+<span id="cb3-111"><a href="#cb3-111" tabindex="-1"></a>  <span class="at">glucose_value =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-112"><a href="#cb3-112" tabindex="-1"></a>    diabetes <span class="sc">~</span> <span class="fu">round</span>(<span class="fu">clamp</span>(<span class="fu">rnorm</span>(n, <span class="fl">7.4</span>, <span class="fl">1.1</span>), <span class="fl">6.5</span>), <span class="dv">1</span>),</span>
+<span id="cb3-113"><a href="#cb3-113" tabindex="-1"></a>    <span class="at">.default =</span> <span class="fu">round</span>(</span>
+<span id="cb3-114"><a href="#cb3-114" tabindex="-1"></a>      <span class="fu">clamp</span>(<span class="fu">rnorm</span>(n, <span class="fu">if_else</span>(child, <span class="dv">88</span>, <span class="dv">95</span>) <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> weight_z, <span class="dv">10</span>), <span class="dv">65</span>, <span class="dv">125</span>)</span>
+<span id="cb3-115"><a href="#cb3-115" tabindex="-1"></a>      )</span>
+<span id="cb3-116"><a href="#cb3-116" tabindex="-1"></a>  ),</span>
+<span id="cb3-117"><a href="#cb3-117" tabindex="-1"></a>  </span>
+<span id="cb3-118"><a href="#cb3-118" tabindex="-1"></a>  <span class="co"># Blood pressure, with AAP 2017 thresholds for ages 1-12</span></span>
+<span id="cb3-119"><a href="#cb3-119" tabindex="-1"></a>  <span class="at">systolic_bp =</span> </span>
+<span id="cb3-120"><a href="#cb3-120" tabindex="-1"></a>    <span class="fu">round</span>(</span>
+<span id="cb3-121"><a href="#cb3-121" tabindex="-1"></a>      <span class="fu">rnorm</span>(n,</span>
+<span id="cb3-122"><a href="#cb3-122" tabindex="-1"></a>            <span class="fu">if_else</span>(child, <span class="dv">96</span> <span class="sc">+</span> <span class="fl">1.4</span> <span class="sc">*</span> age, <span class="dv">121</span> <span class="sc">+</span> <span class="fl">0.35</span> <span class="sc">*</span> (age <span class="sc">-</span> <span class="dv">50</span>)),</span>
+<span id="cb3-123"><a href="#cb3-123" tabindex="-1"></a>            <span class="fu">if_else</span>(child, <span class="dv">9</span>, <span class="dv">14</span>))),</span>
+<span id="cb3-124"><a href="#cb3-124" tabindex="-1"></a>  </span>
+<span id="cb3-125"><a href="#cb3-125" tabindex="-1"></a>  <span class="at">diastolic_bp =</span> <span class="fu">round</span>(</span>
+<span id="cb3-126"><a href="#cb3-126" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="fu">if_else</span>(child, <span class="dv">56</span> <span class="sc">+</span> <span class="fl">0.9</span> <span class="sc">*</span> age, <span class="dv">77</span>), <span class="fu">if_else</span>(child, <span class="dv">7</span>, <span class="dv">9</span>))),</span>
+<span id="cb3-127"><a href="#cb3-127" tabindex="-1"></a>  </span>
+<span id="cb3-128"><a href="#cb3-128" tabindex="-1"></a>  <span class="at">systolic_bp_p90 =</span> <span class="fu">if_else</span>(under_13, <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">+</span> <span class="fl">1.3</span> <span class="sc">*</span> age), <span class="cn">NA_real_</span>),</span>
+<span id="cb3-129"><a href="#cb3-129" tabindex="-1"></a>  <span class="at">systolic_bp_p95 =</span> <span class="fu">if_else</span>(under_13, <span class="fu">round</span>(<span class="dv">104</span> <span class="sc">+</span> <span class="fl">1.3</span> <span class="sc">*</span> age), <span class="cn">NA_real_</span>),</span>
+<span id="cb3-130"><a href="#cb3-130" tabindex="-1"></a>  <span class="at">diastolic_bp_p90 =</span> <span class="fu">if_else</span>(under_13, <span class="fu">round</span>(<span class="dv">62</span> <span class="sc">+</span> <span class="fl">0.9</span> <span class="sc">*</span> age), <span class="cn">NA_real_</span>),</span>
+<span id="cb3-131"><a href="#cb3-131" tabindex="-1"></a>  <span class="at">diastolic_bp_p95 =</span> <span class="fu">if_else</span>(under_13, <span class="fu">round</span>(<span class="dv">66</span> <span class="sc">+</span> <span class="fl">0.9</span> <span class="sc">*</span> age), <span class="cn">NA_real_</span>),</span>
+<span id="cb3-132"><a href="#cb3-132" tabindex="-1"></a>  </span>
+<span id="cb3-133"><a href="#cb3-133" tabindex="-1"></a>  <span class="at">antihypertensive_treatment =</span> <span class="sc">!</span>child <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">3.8</span> <span class="sc">+</span> <span class="fl">0.055</span> <span class="sc">*</span> age)</span>
+<span id="cb3-134"><a href="#cb3-134" tabindex="-1"></a>)</span>
+<span id="cb3-135"><a href="#cb3-135" tabindex="-1"></a></span>
+<span id="cb3-136"><a href="#cb3-136" tabindex="-1"></a><span class="co"># Keep the full values to check the imputation against later.</span></span>
+<span id="cb3-137"><a href="#cb3-137" tabindex="-1"></a>survey_complete <span class="ot">&lt;-</span> survey</span>
+<span id="cb3-138"><a href="#cb3-138" tabindex="-1"></a>survey <span class="ot">&lt;-</span> survey <span class="sc">|&gt;</span></span>
+<span id="cb3-139"><a href="#cb3-139" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-140"><a href="#cb3-140" tabindex="-1"></a>    <span class="at">non_hdl_cholesterol =</span> <span class="fu">if_else</span>(blood_drawn, non_hdl_cholesterol, <span class="cn">NA_real_</span>),</span>
+<span id="cb3-141"><a href="#cb3-141" tabindex="-1"></a>    <span class="at">glucose_value =</span> <span class="fu">if_else</span>(blood_drawn, glucose_value, <span class="cn">NA_real_</span>),</span>
+<span id="cb3-142"><a href="#cb3-142" tabindex="-1"></a>    <span class="at">glucose_measure =</span> <span class="fu">if_else</span>(</span>
+<span id="cb3-143"><a href="#cb3-143" tabindex="-1"></a>      blood_drawn <span class="sc">|</span> diabetes, glucose_measure, <span class="cn">NA_character_</span></span>
+<span id="cb3-144"><a href="#cb3-144" tabindex="-1"></a>      )</span>
+<span id="cb3-145"><a href="#cb3-145" tabindex="-1"></a>  )</span></code></pre></div>
+</details>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>survey <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">child =</span> age <span class="sc">&lt;</span> <span class="dv">20</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">count</span>(child)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   child     n</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;   &lt;lgl&gt; &lt;int&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 1 FALSE   330</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 2 TRUE    170</span></span></code></pre></div>
+<p>The simulation leaves gaps where a real survey would have them: about
+a fifth of adults and nearly half of children had no blood drawn, so
+they have no lipid or glucose values. Blood was drawn more often for
+participants with a higher BMI, whose cholesterol and glucose also run
+higher. By default, missing values are not imputed:
+<code>score_le8(impute = FALSE)</code>. If set to <code>TRUE</code>, the
+function uses multiple imputation with predictive mean matching to fill
+in missing values.</p>
+</div>
+<div id="choose-a-composite-threshold" class="section level2">
+<h2>Choose a composite threshold</h2>
+<p><code>min_components</code> sets how many of the eight component
+scores a participant needs for a composite score. The default of 7 suits
+adults with complete measurements, but AHA recommends averaging whatever
+components are available and appropriate for a child, and the NHANES
+analysis that accompanied the advisory averaged as few as three. Without
+blood results, a participant has six components.</p>
+<p>Scoring with the default shows the cost for children:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>default_threshold <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(survey)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>default_threshold <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="at">participants =</span> <span class="fu">n</span>(),</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="at">with_composite =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(le8_composite_score)),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    <span class="at">.by =</span> le8_population</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  )</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;   le8_population participants with_composite</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                 &lt;int&gt;          &lt;int&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 1 pediatric               170             94</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 2 adult                   330            266</span></span></code></pre></div>
+<p>Only 94 of the 170 children keep a composite score: those without
+blood results have six components, one short of the default. This study
+uses <code>min_components = 6</code>, so a participant needs every
+component except the two laboratory measures.</p>
+</div>
+<div id="compute-le8-scores" class="section level2">
+<h2>Compute LE8 scores</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(survey, <span class="at">diet_method =</span> <span class="st">&quot;mepa&quot;</span>, <span class="at">min_components =</span> <span class="dv">6</span>)</span></code></pre></div>
+<p>The result is the survey with the scores appended, and the class
+<code>essential8_scores</code> added to the tibble. The component scores
+are named after their component, such as <code>diet_score</code> and
+<code>blood_pressure_score</code>; <code>n_components</code> counts the
+scores that contributed to <code>le8_composite_score</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>scores <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">select</span>(id, age, le8_population, <span class="fu">ends_with</span>(<span class="st">&quot;_score&quot;</span>), </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>         n_components, le8_category) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 14</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;   id      age le8_population diet_score physical_activity_score nicotine_score</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;                   &lt;dbl&gt;          &lt;dbl&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 1 S001      2 pediatric              20                      70            100</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 2 S002      2 pediatric              10                      90             80</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 3 S003      2 pediatric              50                      70            100</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 4 S004      3 pediatric              60                      50            100</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; 5 S005      2 pediatric              60                      80            100</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; # ℹ 8 more variables: sleep_score &lt;dbl&gt;, bmi_score &lt;dbl&gt;,</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; #   blood_lipids_score &lt;dbl&gt;, blood_glucose_score &lt;dbl&gt;,</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; #   blood_pressure_score &lt;dbl&gt;, le8_composite_score &lt;dbl&gt;, n_components &lt;int&gt;,</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; #   le8_category &lt;chr&gt;</span></span></code></pre></div>
+<p>Add the life stage for the comparisons below:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>scores <span class="ot">&lt;-</span> scores <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="at">life_stage =</span> <span class="fu">cut</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>      age,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">13</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;2-5&quot;</span>, <span class="st">&quot;6-12&quot;</span>, <span class="st">&quot;13-19&quot;</span>, <span class="st">&quot;20-39&quot;</span>, <span class="st">&quot;40-59&quot;</span>, <span class="st">&quot;60-79&quot;</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>      <span class="at">right =</span> <span class="cn">FALSE</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    )</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  )</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>scores <span class="sc">|&gt;</span> </span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="fu">select</span>(id, life_stage) <span class="sc">|&gt;</span> </span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 2</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;   id    life_stage</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;fct&gt;     </span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 1 S001  2-5       </span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 2 S002  2-5       </span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 3 S003  2-5       </span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; 4 S004  2-5       </span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; 5 S005  2-5</span></span></code></pre></div>
+</div>
+<div id="audit-the-scores" class="section level2">
+<h2>Audit the scores</h2>
+<p><code>summary()</code> reports how many participants were scored, the
+distribution of each score, and the categories. Check it before any
+analysis: the counts show whether missing inputs or the threshold
+excluded more people than expected.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">summary</span>(scores)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; LE8 scores: 500 rows (330 adult, 170 pediatric)</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; Diet method: mepa; min_components: 6</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; Composite score available for 500 of 500; all 8 components for 360.</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt;                     n mean   sd median        IQR      range</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; LE8 composite     500 68.8 10.3   69.4  62.5-75.8  35.6-93.3</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; Diet              500 42.5 13.5   50.0  25.0-50.0  10.0-80.0</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Physical activity 500 68.9 30.2   80.0 40.0-100.0 20.0-100.0</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; Nicotine exposure 500 79.1 33.0  100.0 75.0-100.0  0.0-100.0</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; Sleep             500 83.8 23.4  100.0 70.0-100.0 20.0-100.0</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; BMI               500 70.6 29.3   70.0 50.0-100.0  0.0-100.0</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; Blood lipids      360 58.3 30.4   60.0 40.0-100.0  0.0-100.0</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; Blood glucose     360 79.9 27.3  100.0 60.0-100.0  0.0-100.0</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; Blood pressure    500 66.1 29.6   75.0 50.0-100.0  0.0-100.0</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; Category (rows with a composite score):</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt;              n percent</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt;   low       18    3.6%</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;   moderate 406   81.2%</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt;   high      76   15.2%</span></span></code></pre></div>
+<p>Every participant has a diet, activity, nicotine, sleep, BMI, and
+blood pressure score; lipid and glucose scores are available only for
+the 360 participants who had blood drawn. With at least six components
+each, all 500 participants have a composite score.</p>
+</div>
+<div id="describe-cardiovascular-health-by-life-stage" class="section level2">
+<h2>Describe cardiovascular health by life stage</h2>
+<p><code>dplyr::summarise()</code> without expressions returns the
+<code>summary()</code> statistics as a data frame, one row per measure
+and group.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>by_stage <span class="ot">&lt;-</span> <span class="fu">summarise</span>(scores, <span class="at">.by =</span> life_stage)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>by_stage <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">filter</span>(measure <span class="sc">==</span> <span class="st">&quot;composite&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">arrange</span>(life_stage) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">select</span>(life_stage, n, mean, sd, median, q25, q75)</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 7</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt;   life_stage     n  mean    sd median   q25   q75</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; 1 2-5           50  76.1  9.24   76.2  71.1  83.1</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; 2 6-12          60  72.7  7.65   72.5  68.8  78.4</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; 3 13-19         60  69.1  9.17   69.7  64.1  75.2</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; 4 20-39        108  68.6 10.2    68.5  63.0  74.5</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; 5 40-59        101  68.5 10.2    68.1  61.9  76.2</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; 6 60-79        121  64.2 10.3    65    56.7  71.2</span></span></code></pre></div>
+<p>Summaries with expressions are ordinary dplyr, so category
+percentages need no extra steps:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>scores <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(le8_category)) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="at">low =</span> <span class="fu">mean</span>(le8_category <span class="sc">==</span> <span class="st">&quot;low&quot;</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>    <span class="at">moderate =</span> <span class="fu">mean</span>(le8_category <span class="sc">==</span> <span class="st">&quot;moderate&quot;</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>    <span class="at">high =</span> <span class="fu">mean</span>(le8_category <span class="sc">==</span> <span class="st">&quot;high&quot;</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>    <span class="at">.by =</span> life_stage</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="fu">arrange</span>(life_stage)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt;   life_stage     n   low moderate  high</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; 1 2-5           50  2        64   34   </span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; 2 6-12          60  0        76.7 23.3 </span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt; 3 13-19         60  3.33     88.3  8.33</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt; 4 20-39        108  2.78     81.5 15.7 </span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt; 5 40-59        101  2.97     83.2 13.9 </span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt; 6 60-79        121  7.44     85.1  7.44</span></span></code></pre></div>
+</div>
+<div id="plot-the-results" class="section level2">
+<h2>Plot the results</h2>
+<p><code>plot()</code> returns ggplot objects. The default shows the
+mean composite and component scores for the whole sample, and
+<code>type = &quot;distribution&quot;</code> shows their spread:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">plot</span>(scores)</span></code></pre></div>
+<p><img role="img" aria-label="Bar chart of mean LE8 composite and component scores for all participants, with dashed lines at the moderate and high thresholds." src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAGwCAMAAABB3CfxAAABm1BMVEUAAAAAADoAAGYAOjoAOmYAOpAAZmYAZpAAZrYqeNY6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZmY6ZpA6ZrY6kJA6kLY6kNtNTU1NTW5NTY5Nbo5NbqtNjqtNjsheqOtmAABmADpmAGZmOgBmOjpmOpBmZgBmZjpmZmZmkJBmkNtmtrZmtttmtv9uTU1uTW5uTY5ubo5ubqtujqtujshuq6tuq+Rzc1Jzc2Nzc3OEyeuOTU2OTW6OTY6Obk2Obm6ObquOjk2Ojm6Ojo6OjsiOyP+QOgCQOjqQOmaQZgCQZjqQZmaQkDqQkGaQkLaQtpCQttuQ27aQ29uQ2/+o6+urbk2rbm6rbo6rjk2rjqurq26rq46ryKur5Mir5OSr5P+2ZgC2Zjq2kDq2tpC2ttu225C229u22/+2/9u2///Ijk3Ijm7IyI7I5KvI/8jI/+TI///bkDrbtmbbtpDb27bb29vb/7bb///kq27kq47k5Kvk/8jk/+Tk///r6+v/tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T///8r+fNjAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAddUlEQVR4nO2djX8jxXnH5QO3ru8I11Lsc66OOXJt0iLuuCZuU98RApXNtVAozl1SQiolKSV2ArGgxW5TI4voxftnd57nmdkXW5ZWo92d2d3f9wO3kvblkeb53szO3upRIwDAYxqu3wAA04CgwGsgKPAaCAq8BoICr4GgwGsgKPAaCAq8JhS08/z7+tEX315LtWv32oF51NCsqCf9lxuNZz/J8j2CGhMJ2tC+9Vcbiwiqdlcs7Wf7NkFdiQRdek687D6zOreg4SMS/ZVg/MuUjgMwg0jQa+8sH6vlePe7LOjXaqR+nkfqz59TPeJf05rlXz3Hj4QrBKWjDLdW9NPxP6mdX+HDrDae5X71a30OMN5d6TaufRJFirYFQBMT9OPr5E//xsckaDRS6/G7qYQyj4TJgnZVD6r+0D2o3kft0jPH65kjj3efWW0sH/ej54nDAxAkBP31LlnVWekrQce71JV9sbqiHqlOTvlKjxorx8q9Fb3H5XNQ8m/8C3r0gl7TX33hWO+sVn7eoCOLwcvH6tFaEIsUbgtASEzQg64anYdbTRK0L+eh4uB//+qfVxus6kF89J4sKA3YjQafLQQk6DPf/U95sGZe4f07S/tyvChSuC0AIXFBe0qwHomyJgOyKCdDMAtK2qkzR73HxCFedYjv0/mm2ahD+/7ZJ+ooeujWD3okKB0vFslsC0BIXNDh1poa4YOkoMOtxp/+y398uZVSUN0hdsJXvqAelayfLajZNr9PC0pHXFCaKCl9ZIg3cxV5JKeR6QXtxi+E/tfjRnPiEE/HiyKF22b12UAFSAjaW/or9aeeJKmR+utd6vrUzEidWNKkJoWgwy0Z4vVJaK/x4nEw/iXZSGcLWzw1CidJcjwTKdy2mE8OSkFCUDWcr+hOUI+8a+HFpQmCNsw24b8kkeSJa1F6b7VjL7zeFF1WYosvRjLzKwCCC4KqaUrTjNL0T+rP0FVzvq7+vlqdTlA+kXw27AX54vsL5Nznq/oqfD+8UC8uhpGibQHQ4G4m4DUQFHgNBAVeA0GB10BQ4DUQFHgNBAVeA0GB10BQ4DUQFHgNBAVeA0GB18wWlO+op9s6OvpOow7uOAKFMVvQnraxSzfcrURLAApgtqDdFV4Mt+heTvpeiCzzfVsACEbQ/vX3Vs1txvprcvrW9s6a3mCfLTVLfu3GOw26T1S+Use3OTcD+VoTvuAOMiEUlL6k0Z3QMQ63viF3yst3jptmKTutyB3M9D99abnzDboxXiS+8GUjAGyIBG3qXvICfH99/+axFnPNLMOd+AX6tvKNg/Heu8vHaqn+K+r9g4oTDfH7kwVlYj1nogel7XkSpR5Rz3nzyztc/qHTCOuPALAIkwRNnoMSsXPPxDloXFB17tlbGe++wgV06Pt3mEiBxZnZg0qP+dL+pFm8CMoVwegsdflxM+j+0Uv6GFpiABZhpqBq5JZesqOvf3ai66C8vZkk0Vfi99U8nr5izEWXrjpfACA9s89B1WAd/gvSShBbmu3lMlMgpUFl+tRDkWWQDfi3eOA1EBR4DQQFXgNBgddAUOA1EBR4DQQFXgNBgddAUOA1hQv6VcXiWAX6QUFxbLB5bzak/DwQ1EUgCApBvRYUcSAoBK1GHAhalkA1jQNByxKopnEgqItAmCRBUAhqCQStVhwIagkE9TgQBPVX0D8BRWCfIM96EAhaTewTBEFBAdgnCIKCArBPEAQFBWCfIEySQAHYJwiCggKwTxAEBQVgn6CSCDq4f8SLV9cVt9r0YONo7jehjqIPFOI6czWBmnq8ywWy+qtzVcIsySTJCKr1Gj1sBye3Ty3eBwR1AjV1p0llCakMZneO3w0qp6CDB6fB6BE/Hu1Qj6r+VD3q+dOfra9vn6n/1doP6XW9IlCvqcXg/mf0VL/GuM5cTVAtPbxzQA3ev3lM9V2zFmdh8upBz5+0grPbp4fb9Of5k001+G/SZqOd26dnSkNZQTKfbJohXr2mngiuM1cTAjLzMQ3xFReUz0GVmaoTlBFeVpCAStrzp+2A/lcPRzsteqhXkNCBOQelJ7r7haAFEchPXCg7eYifo1hrySZJZoi/1w7OeJimwV5eVzrGBSUlD1t6BZlNUysRdEcmWozrzNWEIBrb1STpxb2qC3pGnSj3ilf2oA/bsR5U76MFfRSbJ7nOXE1QLT28G47t+nQ0FeUUNOpB6RxUvarPQeND/CZrLCvoUSiofk0O7DpzNYGauiNDvHJU/5xlKsoiKJ98bspivUWzcj1IJ2fxsR70zfgs/lDP4o/On/As3ozwELQYqKn1TwH15vt16pJMkuZGj+szcZ25mmCfSAgKCsA+kVUVNC2uM1cT7BMEQUEB2CeoJJOk3HCduZpgn6C6C+rZCOImEL52DEEhqCUQtFpxKveBPIsDQcsSqKZxIGhZAtU0DgQtS6CaxoGgLgJhkgRBIaglELRacSCoJRDU40AQFIJ6LSjiQFAIWo04uFkkS/JsOM/EKSoOBM2SPBvOM3GKigNBsyRtI2CSBEGdkLYRICgEdULaRoCgENQJaRsBgkJQJ+TZcJ5NXoqKA0GzJM+G80ycouLkIqjUI2nFq9eGj1w7lCv6w453m1zYuNHMsFE9E6eoOPkISjZSPcYLLxGuHcoV/WG7ykyuK3c9fVG5mXgmTlFx8hOUCjXSg1GyxrJrh3JFPn7/+ZebQW8l4PJdE8EkyQdBRw/bUXnlGvWg470PdkXMKwsbQ1AfBD1/2o7KK9dI0O7aWAQd765d0UAQ1AdBpQfV5ZXrI2j/5rEIOty6yk8IGvggqBSw1eWV6yNot0GscYn4LPFs8lJUnHxn8VF55foIGshlpqz99E2couLkfx1UyitToWVe59qhXNGfnwSVjjRDST0Tp6g4+JekLMmz4TwTp6g4EDRL0jYCJkkQ1AlpGwGCQlAnpG0ECApBnZC2ESCov4J6dg5enkA1jQNByxKopnEgaFkC1TQOBC1LoJrGgaAuAmGSBEEhqCUQtFpxIKglENTjQBAUgnotKOJAUAhajTgQtCyBahoHgpYlUE3j4GaRamKfoLpPklxnribYJwiCggKwTxAEBQVgnyAICgrAPkGYJIECsE8QBAUFYJ8gCAoKwD5B5RBUaoNsx0okR6suvDR5E/Nq7KHgOnM1gdt6vNtY2udaz9cO0ukQlGWSJNWVHrYn2Ddx02kvQVAHcFt3mkFv+Xi41Qy6y8fpfCiVoOdPWoP7P6IiS4ctqpd8tk5lkqN6S9TNtox/8oTX/HxnfePT+58+OA3On350/zP17Ee8Px/ZdeZqAjX18M4BLfo3j68upXuZEgk6uNcevMq16c7Un9tUSFFqJStz1au/f9iORvCRPJE1/0uv/u6peuUBPzzi/eXIrjNXE6ip+zcf0xBfTUF1fTqyj4p8vnH6mzY5GFw4q4zXTo6eyCYn28HJtjzk/WUj15mrCdTUVAFS2clD/FJqQUsySYrmONwxPv35G6dk7S3pNPVwfUhjvtlUnvAasXLw4P+4CHi4P+M6czWBmtp0nWqS9OJetQUNTt6SEVpK0epRXSrUTnhirPzogdna7A9BC4Kaeng3HNv16WiG4ixMtoKq01GSUwtKZ5qD+5/K66GT9CRcw1bKdSqzv+A6czWB27ojQ7xytLuStTgLk62g5z850oN4bBZ/sr7+zddbelN5ImvOn2xoe2XitHHE+zOuM1cTuK2HW3wBtNdopL/KVJJJ0kUG37N/J8n9XWeuJtinqpSCntxqz94o3f6uM1cT7HNVSkEzxHXmaoJ9giAoKAD7BJVjkpQfrjNXE+wTVHdBPfv85QlU0zgQtCyBahoHgroIhOJhEBSCWgJBqxUHgloCQT0OBEEhqNeCIg4EhaDViANByxKopnEgaFkC1TQOBHURCJMkCApBLam7oK7vogBXwwmCoMBXOEEQFPgKJ8izczAICkI4QRAU+AonCIICX+EEQVDgK5wgTJKAr3CCPBV08GormFAPeeJLC+E6CeBqKD/dBtGcsyyzBXMLunGUolry4rhOArgaTpDqQecvy2zBvILe/+1m2F1K6SX158bRiKslHw0e/NQUUN4QYeXR4XZwsjl69CFtb1ZGhZjpcK+9LgdBbSb/0eJwycb5qt5aMLegR4emgKKUST493I6qLepKyyIk7yCPRo8+e6T8u316JraqbaJCzHw4OnWI9oKgPqPFoVJ4Pgo6esPYKBU/lWjyMwqmhKLa5GGbX5eS36zi+jbXBj1/2tY7RIWYww453CuAoD4j4rCXc5ZltmB+QcOC3WGZZNIuKejO+jqP5oF5RCUWWcnDlt4hKsQcO2PQewUQ1GdEnB6fes5XltkCC0HpNzlm9KCPYvXoeXn41iYLGvWg9KqcGoSCPorNs1wnAVwNJ+gHnTWdqjnKMltgIShP5cMCykeJc1BdyFZeox30WqpDP9rZNCeo9IsgUoiZVD3RFeyjvSCoz3CC/p77zTnLMltgI6gxKjaLD6RashFU1hC6lLL8Hs2b8Vm8FGKmksvf1z/7Ee0FQX2GE/R3MjWaryyzBQX+S5Ie19PhOgngajhBnv5L0iJA0IrACcLNIsBXOEEQFPgKJwiCAl/hBNVdUM8+v5tA+NoxBIWglkDQasWBoJZAUI8DQVAI6rWgiANBIWg14kDQsgSqaRwIWpZANY0DQV0EwiQJgkJQSyBoteJAUEsgqMeBIKi/grq+IQJYkIcIEBRkRh4iQFCQGXmIAEFBZuQhAgQFmZGHCBAUZEYeIkBQkBl5iABBQWbkIYIDQalImK4MejWu2xpYQIkLSy6Pd5tZ2FK8oFSFMTiRsmFX47qtgQWBLtbExXC6jZIKKmWYuB6eKdMkC1OBmXHd1sCCQFe0pXJ3/edfLqmg50+kgp2ugkc1lXUZZl2BmXHd1sCCIOpBx3sflHWI5+r0UrpW11Q2C6nALNu4bmtgASVuuMXl7rprpT0HZQb32lElZrOQCsyygeu2BhaovPWv7we9awdqpC+toGf8OwlcClzXVDYLqcAsW7lua2BBwD9NQ8O8/IzS2hUKzIOjWbyeJB1ux2oumwrMjOu2BhYEYQ8alPgyE18H1T+foGsq61LNugIz47qtgQWUuF6jIb/6UV5BryJR4NZ1WwML8rACgoLMyMMKjwRN4LqtgQV5iABBQWbkIQIEBZmRhwi+CoqvHQf42jEBQT0OBEEhqNeCIg4EhaDViANByxKopnEgaFkC1TQOBHURCJMkCApBLYGg1YoDQS2BoB4HgqAQ1GtBEQeCQtBqxMHNIhVn7gRBUFAkcycIgoIimTtBdZ8kuU5Y3Zg7QRAUFMncCYKgoEjmThAEBUUyd4IwSQJFMneC6iHo4NV1RUstqWDT4cZRWNXWdcLqRkAVZwkqB9K/cTAzdTURlHykSnf3/vY0GP3wPgR1hU4I1f4KerqI91RqJOj50/bg/pvtYPAWBHWGtDqVnw06S++l6EHrMUmSHvTB6eD+b1vB/3wEQZ0hrd5d4UWaIb4mgvI5KP2gwqffO//JpxDUGdzo3IEGEDRChvgnrcH93/3b7/9xAEGdwY3OZ6ABBI0QH7na8m9+tg1B3cGN3tElkTGLN8R+kubsVhuCuoPafLwnIzwEDQmvg7KaENQd1ObmFBSCpsB1wurG3AmCoKBI5k5QPSZJV+M6YXVj7gRBUFAkcycIgoIimTtBdRfUs3Pw8gSqaRwIWpZANY0DQcsSqKZxIGhZAtU0DgR1EQjFwyAoBLUEglYrDgS1BIJ6HAiCQlCvBUUcCApBqxEHgpYlUE3jQNCyBKppHNws4jlhw2GSVAyuE142woaDoMXgOuFlI2w4CFoMrhNeNsKGg6DF4DrhZSNsOM8mL0XFgaCeEzacZ+IUFQeCek7YcJ6JU1QcCOo5YcN5Jk5RcdILGisWcnnl+ZNWEATxCiJmO1kT4TrhZYPajEokX/tx0F9NU4B2UUo7SQqLJk8V9Io1Ea4TXjaozTpUvvsrKmDT1WXqcqTcgnLR5KNgtLO+QdXBwsU3X4960NGjD9dvtQO9Ha05W+ftGNcJLxuBqf31Vf/mcTC8czCfBvNTbkG5aPJRcLgdnN0+jS/WY4Lu3D49k59NkDWjR0fByaY+jOuElw3VZMMt+g0E9KAziIomH5Fxo4ft2CJ+DjraaemeVq9R20SHcZ3wsqGarH99X/Wi/0Ci5u9niSdJYdFk7hz1YK8XwWFMUPLx0GxHa5Tbt4yjrhNeNkzzd75FnvbynyWVW1ARb0YPqgRN9KC0N50KMK4TXjZM83e+RXW8w0qf+VFuQaVo8qxz0E16OToHpW0gqCWBVJgfv/1j9KDTiV8HTc7iz58kZ/EP3zSzeL3mELN4a6jNuo3G0v5XQY8Wc2owP6WdJKUmMSe6hOuEl42w4XA3U1ZA0CwJGw6CFoPrhJeNsOEgaDG4TnjZCBvOs8lLUXEgqOeEDeeZOEXFwdeOyxKopnEgaFkC1TQOBHURCMXDICgEtQSCVisOBLUEgnocCIJCUK8FRRwICkGrEQeCliVQTeNA0LIEqmkcCOoiECZJEBSCWlJ3QV3ffAGmA0GB10BQ4DW+nYNBUJAAggKvgaDAayAo8BpMkoDXlEnQFDWVzZaTtpiM6wSA6bCgupZzruX0shB0dk3l+JbpcJ0AMB0SVFciHe82g+5K2sTOS1aCTq+pzI9+2NalFvWGt9pmO11aWT9jXCcATIfE0bWcqZxz/8bBQhpeTWY96NSayvzoVkxQ6ljVFrKdKa2snqHCckkgcXQPyp7mVu8xs3PQqTWV+dHTmKAy2JvtpEoTLegVxnUCwHRYHDn5zLcgaWZD/PSayg9OLwj64FTvqV7WpZXVCL8ellh2nQAwHR7ipRKp/z3o7JrK03tQOoge6UNcJwBMhyZJuussxzno9JrK0Tko+Xiyweeg6plsZ0or670Y1wkA0yFBdQ863l3zfBY/u6YyvfAXMuafrK9//9GFWfxhOIvHjyiUBL4Oqms5+34dNCVzXAQNIKjvlOlfklKgutKoc0yF6wSA6eBmEeA1EBR4DQQFXlN7QT37/G4C4WvHEBSCWgJBqxUHgloCQT0OBEEhqNeCIg4EhaDViANByxKopnEgaFkC1TQOBHURCJMkCApBLYGg1YoDQS2BoB4HgqD+Cur6ZoiqklmCPOtBIGhFyCxBEBTkQWYJgqAgDzJLEAQFeZBZgjBJAnmQWYIgKMiDzBIEQUEeZJagUgiavrby3LhOZFXhxh3vckUQvbCjFJOk9LWV58Z1IqsKN26nyYW/9MKO8gg6vbby6NGHVFNk8NrrG0fJesqyMNXuYusZ14msKtS2VI4uWuQrzsJk0INOra082rl9erZxNHi1ZSoo63rKemEEjdYLrhNZVaht+zcf09iuF/mKszAZnINOr6280wr7WKmgHKunHARBrF4oKiwXALVtf7VJ9eX1wlKcckySZtdWZg+5uG1YQVnqKetFXFBUWM4faltdEnmxysjlEXRGbWUlqOlBowrKuk7tGXe+oaCosJw/1LbDu1IZ+W49BJ1eW3m0s2k8DBL1lPVCV1yOrZdDu05kVeHG7cjY3qn+ED+7tvLo4ZtmJDcVlHU9Zb2Qisvx9YzrRFYVbtzhlvmFOFrkKs7C5P0vSXouNDeuE1lVbPN4CQgK8sA2j5eoiqC2uE5kVcksQRAU5EFmCSrFJClHXCeyqmSWoLoL6tkI4iYQvnYMQSGoJRC0WnEq94E8iwNByxKopnEgaFkC1TQOBC1LoJrGgaAuAmGSBEEhqCUQtFpxIKglENTjQBDUX0EBmAcICrwGggKvgaDAayAo8BoICrwGggKvgaDAa4oVdLSzbgo45Ad9qb9VTCwuspJ7oPMnXFYg9ziq4XQFhDzjmEoJFCNFqEIFpXyGZe7ygr4PPbjXLiTWifqbkH+gwxYVZsk9DteCyT3OGf0l0DHShCpUUCrSNLEmbpac0Sc+bBURa/Da6638P5QubZV7nMGDUy5SmGucw1sf6Wpduu7XrFCFCspNYFnwYS6orFT+sc6f/rvqAnIPNHjwUy4ylHcc3YPmHYerykmMNKEKFZQqiBUh6PmT7SJinWzTGJV7IKoBrFKZ/weSM8K845CgOkaaUFXsQUc720XEUhHOi+lBU3c3i8W51w6oZnaNe9BCzkG5xyki1glVAFzfzv8c9I1TU5o11zi6P8s7zsDjc1AaenOfWYufxcSiHjT/QIct6a1zjqN70LzjcK1uiZEmVPWug0rH1qrQddCoQmu+cc7Wi7je6vN1UADmBYICr4GgwGsgKPAaCAq8BoICr4GgwGsgaK70V/kHi4Zb1r+OXXcgaK70V/lnh/urENQSCJor/dXvrKlF9zsQ1BIImiv91b+5exyM995Vgo53G/wLhf3VRqOxFvSvv6ceNM12DX5M26wE4bJ/4x21i9mxlkDQXOmvvvL2QdC/+fny8Xh3RXWly8fDLSVi99oBD/tdEa9/fZ9/7Z22ofW0pP/7qytBYHZ0+TncAUFzRUnXbQa9td7ycU9+5rX5BzJNGalWaTOppzyQzeVpwNv2SOKmfsJa1xEImivKsN5K0GkqQbsNRp2S9tRiaV96TW1kR0b2nh7Je9RfksS0OtqxjkDQXFGCDu9+eeeABNWD9HBLTeyNfEZQ/RPakwWt6+jOQNBcoTH6F++ukHG9JT18k2+9pYuC8igeDvG0LQ3x9NzsWE8gaK6QoF01OvdokqTMVLKRb3R5NC4o95zqsZkchZMkWm12dPxRHAFBc4UEJct6+jITaabON5f+VfeWYZfZkHUXLzPxarNjLYGgwGsgKPAaCAq8BoICr4GgwGsgKPAaCAq8BoICr4GgwGsgKPAaCAq8BoIuAn9To3HpVmJz/3HEeLcpr19eNYPx3n540JQ7S7Dp76m7xveZXjug+/yWj4P+zSvu6QvfefIg8cOpY6mGkNuqY8ea9oaTK/Szie8bgi4Ct+zlm92nCDp3iHwEJYc6TbNxd4Utm3KwS5FjL6hjDV/ap9tWk8eCoO6RlqVs9+ULcD3ulPo3/pKf8U3IvHj25agH7d98HF/bM9+IG++922is9fjeeTlc//mXr/16b5/vt6OtP04eN7lLMpg8owMc8LH4ebgfyanNH9454I9ByyAMHL1F8845Mm+oXvv2vvmIcixqAXWAxLFib5jfRuLjJlvIHFaF6l38fiAEXQQRVPUf1IWoJ5SZLn3Xje8ADTpr3KGoRa8REzSxVu8SBOG35Og4cji6WW+898Fu2CElj5vYhaPIOgomm9ABzLFkE9mPgiojxMVj3kQ61DBw4mCB+UQmztK+2UIfS3rQ5LGi4/BXqxIfNx4gOqz6exS2hgGCLoIIGvVFnB15WWum+5X4OeiFtS+ZOz3pMPS/fkWtoy3He8+tmVjJPZO7aE90ML2JGUnlYbQf9/nXeV/ShCOGY7zeT/99i4Z4eQP82t6+fkEfS598Jo8VvWHuIRMfNxZAvRKFilrDAEEXIexB+TZkGqxW6dZi0/xb8u042qhzWVBZq3cJLgjKh2NBd//8bnzOEdszsYvIbILFQ4fHivbrma85dZphr6cFDQObU8hOUlDaPiEoHYvvyb52kDzWBUETHze2Qg5mQoWtYYCgixCmiCZKurvSQ5buFQIZAyf1oLJW7xIku0M5nM5fYs6R2PPqHlSfUbIZ5ljRfuGcvdM0540iVSzwPD2o7jqTx7ogaOLjXtWDRq1hgKCLEM7iucGv83gZNf+F08ILguq1epfgUndIX+oUQeUU4tKeyV0un4PG3og+Vid+3sjfQnn7YLyrT0yjnvL6fjxQIymoOQcNBWUrpQe9dKxETxz/uMlPEoWKWsMAQRchug7abfAkVA/0N8KZqf6iUWIWn1zbiWbxkW1yOC2omDDeVZPixJ7JXfQsWQeTTaQ742Op3Q/C/digroz3cvpoergosJxfRO88Nlb/cbwH5WP1JhwresP673Hs48ba4FoiVLRaA0FryeXr8lddB52496VrqvbHmgUErScXHbryX5IuMuErptbHSgMEBV4DQYHXQFDgNRAUeA0EBV4DQYHXQFDgNf8P+enlTFZIXYEAAAAASUVORK5CYII=" alt="Bar chart of mean LE8 composite and component scores for all participants, with dashed lines at the moderate and high thresholds." width="100%" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">plot</span>(scores, <span class="at">type =</span> <span class="st">&quot;distribution&quot;</span>)</span></code></pre></div>
+<p><img role="img" aria-label="Box plots of the LE8 composite and component scores for all participants." src="data:image/png;base64,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" alt="Box plots of the LE8 composite and component scores for all participants." width="100%" /></p>
+<p><code>type = &quot;composite&quot;</code> draws the composite scores as a
+histogram filled by category; the bins break at the category cutpoints
+of 50 and 80.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">plot</span>(scores, <span class="at">type =</span> <span class="st">&quot;composite&quot;</span>)</span></code></pre></div>
+<p><img role="img" aria-label="Histogram of LE8 composite scores, shaded by low, moderate, and high category." src="data:image/png;base64,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" alt="Histogram of LE8 composite scores, shaded by low, moderate, and high category." width="100%" /></p>
+<p>To compare groups, <code>type = &quot;forest&quot;</code> plots the mean of
+each score with a 95% confidence interval, using the ggforestplotR
+package. <code>by</code> names the grouping column. Other arguments are
+passed to <code>ggforestplotR::ggforestplot()</code>, here to shade
+alternate rows and widen the spacing between groups:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  scores,</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;forest&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&quot;life_stage&quot;</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="at">striped_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="at">dodge_width =</span> <span class="fl">0.75</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>)</span></code></pre></div>
+<p><img role="img" aria-label="Forest plot of mean LE8 scores with 95% confidence intervals for each life stage." src="data:image/png;base64,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" alt="Forest plot of mean LE8 scores with 95% confidence intervals for each life stage." width="100%" /></p>
+</div>
+<div id="find-the-weakest-component" class="section level2">
+<h2>Find the weakest component</h2>
+<p><code>tidy()</code> reshapes the scores into long format, one row per
+participant and measure, which suits questions about components rather
+than people. Here, each participant’s lowest-scoring component points to
+where improvement would help them most. Scores often tie, so
+<code>slice_min()</code> keeps every tied component; a participant can
+count toward more than one.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">tidy</span>(scores, <span class="at">id_cols =</span> <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;life_stage&quot;</span>), <span class="at">composite =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>long</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4,000 × 6</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt;      row id    life_stage le8_population measure           score</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;fct&gt;      &lt;chr&gt;          &lt;fct&gt;             &lt;dbl&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt;  1     1 S001  2-5        pediatric      diet                 20</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt;  2     1 S001  2-5        pediatric      physical_activity    70</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt;  3     1 S001  2-5        pediatric      nicotine            100</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co">#&gt;  4     1 S001  2-5        pediatric      sleep                70</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt;  5     1 S001  2-5        pediatric      bmi                  30</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt;  6     1 S001  2-5        pediatric      blood_lipids         20</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt;  7     1 S001  2-5        pediatric      blood_glucose       100</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt;  8     1 S001  2-5        pediatric      blood_pressure       25</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#&gt;  9     2 S002  2-5        pediatric      diet                 10</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; 10     2 S002  2-5        pediatric      physical_activity    90</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 3,990 more rows</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>stage_sizes <span class="ot">&lt;-</span> <span class="fu">count</span>(scores, life_stage, <span class="at">name =</span> <span class="st">&quot;stage_n&quot;</span>)</span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a>weakest <span class="ot">&lt;-</span> long <span class="sc">|&gt;</span></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a>  <span class="fu">filter_out</span>(<span class="fu">is.na</span>(score)) <span class="sc">|&gt;</span></span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a>  <span class="fu">slice_min</span>(score, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">by =</span> id) <span class="sc">|&gt;</span></span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a>  <span class="fu">count</span>(life_stage, measure, <span class="at">name =</span> <span class="st">&quot;participants&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a>  <span class="fu">slice_max</span>(participants, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">by =</span> life_stage) <span class="sc">|&gt;</span></span>
+<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a>  <span class="fu">left_join</span>(stage_sizes, <span class="at">by =</span> <span class="fu">join_by</span>(life_stage)) <span class="sc">|&gt;</span></span>
+<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> participants <span class="sc">/</span> stage_n, <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a>  <span class="fu">select</span>(life_stage, measure, participants, percent) <span class="sc">|&gt;</span></span>
+<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a>  <span class="fu">arrange</span>(life_stage)</span>
+<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a>weakest</span>
+<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 4</span></span>
+<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a><span class="co">#&gt;   life_stage measure           participants percent</span></span>
+<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;fct&gt;                    &lt;int&gt;   &lt;dbl&gt;</span></span>
+<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a><span class="co">#&gt; 1 2-5        diet                        31    62  </span></span>
+<span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a><span class="co">#&gt; 2 6-12       physical_activity           33    55  </span></span>
+<span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a><span class="co">#&gt; 3 13-19      diet                        17    28.3</span></span>
+<span id="cb16-37"><a href="#cb16-37" tabindex="-1"></a><span class="co">#&gt; 4 13-19      physical_activity           17    28.3</span></span>
+<span id="cb16-38"><a href="#cb16-38" tabindex="-1"></a><span class="co">#&gt; 5 20-39      diet                        36    33.3</span></span>
+<span id="cb16-39"><a href="#cb16-39" tabindex="-1"></a><span class="co">#&gt; 6 40-59      diet                        29    28.7</span></span>
+<span id="cb16-40"><a href="#cb16-40" tabindex="-1"></a><span class="co">#&gt; 7 60-79      blood_lipids                32    26.4</span></span></code></pre></div>
+<p>In this simulated survey, diet is the most common weakest component
+for preschoolers and adults aged 20-59, and physical activity for
+children aged 6-12. Adolescents are split evenly between diet and
+physical activity, and at 60-79 blood lipids are the most common weakest
+component.</p>
+</div>
+<div id="impute-the-missing-laboratory-values" class="section level2">
+<h2>Impute the missing laboratory values</h2>
+<p>Averaging the available components keeps everyone with six or more
+scores, but it treats each missing component as if it equalled the
+average of that person’s other scores. Dropping incomplete participants
+instead keeps only those who had blood drawn, who in this survey are
+heavier than average. Multiple imputation fills in the missing inputs
+several times, drawing on everything else known about each participant,
+and carries the uncertainty about them into every estimate.</p>
+<p><code>le8_imputation_setup()</code> shows what would be imputed. It
+imputes an input only for participants whose age uses it, and checks the
+observed values first:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">le8_imputation_setup</span>(survey)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="co">#&gt; LE8 imputation setup: 500 rows; 412 missing input values to impute in 3 inputs</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt;                input applies_to missing impute method</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt;  non_hdl_cholesterol        500     140    140    pmm</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt;      glucose_measure        500     132    132 logreg</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt;        glucose_value        500     140    140    pmm</span></span></code></pre></div>
+<p><code>score_le8(impute = )</code> runs the imputation with mice and
+then scores every imputed data set. Predictive mean matching draws each
+missing laboratory value from participants with similar BMI, age, and
+other measurements, and the setup keeps every imputed glucose value
+consistent with the participant’s diabetes status.
+<code>le8_imputation_control()</code> sets the number of imputations,
+the number of iterations, and a seed. This example uses 10 imputations
+to build quickly; a common rule of thumb for final analyses is at least
+as many imputations as the percentage of incomplete cases, here about
+30.</p>
+<p>After imputation, every participant has all eight components, so the
+default <code>min_components = 7</code> applies to everyone:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>imputed_scores <span class="ot">&lt;-</span> survey <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">impute =</span> <span class="fu">le8_imputation_control</span>(<span class="at">m =</span> <span class="dv">10</span>, <span class="at">maxit =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">2026</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    <span class="at">life_stage =</span> <span class="fu">cut</span>(</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>      age,</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">13</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>),</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;2-5&quot;</span>, <span class="st">&quot;6-12&quot;</span>, <span class="st">&quot;13-19&quot;</span>, <span class="st">&quot;20-39&quot;</span>, <span class="st">&quot;40-59&quot;</span>, <span class="st">&quot;60-79&quot;</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>      <span class="at">right =</span> <span class="cn">FALSE</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>    )</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>  )</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt; Warning: Number of logged events: 200</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="fu">summary</span>(imputed_scores)</span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="co">#&gt; LE8 scores: 500 participants (330 adult, 170 pediatric), pooled over 10 imputations</span></span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="co">#&gt; Diet method: mepa; min_components: 7</span></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a><span class="co">#&gt; Composite score available for 500 of 500 (average over imputations).</span></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a><span class="co">#&gt;                     n mean    95% CI  fmi   sd median</span></span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a><span class="co">#&gt; LE8 composite     500 68.9 68.0-69.7 0.01 10.1   69.4</span></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a><span class="co">#&gt; Diet              500 42.5 41.3-43.7 0.00 13.5   50.0</span></span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a><span class="co">#&gt; Physical activity 500 68.9 66.2-71.6 0.00 30.2   80.0</span></span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a><span class="co">#&gt; Nicotine exposure 500 79.1 76.2-82.0 0.00 33.0  100.0</span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a><span class="co">#&gt; Sleep             500 83.8 81.8-85.9 0.00 23.4  100.0</span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a><span class="co">#&gt; BMI               500 70.6 68.0-73.2 0.00 29.3   70.0</span></span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="co">#&gt; Blood lipids      500 58.0 55.1-60.8 0.13 30.4   60.0</span></span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a><span class="co">#&gt; Blood glucose     500 81.8 79.3-84.3 0.17 26.1  100.0</span></span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="co">#&gt; Blood pressure    500 66.1 63.5-68.7 0.00 29.6   75.0</span></span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="co">#&gt; Means pooled with Rubin&#39;s rules; fmi = fraction of missing information.</span></span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a><span class="co">#&gt; Category (rows with a composite score):</span></span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a><span class="co">#&gt;                n percent    95% CI</span></span>
+<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a><span class="co">#&gt;   low       17.7    3.5%   1.8-5.2</span></span>
+<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a><span class="co">#&gt;   moderate 406.8   81.4% 77.6-85.1</span></span>
+<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a><span class="co">#&gt;   high      75.5   15.1% 11.7-18.5</span></span></code></pre></div>
+<p>mice drops predictors that are redundant in an individual model and
+warns about each one; the <code>mids</code> object kept with the scores
+lists them in <code>attr(imputed_scores, &quot;mids&quot;)$loggedEvents</code>.
+Here, diabetes is redundant with the HbA1c measure in the glucose
+models. The same object supports mice’s own diagnostics, such as
+<code>plot(attr(imputed_scores, &quot;mids&quot;))</code> to check
+convergence.</p>
+<p>The summary pools each mean across the imputations with Rubin’s
+rules. The confidence intervals include the uncertainty from the missing
+values, and the fraction of missing information (<code>fmi</code>) shows
+how much of it comes from the imputations: about 0.13 for blood lipids
+and 0.17 for blood glucose, and close to zero for the components that
+were fully observed.</p>
+<p>Because the data are simulated, the true laboratory values are known.
+The three approaches compare with them as follows:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>true_scores <span class="ot">&lt;-</span> <span class="fu">score_le8</span>(survey_complete)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>compare <span class="ot">&lt;-</span> <span class="cf">function</span>(scored, approach) {</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  scored <span class="sc">|&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">.by =</span> le8_population) <span class="sc">|&gt;</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>    <span class="fu">filter</span>(measure <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;composite&quot;</span>, <span class="st">&quot;blood_lipids&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>    <span class="fu">transmute</span>(approach, le8_population, measure, n, <span class="at">mean =</span> <span class="fu">round</span>(mean, <span class="dv">1</span>))</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>}</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  <span class="fu">compare</span>(<span class="fu">filter</span>(scores, n_components <span class="sc">==</span> <span class="dv">8</span>), <span class="st">&quot;Complete cases&quot;</span>),</span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  <span class="fu">compare</span>(scores, <span class="st">&quot;Available components&quot;</span>),</span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>  <span class="fu">compare</span>(imputed_scores, <span class="st">&quot;Multiple imputation&quot;</span>),</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>  <span class="fu">compare</span>(true_scores, <span class="st">&quot;True values&quot;</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>  <span class="fu">arrange</span>(le8_population, measure)</span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a><span class="co">#&gt; # A tibble: 16 × 5</span></span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a><span class="co">#&gt;    approach             le8_population measure          n  mean</span></span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a><span class="co">#&gt;  1 Complete cases       adult          composite      266  66.4</span></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a><span class="co">#&gt;  2 Available components adult          composite      330  66.9</span></span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a><span class="co">#&gt;  3 Multiple imputation  adult          composite      330  67.1</span></span>
+<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a><span class="co">#&gt;  4 True values          adult          composite      330  67.2</span></span>
+<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a><span class="co">#&gt;  5 Complete cases       adult          blood_lipids   266  61.7</span></span>
+<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a><span class="co">#&gt;  6 Available components adult          blood_lipids   266  61.7</span></span>
+<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a><span class="co">#&gt;  7 Multiple imputation  adult          blood_lipids   330  62.5</span></span>
+<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a><span class="co">#&gt;  8 True values          adult          blood_lipids   330  62.4</span></span>
+<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a><span class="co">#&gt;  9 Complete cases       pediatric      composite       94  71.8</span></span>
+<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a><span class="co">#&gt; 10 Available components pediatric      composite      170  72.5</span></span>
+<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a><span class="co">#&gt; 11 Multiple imputation  pediatric      composite      170  72.2</span></span>
+<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a><span class="co">#&gt; 12 True values          pediatric      composite      170  72.5</span></span>
+<span id="cb19-32"><a href="#cb19-32" tabindex="-1"></a><span class="co">#&gt; 13 Complete cases       pediatric      blood_lipids    94  48.5</span></span>
+<span id="cb19-33"><a href="#cb19-33" tabindex="-1"></a><span class="co">#&gt; 14 Available components pediatric      blood_lipids    94  48.5</span></span>
+<span id="cb19-34"><a href="#cb19-34" tabindex="-1"></a><span class="co">#&gt; 15 Multiple imputation  pediatric      blood_lipids   170  49.3</span></span>
+<span id="cb19-35"><a href="#cb19-35" tabindex="-1"></a><span class="co">#&gt; 16 True values          pediatric      blood_lipids   170  50.4</span></span></code></pre></div>
+<p>Complete cases understate the composite score in both populations
+because they over-represent participants with a higher BMI. Multiple
+imputation brings the blood lipid means closer to the true values, using
+the link between BMI and cholesterol, though it does not remove the bias
+entirely. Averaging the available components lands near the true
+composite here too, but it gives no estimate for the missing laboratory
+components and no way to carry their uncertainty into the results.</p>
+<p>The other methods pool too. <code>plot()</code> draws pooled means,
+and the forest plot draws Rubin’s-rules confidence intervals:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">plot</span>(imputed_scores, <span class="at">type =</span> <span class="st">&quot;forest&quot;</span>, <span class="at">by =</span> <span class="st">&quot;life_stage&quot;</span>, <span class="at">striped_rows =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img role="img" aria-label="Forest plot of pooled mean LE8 scores with 95% confidence intervals from multiple imputation, by life stage." src="data:image/png;base64,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" alt="Forest plot of pooled mean LE8 scores with 95% confidence intervals from multiple imputation, by life stage." width="100%" /></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

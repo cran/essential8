@@ -16,8 +16,8 @@ test_that("adult scoring allows missing values but rejects malformed values", {
   input <- adult_input_fixture()
   input$glucose_value[1] <- NA_real_
   result <- expect_no_warning(score_le8(input))
-  expect_true(is.na(result$le8_blood_glucose_score[1]))
-  expect_equal(result$le8_n_components[1], 7L)
+  expect_true(is.na(result$blood_glucose_score[1]))
+  expect_equal(result$n_components[1], 7L)
 
   input <- adult_input_fixture()
   input$current_inhaled_nds <- as.integer(input$current_inhaled_nds)
@@ -79,11 +79,11 @@ test_that("adult scoring rejects dimensioned input columns", {
   )
 })
 
-test_that("adult age and source-defined measurement domains are enforced", {
+test_that("age and source-defined measurement domains are enforced", {
   cases <- list(
     list(
-      name = "age below adult range",
-      changes = list(age = 19.999),
+      name = "age below pediatric range",
+      changes = list(age = 0.25),
       diet_method = "mepa"
     ),
     list(
@@ -187,7 +187,7 @@ test_that("diet_method is a scalar, case-insensitive call-level argument", {
 
   result <- score_le8(input, diet_method = "  PeRcEnTiLe  ")
 
-  expect_equal(result$le8_diet_score, c(25, 100))
+  expect_equal(result$diet_score, c(25, 100))
   expect_equal(result$le8_composite_score[2], 100)
   expect_false("diet_method" %in% names(result))
 })

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Pediatric AHA Scoring</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Pediatric AHA Scoring</h1>
+
+
+
+<p><code>score_le8()</code> scores children aged 4 months to 19 years
+with the pediatric Life’s Essential 8 (LE8) definitions from the
+American Heart Association’s 2022 advisory: the children column of its
+Table 1, and the suggestions for younger children in its Supplemental
+Appendix 2. Adults and children can be scored in the same call; each
+row’s <code>age</code> chooses the definitions, and
+<code>le8_population</code> records which were used.</p>
+<p>This article covers how LE8 scoring changes for children, which
+inputs to supply, and how to derive growth-chart and blood-pressure
+percentiles.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(essential8)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div id="pediatric-scoring-changes" class="section level2">
+<h2>Pediatric Scoring Changes</h2>
+<p>Each component uses an age-appropriate rule. Some are defined only
+from a certain age; before then, the component is <code>NA</code> and
+does not count toward <code>min_components</code>.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Pediatric rule</th>
+<th>Ages scored</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Diet</td>
+<td>MEPA: 6 items (6-23 months), 10 items (2-5 years), all 16 (6-19
+years); or population percentiles</td>
+<td>6 months+ (percentiles: 2 years+)</td>
+</tr>
+<tr class="even">
+<td>Physical activity</td>
+<td>Daily active play (1-5 years); weekly moderate or vigorous minutes,
+not doubled (6-19 years)</td>
+<td>1 year+</td>
+</tr>
+<tr class="odd">
+<td>Nicotine exposure</td>
+<td>Never tried, tried over 30 days ago, current inhaled NDS, current
+combustible; secondhand smoke at any age</td>
+<td>All</td>
+</tr>
+<tr class="even">
+<td>Sleep</td>
+<td>Distance from the age-appropriate range (12-16 h at 4-11 months to
+8-10 h at 13-19 years)</td>
+<td>All</td>
+</tr>
+<tr class="odd">
+<td>BMI</td>
+<td>WHO weight-for-length percentile and rapid gain (under 2); CDC BMI
+percentile and % of 95th percentile (2-19 years)</td>
+<td>All</td>
+</tr>
+<tr class="even">
+<td>Blood lipids</td>
+<td>Pediatric non-HDL bands (&lt;100, 100-119, 120-144, 145-189, 190+
+mg/dL)</td>
+<td>All</td>
+</tr>
+<tr class="odd">
+<td>Blood glucose</td>
+<td>Same as adults</td>
+<td>All</td>
+</tr>
+<tr class="even">
+<td>Blood pressure</td>
+<td>AAP 2017 percentile categories (1-12 years); adult bands (13-19
+years)</td>
+<td>1 year+</td>
+</tr>
+</tbody>
+</table>
+<p>AHA suggests that the composite for a child be the average of
+whatever components are available and appropriate for measurement.
+Laboratory values are often unavailable in children, and the NHANES
+analysis that accompanied the advisory averaged as few as three
+components, so set <code>min_components</code> appropriately for your
+cohort.</p>
+</div>
+<div id="deriving-growth-chart-and-blood-pressure-percentiles" class="section level2">
+<h2>Deriving growth-chart and blood-pressure percentiles</h2>
+<p>For some pediatric samples, you will need blood-pressure percentiles
+and/or growth chart data.</p>
+<p><code>add_pediatric_references()</code> derives the percentile inputs
+from raw measurements, using the packages <a href="https://CRAN.R-project.org/package=cdcanthro">cdcanthro</a> (CDC
+and WHO growth charts) and <a href="https://CRAN.R-project.org/package=pedbp">pedbp</a> (AAP 2017
+blood-pressure percentiles). It needs sex, height, and weight, and uses
+<code>age_months</code> or <code>age * 12</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>measurements <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;toddler&quot;</span>, <span class="st">&quot;school_age&quot;</span>, <span class="st">&quot;teen&quot;</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">8.25</span>, <span class="fl">15.5</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">height_cm =</span> <span class="fu">c</span>(<span class="dv">82</span>, <span class="dv">128</span>, <span class="dv">172</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">weight_kg =</span> <span class="fu">c</span>(<span class="fl">11.5</span>, <span class="dv">27</span>, <span class="dv">64</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>measurements <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="fu">add_pediatric_references</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="fu">select</span>(id, bmi_percentile, bmi_percent_of_p95, infant_weight_percentile,</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>         systolic_bp_p90, systolic_bp_p95)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 6</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;   id    bmi_percentile bmi_percent_of_p95 infant_weight_percen…¹ systolic_bp_p90</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;              &lt;dbl&gt;                  &lt;dbl&gt;           &lt;dbl&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; 1 todd…           NA                 NA                     76.3            99.7</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; 2 scho…           60.9               78.8                   NA             110. </span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; 3 teen            68.5               79.6                   NA              NA  </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; # ℹ abbreviated name: ¹​infant_weight_percentile</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: systolic_bp_p95 &lt;dbl&gt;</span></span></code></pre></div>
+<p>Blood-pressure references are returned only for ages 1 to 12, and
+only when height is known.</p>
+<p>Rapid infant weight gain compares visits, so it cannot be derived
+from one row. With longitudinal data, compute it from
+<code>infant_weight_z</code> within each child:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>visits <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">add_pediatric_references</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">arrange</span>(child_id, age) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="at">infant_weight_z_change =</span> infant_weight_z <span class="sc">-</span> <span class="fu">lag</span>(infant_weight_z),</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="at">.by =</span> child_id</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  )</span></code></pre></div>
+<p>AHA compares against the z-score at prior routine visits, for example
+since age 1 month; choose the comparison visit to match your study
+design.</p>
+</div>
+<div id="school-age-children-and-adolescents-6-19-yrs" class="section level2">
+<h2>School-age children and adolescents (6-19 yrs)</h2>
+<p>From age 6, diet uses all 16 MEPA items and the adult scoring bands.
+Weekly moderate and vigorous minutes count once each (adults count
+vigorous minutes twice). The pediatric nicotine categories describe any
+nicotine product: <code>&quot;never&quot;</code> = never tried,
+<code>&quot;former&quot;</code> = tried but not within 30 days, and
+<code>&quot;current&quot;</code> = combustible use within 30 days. Blood pressure
+switches to the adult bands at 13, while the other components stay
+pediatric through age 19.</p>
+</div>
+<div id="a-preschool-child-2-5-yrs" class="section level2">
+<h2>A preschool child (2-5 yrs)</h2>
+<p>At ages 2-5, ten of the MEPA items are scored, at 10 points per item
+met, with pediatric thresholds:</p>
+<ul>
+<li>vegetables: <code>green_leafy_vegetables + other_vegetables</code>,
+2+ per day</li>
+<li>fruit: <code>berries + other_fruit</code>, 14+ per week (2 per
+day)</li>
+<li><code>whole_grains</code> 3+ and <code>olive_oil</code> 1+ per
+day</li>
+<li><code>fish</code> 1+ and <code>nuts</code> 4+ per week</li>
+<li><code>meat</code>, <code>butter_cream</code>, and
+<code>sweets_and_pastries</code> 3 or fewer per week; for children under
+6, sweets should include sugar-sweetened beverages</li>
+<li><code>fast_food</code> 2 or fewer times per month</li>
+</ul>
+<p><code>chicken</code>, <code>cheese</code>, <code>beans</code>,
+<code>alcohol</code>, and <code>sex</code> are not used before age 6 and
+may be omitted from data containing only young children.</p>
+<p>This example also uses active play in minutes per day and
+blood-pressure percentiles. The 90th and 95th percentiles
+(<code>systolic_bp_p90</code> and so on) are the child’s reference
+values for age, sex, and height, in mmHg.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>preschooler <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">&quot;preschooler&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">age =</span> <span class="dv">4</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="co"># Servings per day</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">green_leafy_vegetables =</span> <span class="dv">1</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">other_vegetables =</span> <span class="dv">1</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">whole_grains =</span> <span class="dv">2</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">olive_oil =</span> <span class="dv">1</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="co"># Servings per week</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="at">berries =</span> <span class="dv">7</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="at">other_fruit =</span> <span class="dv">14</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="at">sweets_and_pastries =</span> <span class="dv">2</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="at">meat =</span> <span class="dv">2</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="at">fish =</span> <span class="dv">1</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="at">nuts =</span> <span class="dv">2</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="at">butter_cream =</span> <span class="dv">1</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  <span class="co"># Times per week</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="at">fast_food =</span> <span class="fl">0.25</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>  <span class="at">active_play_minutes =</span> <span class="dv">160</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>  <span class="at">smoking_status =</span> <span class="st">&quot;never&quot;</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>  <span class="at">current_inhaled_nds =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>  <span class="at">secondhand_smoke_home =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>  <span class="at">sleep_hours =</span> <span class="fl">13.5</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>  <span class="at">bmi_percentile =</span> <span class="dv">60</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>  <span class="at">bmi_percent_of_p95 =</span> <span class="dv">82</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>  <span class="at">systolic_bp =</span> <span class="dv">108</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>  <span class="at">diastolic_bp =</span> <span class="dv">60</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>  <span class="at">systolic_bp_p90 =</span> <span class="dv">103</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>  <span class="at">systolic_bp_p95 =</span> <span class="dv">107</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>  <span class="at">diastolic_bp_p90 =</span> <span class="dv">63</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>  <span class="at">diastolic_bp_p95 =</span> <span class="dv">67</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>  <span class="at">antihypertensive_treatment =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>)</span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>preschooler <span class="sc">|&gt;</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">min_components =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>  <span class="fu">select</span>(mepa_total, <span class="fu">ends_with</span>(<span class="st">&quot;_score&quot;</span>), n_components, le8_category)</span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt; Warning: ! Some LE8 components could not be calculated for any observations.</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt; ✖ Blood lipids</span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt; ✖ Blood glucose</span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co">#&gt; ℹ Overall LE8 composite scores will use the available components, subject to</span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co">#&gt;   `min_components`.</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 12</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt;   mepa_total diet_score physical_activity_score nicotine_score sleep_score</span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co">#&gt;        &lt;int&gt;      &lt;dbl&gt;                   &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;</span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="co">#&gt; 1          8         80                      90            100          90</span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt; # ℹ 7 more variables: bmi_score &lt;dbl&gt;, blood_lipids_score &lt;dbl&gt;,</span></span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a><span class="co">#&gt; #   blood_glucose_score &lt;dbl&gt;, blood_pressure_score &lt;dbl&gt;,</span></span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a><span class="co">#&gt; #   le8_composite_score &lt;dbl&gt;, n_components &lt;int&gt;, le8_category &lt;chr&gt;</span></span></code></pre></div>
+<p>Eight of the ten items are met (80 points); <code>mepa_total</code>
+counts items met on the screener for the child’s age. Sleep is half an
+hour above the 10-13 hour range (90 points). The systolic pressure of
+108 mm Hg is at or above this child’s 95th percentile (107 mm Hg) but
+below 95th + 12 mm Hg, which is stage 1 (50 points). Lipids and glucose
+were not measured, so the composite averages six components; the warning
+says so.</p>
+</div>
+<div id="infants-and-toddlers-6-23-months" class="section level2">
+<h2>Infants and toddlers (6-23 months)</h2>
+<p>From 6 to 23 months, diet uses six items: vegetables, fruit, and
+whole grains (at least once a day before 12 months, twice a day from 12
+months), no sweets or sugar-sweetened beverages, no fast food, and the
+milk source recommended for age. <code>milk_source</code> is the one
+column used only at these ages: <code>&quot;human&quot;</code>,
+<code>&quot;cow&quot;</code>, <code>&quot;formula&quot;</code>, or <code>&quot;other&quot;</code>.
+Human milk meets the item before 12 months, and human or cow’s milk from
+12 months.</p>
+<p>Weight uses the WHO weight-for-length (or BMI-for-age) percentile
+together with the change in its z-score since the prior routine visit.
+An increase of 0.67 or more counts as rapid weight gain.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>infant <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">&quot;infant&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">age =</span> <span class="fl">0.75</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">age_months =</span> <span class="dv">9</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">green_leafy_vegetables =</span> <span class="fl">0.5</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">other_vegetables =</span> <span class="fl">0.5</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">berries =</span> <span class="dv">3</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">other_fruit =</span> <span class="dv">4</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">whole_grains =</span> <span class="dv">1</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">sweets_and_pastries =</span> <span class="dv">0</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="at">fast_food =</span> <span class="dv">0</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="at">milk_source =</span> <span class="st">&quot;human&quot;</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="at">smoking_status =</span> <span class="st">&quot;never&quot;</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="at">current_inhaled_nds =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="at">secondhand_smoke_home =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="at">sleep_hours =</span> <span class="dv">13</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="at">infant_weight_percentile =</span> <span class="fl">98.5</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  <span class="at">infant_weight_z_change =</span> <span class="fl">0.4</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>)</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>infant <span class="sc">|&gt;</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">min_components =</span> <span class="dv">4</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  <span class="fu">select</span>(mepa_total, <span class="fu">ends_with</span>(<span class="st">&quot;_score&quot;</span>), n_components, le8_category)</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; Warning: ! Some LE8 components could not be calculated for any observations.</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; ✖ Blood lipids</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; ✖ Blood glucose</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; ℹ Overall LE8 composite scores will use the available components, subject to</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt;   `min_components`.</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 12</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt;   mepa_total diet_score physical_activity_score nicotine_score sleep_score</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt;        &lt;int&gt;      &lt;dbl&gt;                   &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; 1          6        100                      NA             80         100</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; # ℹ 7 more variables: bmi_score &lt;dbl&gt;, blood_lipids_score &lt;dbl&gt;,</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; #   blood_glucose_score &lt;dbl&gt;, blood_pressure_score &lt;dbl&gt;,</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; #   le8_composite_score &lt;dbl&gt;, n_components &lt;int&gt;, le8_category &lt;chr&gt;</span></span></code></pre></div>
+<p><code>age_months</code> is optional; when supplied it sets the
+pediatric age bands more precisely than <code>age * 12</code>. Physical
+activity and blood pressure are not scored before age 1, so they are
+<code>NA</code> here regardless of the inputs.</p>
+</div>
+<div id="where-the-sources-conflict" class="section level2">
+<h2>Where the sources conflict</h2>
+<p>The advisory’s main table and its supplement are not always
+consistent. <code>essential8</code> follows the more specific rule and
+documents each choice in <code>?score_le8</code>:</p>
+<ul>
+<li>Ages 2-5 use the supplement’s 10 points per item met rather than
+Table 1’s banded 0-10 scale (for example, 7 items score 70 rather than
+80).</li>
+<li>The supplement describes the 16-item MEPA questionnaire as, “used in
+older children and adults”, so ages 6-19 use the adult bands.</li>
+<li>At 6-23 months, weight at or above the 99.7th percentile with rapid
+gain scores 0, the supplement’s explicit worst state, rather than the 25
+its listed decrements would give.</li>
+<li>Nineteen-year-olds use the 13-18 year sleep range (8-10 hours), the
+last range AHA lists for the pediatric column.</li>
+<li>The packaged NHANES diet references describe adults, so they are
+refused for children. Use percentiles in <code>diet_value</code> or a
+pediatric reference.</li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

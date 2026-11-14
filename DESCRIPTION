@@ -1,6 +1,6 @@
 Package: essential8
 Title: Reproducible Cardiovascular Health Metric Scoring
-Version: 0.2.0
+Version: 0.9.0
 Authors@R: c(
     person(
       given = "Carson",
@@ -25,29 +25,34 @@ Authors@R: c(
   )
 Description: Provides a reproducible R implementation of the American Heart
     Association Life's Essential 8 cardiovascular health scoring framework for
-    adult records from people aged 20 years or older. Calculates the eight
-    component scores and their unweighted composite score from available
-    component data using the 2022 adult definition described by Lloyd-Jones et
-    al. (2022)
+    adults aged 20 years or older and children aged 4 months to 19 years.
+    Calculates the eight component scores and their unweighted composite score
+    from available component data, including raw MEPA, DASH, and HEI-2015 diet
+    inputs and pediatric growth-chart and blood-pressure percentiles, using the
+    2022 definitions described by Lloyd-Jones et al. (2022)
     <doi:10.1161/CIR.0000000000001078>.
 License: MIT + file LICENSE
+Depends: R (>= 4.1.0)
 Encoding: UTF-8
 Language: en-US
-Imports: cli (>= 3.6.0)
-Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Imports: cli (>= 3.6.0), generics, rlang (>= 1.1.0)
+Suggests: cdcanthro, dplyr (>= 1.1.0), ggforestplotR (>= 0.6.0),
+        ggplot2 (>= 3.4.0), knitr, mice (>= 3.16.0), pedbp, rmarkdown,
+        testthat (>= 3.0.0), tibble
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/Needs/website: pkgdown
+Config/Needs/build: digest, haven, survey
 URL: https://thatoneguy006.github.io/essential8/,
         https://github.com/thatoneguy006/essential8
 BugReports: https://github.com/thatoneguy006/essential8/issues
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
 NeedsCompilation: no
-Packaged: 2026-10-10 14:31:17 UTC; Carso
+Packaged: 2026-11-14 20:56:20 UTC; Carso
 Author: Carson Richardson [aut, cre, cph] (ORCID:
     <https://orcid.org/0009-0004-8710-1097>),
   Amrik Khalsa [ctb] (ORCID: <https://orcid.org/0000-0002-4609-5194>),
   Sara Conroy [ctb] (ORCID: <https://orcid.org/0000-0001-9155-9456>)
 Maintainer: Carson Richardson <carson.richardson@outlook.com>
 Repository: CRAN
-Date/Publication: 2026-10-10 14:50:02 UTC
+Date/Publication: 2026-11-14 21:20:09 UTC

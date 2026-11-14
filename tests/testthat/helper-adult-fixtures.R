@@ -32,9 +32,7 @@ adult_example_fixture <- local({
 
 adult_input_fixture <- function() {
   fixture <- adult_example_fixture()
-  fixture <- fixture[!startsWith(names(fixture), "expected_")]
-  fixture$diet_method <- NULL
-  fixture
+  fixture[!startsWith(names(fixture), "expected_")]
 }
 
 adult_example_row <- function(...) {
@@ -173,13 +171,13 @@ adult_mepa_row <- function(total = 16L, sex = "male", ...) {
 
 adult_component_score_columns <- function() {
   c(
-    "le8_diet_score",
-    "le8_physical_activity_score",
-    "le8_nicotine_score",
-    "le8_sleep_score",
-    "le8_bmi_score",
-    "le8_blood_lipids_score",
-    "le8_blood_glucose_score",
-    "le8_blood_pressure_score"
+    "diet_score",
+    "physical_activity_score",
+    "nicotine_score",
+    "sleep_score",
+    "bmi_score",
+    "blood_lipids_score",
+    "blood_glucose_score",
+    "blood_pressure_score"
   )
 }

@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Diet scoring in Life’s Essential 8</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Diet scoring in Life’s Essential 8</h1>
+
+
+
+<p>Diet is one of the eight components of the American Heart
+Association’s (AHA) Life’s Essential 8 (LE8). <code>essential8</code>
+supports three diet measures: MEPA, DASH, and HEI-2015. Each describes
+diet quality in a different way. This package first calculates or
+accepts a diet score, then applies the LE8 scoring rules.</p>
+<p>This article explains where the measures came from, how they become
+LE8 points, and which inputs to use. Examples apply to adults aged 20 or
+older; for children, see <code>vignette(&quot;pediatric-scoring&quot;)</code>. The
+packaged NHANES references describe adults and are refused for pediatric
+rows.</p>
+<div id="where-the-diet-measures-came-from" class="section level2">
+<h2>Where the diet measures came from</h2>
+<div id="mepa-a-short-dietary-screener" class="section level3">
+<h3>MEPA: a short dietary screener</h3>
+<p>The Mediterranean Eating Pattern for Americans (MEPA) tool asks about
+foods associated with a Mediterranean-style eating pattern. It was
+evaluated by <a href="https://doi.org/10.1111/jhn.12451">Cerwinske and
+colleagues in 2017</a>. The AHA adapted it for rapid individual
+assessment in its <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10503546/">2022 LE8
+advisory</a>.</p>
+<p><code>essential8</code> implements the advisory’s modified 16-item
+version. Each item earns zero or one point, giving a total from 0 to 16.
+Fixed bands convert that total to LE8 points. No population comparison
+is needed. The <a href="essential8-get-started.html">Get Started
+vignette</a> covers the MEPA inputs.</p>
+</div>
+<div id="dash-an-eating-pattern-and-a-research-score" class="section level3">
+<h3>DASH: an eating pattern and a research score</h3>
+<p>DASH stands for Dietary Approaches to Stop Hypertension. The eating
+pattern was tested in an <a href="https://biolincc.nhlbi.nih.gov/studies/dash/">NHLBI-supported
+feeding trial</a> to study its effects on blood pressure. It emphasizes
+fruits, vegetables, and low-fat dairy, with less saturated and total
+fat.</p>
+<p>Researchers later developed scores to measure how closely a person’s
+diet follows that pattern. <code>essential8</code> uses an adaptation of
+the eight-component score described by <a href="https://doi.org/10.1001/archinte.168.7.713">Fung and colleagues in
+2008</a>. Its total ranges from 8 to 40. Other DASH scores exist, so the
+name “DASH” alone does not establish that two scores use the same
+definition.</p>
+</div>
+<div id="hei-2015-alignment-with-dietary-guidelines" class="section level3">
+<h3>HEI-2015: alignment with dietary guidelines</h3>
+<p>The Healthy Eating Index (HEI) measures how closely a diet follows
+the Dietary Guidelines for Americans. USDA released the first HEI in
+1995; later versions were developed with the National Cancer Institute
+(NCI). HEI-2015 reflects the 2015-2020 guidelines and has 13 components
+that sum to a score from 0 to 100. See the <a href="https://epi.grants.cancer.gov/hei/developing.html">NCI history and
+standards</a>.</p>
+<p>HEI-2015 rewards foods and nutrients to include, such as whole grains
+and vegetables, and limits others, such as sodium and added sugars. Most
+components use intake per 1,000 kcal, so eating more food does not by
+itself produce a higher score. The package uses HEI-2015 because that is
+the version specified in the 2022 LE8 definition.</p>
+</div>
+</div>
+<div id="how-diet-scores-become-le8-points" class="section level2">
+<h2>How diet scores become LE8 points</h2>
+<p>The AHA advisory uses modified MEPA for individual assessment and
+DASH or HEI-2015 for population assessment. These are alternative ways
+to score the <strong>same LE8 diet component</strong>. They do not add
+extra components to LE8.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Diet measure</th>
+<th align="left">Original score</th>
+<th align="left">How it becomes an LE8 diet score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Modified MEPA</td>
+<td align="left">0-16</td>
+<td align="left">Apply fixed MEPA bands</td>
+</tr>
+<tr class="even">
+<td align="left">Fung-style DASH</td>
+<td align="left">8-40</td>
+<td align="left">Compare the total with a reference population</td>
+</tr>
+<tr class="odd">
+<td align="left">HEI-2015</td>
+<td align="left">0-100</td>
+<td align="left">Compare the total with a reference population</td>
+</tr>
+</tbody>
+</table>
+<p>A raw diet score, also called an index, is the total before
+conversion to LE8 points.</p>
+<p>For DASH and HEI-2015, a percentile describes a score’s position in
+the reference population. For example, the 75th percentile marks the
+upper quarter of that distribution. The advisory assigns LE8 points as
+follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">MEPA total</th>
+<th align="left">DASH or HEI-2015 percentile</th>
+<th align="right">LE8 diet points</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0-3</td>
+<td align="left">Below 25</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">4-7</td>
+<td align="left">25 to below 50</td>
+<td align="right">25</td>
+</tr>
+<tr class="odd">
+<td align="left">8-11</td>
+<td align="left">50 to below 75</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="left">12-14</td>
+<td align="left">75 to below 95</td>
+<td align="right">80</td>
+</tr>
+<tr class="odd">
+<td align="left">15-16</td>
+<td align="left">95 or higher</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
+<p>These bands come from the <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10503546/">AHA LE8
+advisory, Table 1</a>. A raw HEI-2015 score of 70 is therefore different
+from the 70th percentile or an LE8 diet score of 70. The reference
+determines which LE8 band contains that raw score.</p>
+<p>The resulting <code>diet_score</code> contributes to the LE8
+composite in the same way as the other seven components.
+<code>score_le8()</code> averages available component scores when at
+least <code>min_components</code> are present; the default is seven.</p>
+</div>
+<div id="what-the-packaged-reference-represents" class="section level2">
+<h2>What the packaged reference represents</h2>
+<p>The advisory initially recommends NHANES 2015-2018 as the reference
+for population diet scoring. NHANES is the National Health and Nutrition
+Examination Survey. <code>essential8</code> includes references derived
+from those survey years and the matching USDA Food Patterns Equivalents
+Database (FPED), which converts foods into common food-group units.</p>
+<p>The NHANES references describe 8,241 adults aged 20 or older,
+excluding known pregnancy, with two reliable dietary recalls and
+complete required inputs. The builder averages the same two days’ foods,
+nutrients, and energy before scoring. It uses the combined dietary
+weight (<code>WTDR2D / 2</code>), survey strata, and sampling units to
+calculate weighted cutpoints: the score values that mark the percentile
+boundaries.</p>
+<p>The DASH reference uses an FPED adaptation specific to
+<code>essential8</code>: <code>essential8_fung_fped_v1</code>. It uses
+pooled intake quintiles across sexes and the food definitions listed
+below. An existing DASH score must match these definitions to use this
+reference. HEI-2015 inputs should also match the reference’s method of
+combining recalls.</p>
+</div>
+<div id="choose-the-inputs-you-have" class="section level2">
+<h2>Choose the inputs you have</h2>
+<p>Use one diet method and one type of diet input per call:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Available data</th>
+<th align="left">What to supply</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">MEPA responses</td>
+<td align="left">The 16 screener items with
+<code>diet_method = &quot;mepa&quot;</code></td>
+</tr>
+<tr class="even">
+<td align="left">DASH or HEI-2015 food and nutrient summaries</td>
+<td align="left">The raw input columns described below</td>
+</tr>
+<tr class="odd">
+<td align="left">An existing DASH or HEI-2015 score</td>
+<td align="left">A column named <code>dash</code> or
+<code>hei2015</code></td>
+</tr>
+<tr class="even">
+<td align="left">An existing percentile</td>
+<td align="left">A column named <code>diet_value</code>, using 0-100
+percentile points</td>
+</tr>
+</tbody>
+</table>
+<p>The examples use <code>dplyr</code> and the native pipe
+(<code>|&gt;</code>, available in R 4.1+). We start with two packaged
+example adults so the other LE8 components are available.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(essential8)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>example_file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;le8-adult-example.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;essential8&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>adults <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(example_file) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">&quot;expected_&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;adult_1&quot;</span>, <span class="st">&quot;adult_2&quot;</span>))</span></code></pre></div>
+<div id="an-existing-diet-score" class="section level3">
+<h3>An existing diet score</h3>
+<p>Add an HEI-2015 score and name the reference explicitly:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>adults <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hei2015 =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">70</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">diet_method =</span> <span class="st">&quot;hei2015&quot;</span>, <span class="at">reference =</span> <span class="st">&quot;nhanes_2015_2018&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">select</span>(id, hei2015, diet_score)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;   id      hei2015 diet_score</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; 1 adult_1      45         25</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 2 adult_2      70         80</span></span></code></pre></div>
+<p>The raw scores of 45 and 70 receive 25 and 80 LE8 points with this
+reference. For an existing DASH score, use a <code>dash</code> column
+and <code>diet_method = &quot;dash&quot;</code>. The original score stays in its
+input column; <code>dash_total</code> and <code>hei2015_total</code> are
+filled only when calculated from raw inputs.</p>
+</div>
+<div id="an-existing-percentile" class="section level3">
+<h3>An existing percentile</h3>
+<p>A percentile already contains the population comparison, so no
+reference lookup is needed:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>adults <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diet_value =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">98</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">diet_method =</span> <span class="st">&quot;dash&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">select</span>(id, diet_value, diet_score)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;   id      diet_value diet_score</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 1 adult_1         35         25</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 2 adult_2         98        100</span></span></code></pre></div>
+<p>These percentiles receive 25 and 100 LE8 points. Supply
+<code>95</code> for the 95th percentile, rather than <code>0.95</code>.
+Fractional proportions are rejected. The generic
+<code>diet_method = &quot;percentile&quot;</code> option uses the same LE8
+bands.</p>
+</div>
+</div>
+<div id="calculate-dash-from-raw-inputs" class="section level2">
+<h2>Calculate DASH from raw inputs</h2>
+<p>The Fung-style score compares each of eight intakes with reference
+quintiles: five intake groups, each containing about one fifth of the
+reference population. Fruit, vegetables, nuts and legumes, whole grains,
+and low-fat dairy earn 1-5 points as intake increases. Sodium, red and
+processed meat, and sweetened beverages earn 5-1 points. The eight
+scores sum to <code>dash_total</code>.</p>
+<p>There are two population comparisons here: intake quintiles create
+the DASH total, then total-score cutpoints assign the LE8 band. Both
+come from the packaged reference by default.</p>
+<div id="prepare-the-daily-inputs" class="section level3">
+<h3>Prepare the daily inputs</h3>
+<p>For the packaged reference, use these FPED-based definitions. Cup and
+ounce equivalents are standardized food-group amounts, not necessarily
+the volume or weight of the food as eaten.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Column</th>
+<th align="left">Daily input</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>dash_fruits</code></td>
+<td align="left">Total fruit cup equivalents, including juice</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dash_vegetables</code></td>
+<td align="left">Dark-green cup equivalents plus twice the sum of
+red/orange, other, and other-starchy vegetable cup equivalents; exclude
+white potatoes and legumes</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dash_nuts_and_legumes</code></td>
+<td align="left">Protein ounce equivalents from legumes, nuts/seeds, and
+soy</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dash_whole_grains</code></td>
+<td align="left">Whole-grain ounce equivalents</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dash_low_fat_dairy</code></td>
+<td align="left">Skim-milk cup equivalents plus four times low-fat
+cheese cup equivalents, plus yogurt cup equivalents, using the
+reference’s food-code lists</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dash_sodium</code></td>
+<td align="left">Sodium in mg/day</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dash_red_and_processed_meat</code></td>
+<td align="left">Cured-meat ounce equivalents divided by 1.5 plus
+meat/organ ounce equivalents divided by 4</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dash_sweetened_beverages</code></td>
+<td align="left">Added-sugar teaspoon equivalents from the reference’s
+beverage codes, multiplied by 4/26</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dash_energy_kcal</code></td>
+<td align="left">Positive kcal/day, including alcohol</td>
+</tr>
+</tbody>
+</table>
+<p>Sodium is standardized to 2,000 kcal using
+<code>sodium / energy_kcal * 2000</code>. Supply unadjusted mg/day; do
+not apply this adjustment twice. Average the same recalls’ daily inputs
+before scoring.</p>
+</div>
+<div id="score-the-inputs" class="section level3">
+<h3>Score the inputs</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>dash_inputs <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">dash_fruits =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">dash_vegetables =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">dash_nuts_and_legumes =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">dash_whole_grains =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">dash_low_fat_dairy =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">dash_sodium =</span> <span class="fu">c</span>(<span class="dv">3000</span>, <span class="dv">2000</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">dash_red_and_processed_meat =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">dash_sweetened_beverages =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="at">dash_energy_kcal =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2000</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>)</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>adults <span class="sc">|&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="fu">bind_cols</span>(dash_inputs) <span class="sc">|&gt;</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">diet_method =</span> <span class="st">&quot;dash&quot;</span>, <span class="at">reference =</span> <span class="st">&quot;nhanes_2015_2018&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="fu">select</span>(id, dash_total, diet_score)</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;   id      dash_total diet_score</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;int&gt;      &lt;dbl&gt;</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; 1 adult_1         27         80</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 2 adult_2         36        100</span></span></code></pre></div>
+<p>Raw DASH scoring also returns the eight component scores, such as
+<code>dash_low_fat_dairy_score</code>, so you can see which quintile
+each intake fell into.</p>
+</div>
+</div>
+<div id="calculate-hei-2015-from-raw-inputs" class="section level2">
+<h2>Calculate HEI-2015 from raw inputs</h2>
+<p>HEI-2015 uses fixed nutrition standards to calculate its raw score.
+Its nine adequacy components cover fruit, vegetables, whole grains,
+dairy, protein foods, and the balance of unsaturated to saturated fats.
+Its four moderation components cover refined grains, sodium, added
+sugars, and saturated fats. Each component contributes up to 5 or 10
+points, for a maximum total of 100. See the <a href="https://epi.grants.cancer.gov/hei/developing.html">NCI scoring
+standards</a>.</p>
+<p>Scores between the minimum and maximum standards are proportional.
+For example, 0.8 cup equivalents of total fruit per 1,000 kcal earns all
+5 fruit points; 0.4 earns 2.5. Higher intake beyond a component’s
+maximum standard does not add points. After summing the 13 components,
+the total is compared with the reference to assign LE8 points.</p>
+<div id="prepare-the-daily-inputs-1" class="section level3">
+<h3>Prepare the daily inputs</h3>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Columns, all prefixed with <code>hei2015_</code></th>
+<th align="left">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>energy_kcal</code></td>
+<td align="left">Positive kcal/day, including alcohol</td>
+</tr>
+<tr class="even">
+<td align="left"><code>total_fruits</code>, <code>whole_fruits</code>,
+<code>total_vegetables</code>, <code>greens_and_beans</code>,
+<code>dairy</code></td>
+<td align="left">Cup equivalents/day</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>whole_grains</code>,
+<code>total_protein_foods</code>,
+<code>seafood_and_plant_proteins</code>,
+<code>refined_grains</code></td>
+<td align="left">Ounce equivalents/day</td>
+</tr>
+<tr class="even">
+<td align="left"><code>polyunsaturated_fat</code>,
+<code>monounsaturated_fat</code>, <code>saturated_fat</code></td>
+<td align="left">Grams/day</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>sodium</code></td>
+<td align="left">mg/day</td>
+</tr>
+<tr class="even">
+<td align="left"><code>added_sugars</code></td>
+<td align="left">Teaspoon equivalents/day</td>
+</tr>
+</tbody>
+</table>
+<p>Include juice in total fruit but exclude it from whole fruit. Count
+legumes in both vegetable and protein groups, using the appropriate
+equivalents. Average the same recalls’ inputs before scoring.
+<code>essential8</code> calculates the densities, fat ratio, and energy
+percentages from these amounts, following the <a href="https://epi.grants.cancer.gov/hei/hei-scoring-method.html">NCI
+algorithm</a>.</p>
+</div>
+<div id="score-the-inputs-1" class="section level3">
+<h3>Score the inputs</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hei_inputs <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">hei2015_energy_kcal =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2000</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">hei2015_total_fruits =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">hei2015_whole_fruits =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">hei2015_total_vegetables =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">hei2015_greens_and_beans =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">hei2015_whole_grains =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">hei2015_dairy =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">hei2015_total_protein_foods =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">hei2015_seafood_and_plant_proteins =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="at">hei2015_polyunsaturated_fat =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">20</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="at">hei2015_monounsaturated_fat =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">25</span>),</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="at">hei2015_saturated_fat =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">15</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="at">hei2015_refined_grains =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="at">hei2015_sodium =</span> <span class="fu">c</span>(<span class="dv">3000</span>, <span class="dv">2000</span>),</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="at">hei2015_added_sugars =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">8</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>)</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>adults <span class="sc">|&gt;</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  <span class="fu">bind_cols</span>(hei_inputs) <span class="sc">|&gt;</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">diet_method =</span> <span class="st">&quot;hei2015&quot;</span>, <span class="at">reference =</span> <span class="st">&quot;nhanes_2015_2018&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  <span class="fu">select</span>(id, hei2015_total, diet_score)</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;   id      hei2015_total diet_score</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; 1 adult_1          61.1         50</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; 2 adult_2         100          100</span></span></code></pre></div>
+<p>Raw HEI-2015 scoring also returns all 13 component scores, such as
+<code>hei2015_total_fruits_score</code> and
+<code>hei2015_sodium_score</code>.</p>
+</div>
+</div>
+<div id="use-a-different-reference-when-needed" class="section level2">
+<h2>Use a different reference when needed</h2>
+<p>For existing scores or raw HEI-2015 inputs,
+<code>diet_reference()</code> defines total-score cutpoints at the 25th,
+50th, 75th, and 95th percentiles:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>custom <span class="ot">&lt;-</span> <span class="fu">diet_reference</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">p25 =</span> <span class="dv">40</span>, <span class="at">p50 =</span> <span class="dv">55</span>, <span class="at">p75 =</span> <span class="dv">65</span>, <span class="at">p95 =</span> <span class="dv">80</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;hei2015&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Example reference&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>adults <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hei2015 =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">70</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">score_le8</span>(<span class="at">diet_method =</span> <span class="st">&quot;hei2015&quot;</span>, <span class="at">reference =</span> custom) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">select</span>(id, hei2015, diet_score)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;   id      hei2015 diet_score</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; 1 adult_1      45         25</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; 2 adult_2      70         80</span></span></code></pre></div>
+<p>A reference must match the diet method, score definition, and
+population. For raw DASH with a different definition, supply
+<code>dash_cutpoints</code>: a list with four intake-quintile cutpoints
+for each of the eight fields and four total-score cutpoints in
+<code>total</code>. A reference containing only total-score cutpoints
+cannot define the intake quintiles.</p>
+<p>Explicit <code>dash_cutpoints</code> or
+<code>hei2015_cutpoints</code> bypass <code>reference</code>. With
+explicit DASH cutpoints, input units must match those used to derive the
+cutpoints. Energy is not required and sodium is not standardized. For
+raw HEI-2015, <code>hei2015_cutpoints</code> is a vector of four
+total-score cutpoints.</p>
+<p>Tied cutpoints are allowed. Equality with an intake-quintile cutpoint
+stays in the lower quintile; equality with a total-score cutpoint enters
+the higher LE8 band. The four total cutpoints identify bands, not an
+exact percentile for every possible score.</p>
+</div>
+<div id="practical-details" class="section level2">
+<h2>Practical details</h2>
+<ul>
+<li>Choose one method per call. Do not combine raw inputs with an
+existing index or observed percentile. An entirely missing
+<code>diet_value</code> column is ignored.</li>
+<li>For custom column names, use mappings such as
+<code>dash_columns = c(fruits = &quot;fruit_intake&quot;, energy_kcal = &quot;calories&quot;)</code>.
+<code>hei2015_columns</code> works the same way. Names are matched
+without regard to case.</li>
+<li>Every raw input column must be present once raw scoring is selected;
+an absent column is an error, so a misspelled name cannot silently
+produce missing diet scores. Missing values within a column are
+allowed.</li>
+<li>Missing inputs stay missing. A raw total requires all its
+components; <code>min_components</code> controls the LE8 composite, not
+a partial diet total. Available HEI component scores are still
+returned.</li>
+</ul>
+<p>See <code>?score_le8</code> for the full input rules. The
+repository’s <a href="https://github.com/thatoneguy006/essential8/blob/HEAD/data-raw/README.md">reference
+documentation</a> records the FPED conversions, food-code lists, sample
+selection, and survey methods. Its build script and source manifest
+record how the packaged references were produced.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

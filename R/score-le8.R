@@ -1,32 +1,122 @@
 #' Score Life's Essential 8 cardiovascular health
 #'
 #' @description
-#' Computes the eight adult Life's Essential 8 (LE8) component scores and
-#' the composite score using the American Heart Association's 2022
-#' Presidential Advisory. Component scores are calculated wherever sufficient
-#' inputs are available, without imputing missing values. This implementation
-#' applies only to adults aged 20 years or older.
+#' Computes the eight Life's Essential 8 (LE8) component scores and the
+#' composite score using the American Heart Association's 2022 Presidential
+#' Advisory. Rows aged 20 years or older are scored with the adult
+#' definitions; rows aged 4 months to 19 years are scored with the pediatric
+#' definitions. Component scores are calculated wherever sufficient inputs are
+#' available, without imputing missing values.
 #'
-#' @param data A data frame with one row per adult and the input columns
-#'   described below.
+#' @param data A data frame with one row per person (or visit) and the input
+#'   columns described below. Adults and children may be mixed.
 #' @param diet_method A single diet-scoring method applied to every row in
-#'   `data`: `"mepa"` (the default) or `"percentile"`. Values are matched
-#'   case-insensitively. Score data that use different methods in separate
-#'   calls.
+#'   `data`: `"mepa"` (the default), `"dash"`, `"hei2015"`, or `"percentile"`.
+#'   Values are matched case-insensitively. Score data that use different
+#'   methods in separate calls.
 #' @param mepa_columns `NULL`, or a named character vector mapping canonical
-#'   MEPA fields to columns in `data`. The names are canonical fields and the
-#'   values are actual column names. Unmapped fields use their canonical names.
+#'   MEPA fields to columns in `data`. The names are canonical fields (the 16
+#'   screener items, `sex`, and `milk_source`) and the values are actual
+#'   column names. Unmapped fields use their canonical names.
 #' @param min_components A single integer from 1 to 8 specifying the minimum
 #'   number of non-missing LE8 component scores required to calculate
 #'   `le8_composite_score`. The default is 7. Available component scores are
-#'   averaged without imputation; observations below the threshold receive
-#'   `NA_real_`.
+#'   averaged without imputation, which treats a missing component as equal
+#'   to the average of the others; observations below the threshold receive
+#'   `NA_real_`. Pediatric data usually need a lower value; see
+#'   *Pediatric scoring*. To account for missing inputs instead, use
+#'   `impute`.
+#' @param dash_columns,hei2015_columns `NULL`, or named character vectors
+#'   mapping canonical DASH or HEI-2015 fields to columns in `data`. Unmapped
+#'   fields default to the canonical name prefixed with `dash_` or `hei2015_`.
+#'   Names and input column names are matched case-insensitively.
+#' @param dash_cutpoints `NULL` to use the packaged DASH intake quintiles and
+#'   total-score cutpoints, or a named list
+#'   containing the eight canonical DASH fields and `total`. Each intake
+#'   vector contains four nondecreasing reference quintile cutpoints (20th,
+#'   40th, 60th, 80th percentiles), in the same units as the inputs. `total`
+#'   contains four nondecreasing reference DASH-total cutpoints (25th, 50th,
+#'   75th, 95th percentiles), each from 8 to 40. Tied cutpoints are allowed.
+#'   Explicit cutpoints bypass `reference` and use inputs in their supplied
+#'   units, without energy standardization, preserving existing calls.
+#' @param hei2015_cutpoints `NULL` to use `reference`, or four
+#'   nondecreasing reference HEI-2015-total cutpoints (25th, 50th, 75th, 95th
+#'   percentiles), each from 0 to 100. Tied cutpoints are allowed.
+#' @param impute Whether to multiply impute missing inputs before scoring:
+#'   `FALSE` (the default), `TRUE` for the default settings, or
+#'   [le8_imputation_control()] to set the number of imputations, a seed,
+#'   auxiliary predictors, and other [mice::mice()] arguments. Requires the
+#'   mice package and `diet_method = "mepa"`. See *Multiple imputation*.
+#' @param reference `"nhanes_2015_2018"` (the default), or a method-matched
+#'   [diet_reference()] object. Used for already-computed indices and raw
+#'   intake scoring when explicit cutpoints are absent. Raw DASH requires the
+#'   packaged reference's intake quintiles; for other DASH definitions, supply
+#'   `dash_cutpoints`. Direct percentiles and explicit raw cutpoints bypass
+#'   reference lookup.
+#'   The built-in references describe nonpregnant adults aged 20+ with two
+#'   reliable recalls; they are derived estimates, not AHA-published cutpoints,
+#'   and are refused for pediatric rows.
+#'
+#' @section Diet scoring methods:
+#' MEPA retains the individual assessment pathway. For population research,
+#' `diet_method = "dash"` accepts an already-computed index in `dash`, and
+#' `diet_method = "hei2015"` accepts an already-computed index in `hei2015`.
+#' Either method alternatively accepts a percentile in `diet_value` (0 to 100).
+#' Both methods also calculate raw totals from the intake fields below, using
+#' the packaged reference by default. Raw HEI-2015 also accepts a custom
+#' `diet_reference()`; raw DASH supports custom definitions via `dash_cutpoints`.
+#' Do not supply both the index column and an observed percentile; an
+#' entirely missing `diet_value` column is ignored. Data with no diet inputs
+#' retain the package's usual missing-component behavior. Once raw scoring is
+#' selected, every raw input column must be present (values may be missing);
+#' an absent column is an error rather than a silently missing diet score.
+#'
+#' An index is compared with fixed reference cutpoints to identify its
+#' percentile category. The package does not estimate an exact percentile
+#' from four cutpoints, or rank the current cohort against itself. Specify
+#' `reference = "nhanes_2015_2018"` explicitly in reproducible analyses.
+#'
+#' The built-in DASH reference is specifically the 8-to-40 Fung-style FPED
+#' construction identified as `essential8_fung_fped_v1`; it requires matching
+#' food definitions, pooled weighted intake quintiles, and tie handling.
+#' Other DASH definitions need a custom reference. HEI-2015 indices must be
+#' constructed using an appropriate established method; the built-in reference
+#' uses individual scoring after averaging the same two recalls' constituents
+#' and energy. It is not a usual-intake or population-ratio estimate. Both
+#' references use NHANES 2015-2016 and 2017-2018, two-day dietary weights divided
+#' by two, and the NHANES strata and PSU design. Detailed methodology, source
+#' URLs, hashes, sample counts, and index definitions accompany the references
+#' and the maintainer script `data-raw/build_diet_references.R` in the repository.
+#'
+#' Fractional inputs confined to 0-1 (other than endpoints alone) are rejected
+#' as apparent proportions; supply percentile points, such as 95, not 0.95.
+#' This safeguard also rejects a batch consisting only of genuine fractional
+#' percentiles below 1. Values are never automatically multiplied by 100.
+#'
+#' Supply one input pathway per call: raw intake, a precomputed index, or a
+#' percentile. Raw intake fields cannot be combined with a precomputed index
+#' or observed percentile. Raw fields are food-group and nutrient summaries,
+#' prepared before scoring; the function does not parse dietary-recall files.
+#' See `vignette("population-diets")` for executable examples and units.
 #'
 #' @section Input columns:
-#' * `age`: Age in years; must be present, complete, and at least 20.
+#' The column names below are case-sensitive; a name that differs only by
+#' case (for example `BMI`) is an error. MEPA, DASH, and HEI-2015 diet fields
+#' are matched case-insensitively. A column whose values are all missing may
+#' be logical `NA` (as `read.csv()` produces for a blank column). Columns that
+#' only apply to adults or only to children are ignored for other rows.
+#'
+#' * `age`: Age in years; must be present, complete, and at least 4 months
+#'   (1/3 year). Rows aged 20 or older are scored as adults.
+#' * `age_months`: Optional age in months, used for the pediatric age bands
+#'   when observed. It must fall within the same completed year as `age`.
 #' * For `diet_method = "mepa"`, the 16 Table C screener-item columns named
-#'   below and `sex` (or `female` when `sex` is absent).
-#'   The item names are matched exactly after case normalization. Supply daily
+#'   below and `sex` (or `female` when `sex` is absent). The same columns
+#'   serve children; see *Pediatric input columns* for which items each age
+#'   uses. The item names are matched exactly after case normalization. If any
+#'   screener item is present, every field used at the ages in `data` is
+#'   required (all 16 items and sex when any row is aged 6 or older); omitting
+#'   every item leaves the diet component missing. Supply daily
 #'   servings in `olive_oil`, `green_leafy_vegetables`, `other_vegetables`, and
 #'   `whole_grains`; supply weekly servings or frequency in `berries`,
 #'   `other_fruit`, `meat`, `fish`, `chicken`, `cheese`, `butter_cream`,
@@ -35,25 +125,62 @@
 #'   Sex may be encoded as `"m"`/`"f"`, `"male"`/`"female"`, or `0`/`1`,
 #'   where `0` is male and `1` is female. Character encodings are matched
 #'   case-insensitively, and character `"0"`/`"1"` values are also accepted.
-#' * `diet_value`: Used when `diet_method = "percentile"`. Supply a DASH or
-#'   HEI-2015 percentile from 1 to 100, calculated against the relevant
+#'   A logical `female` column (`TRUE` for female) is also accepted.
+#' * `dash` or `hei2015`: An already-computed index for the selected population
+#'   diet method. HEI-2015 is bounded by 0 to 100. The built-in DASH reference
+#'   requires its documented 8-to-40 definition; custom DASH references can
+#'   specify other index ranges. These columns are unrelated to MEPA.
+#' * For raw DASH scoring, supply daily intakes in `dash_fruits`,
+#'   `dash_vegetables`, `dash_nuts_and_legumes`, `dash_whole_grains`,
+#'   `dash_low_fat_dairy`, `dash_red_and_processed_meat`, and
+#'   `dash_sweetened_beverages`; supply sodium in mg/day in `dash_sodium`.
+#'   Canonical mapping fields omit the `dash_` prefix. Fruits include juice;
+#'   vegetables exclude potatoes and legumes. Food groups and serving
+#'   definitions must match the reference. With the packaged reference, also
+#'   supply positive kcal/day in `dash_energy_kcal`; sodium is standardized to
+#'   2,000 kcal before scoring. Other fields must use the FPED-derived units
+#'   and definitions in `vignette("population-diets")`, including fruit cup
+#'   equivalents, whole-grain ounce equivalents, and the specified vegetable,
+#'   dairy, protein, and beverage conversions. With explicit `dash_cutpoints`,
+#'   energy is not required and no standardization is applied.
+#' * For raw HEI-2015 scoring, supply `hei2015_energy_kcal` (positive
+#'   kcal/day, including alcohol); cup equivalents/day in
+#'   `hei2015_total_fruits`, `hei2015_whole_fruits`,
+#'   `hei2015_total_vegetables`, `hei2015_greens_and_beans`, and
+#'   `hei2015_dairy`; ounce equivalents/day in `hei2015_whole_grains`,
+#'   `hei2015_total_protein_foods`, `hei2015_seafood_and_plant_proteins`, and
+#'   `hei2015_refined_grains`; grams/day in `hei2015_polyunsaturated_fat`,
+#'   `hei2015_monounsaturated_fat`, and `hei2015_saturated_fat`; mg/day in
+#'   `hei2015_sodium`; and teaspoon equivalents/day in `hei2015_added_sugars`.
+#'   Canonical mapping fields omit the `hei2015_` prefix. Food-group totals
+#'   must already include legumes in both vegetable and protein components
+#'   as specified by HEI-2015. Total fruits include juice; whole fruits do not.
+#' * `diet_value`: A direct percentile for `"dash"`, `"hei2015"`, or the
+#'   backward-compatible generic `"percentile"` method. Supply a DASH or
+#'   HEI-2015 percentile from 0 to 100, calculated against the relevant
 #'   reference distribution. The function does not rank supplied rows against
 #'   one another. If this column is absent or missing, the diet score is
-#'   missing. If it is present for MEPA data, all its values must be missing.
+#'   missing. MEPA and raw-intake calls require it to be absent
+#'   or entirely missing.
 #' * `moderate_activity_minutes` and `vigorous_activity_minutes`: Weekly
-#'   minutes. Each vigorous minute counts as two moderate-equivalent minutes.
-#' * `smoking_status`: One of `"never"`, `"former"`, or `"current"`.
+#'   minutes. For adults, each vigorous minute counts as two
+#'   moderate-equivalent minutes; for children aged 6 to 19, every minute
+#'   counts once.
+#' * `smoking_status`: One of `"never"`, `"former"`, or `"current"`. See
+#'   *Pediatric input columns* for the pediatric meaning.
 #' * `years_since_quit`: Years since quitting combustible tobacco. This is
-#'   used only when `smoking_status` is `"former"`.
+#'   used only for adults whose `smoking_status` is `"former"`.
 #' * `current_inhaled_nds`: Whether an inhaled nicotine-delivery system is
 #'   currently used.
-#' * `secondhand_smoke_home`: Whether the adult lives with an active indoor
+#' * `secondhand_smoke_home`: Whether the person lives with an active indoor
 #'   smoker.
-#' * `sleep_hours`: Average hours of sleep per night.
-#' * `bmi`: Body mass index in kg/m^2. Values below 18.5 are not scored because
-#'   the AHA advisory defers to clinician judgment for underweight adults.
-#' * `bmi_profile`: Either `"general"` or `"asian_pacific"`. The function
-#'   never infers a profile from race or ethnicity.
+#' * `sleep_hours`: Average hours of sleep per night (per 24 hours, including
+#'   naps, for children aged 5 or younger).
+#' * `bmi`: Adult body mass index in kg/m^2. Values below 18.5 are not scored
+#'   because the AHA advisory defers to clinician judgment for underweight
+#'   adults.
+#' * `bmi_profile`: Either `"general"` or `"asian_pacific"` (adults). The
+#'   function never infers a profile from race or ethnicity.
 #' * `non_hdl_cholesterol`: Non-HDL cholesterol in mg/dL.
 #' * `lipid_lowering_treatment`: Whether the lipid value is drug treated.
 #' * `diabetes`: Whether diabetes has been diagnosed.
@@ -68,27 +195,118 @@
 #' Component input columns may contain missing values or be omitted. A
 #' component score is `NA_real_` when its available inputs are insufficient.
 #' Missing values are never imputed. A warning is emitted when an entire LE8
-#' component cannot be calculated for any observation.
+#' component cannot be calculated for any observation where AHA defines it.
+#'
+#' @section Pediatric scoring:
+#' Rows aged 4 months to 19 years use the children column of Table 1 of the
+#' advisory and the suggested rules for younger children in its Supplemental
+#' Appendix 2:
+#'
+#' * Diet: MEPA (the adult 16-item screener and adult bands at ages 6-19; a
+#'   10-item subset at 10 points per item at ages 2-5; a 6-item subset at
+#'   ages 6-23 months), or population percentiles at ages 2-19. Not scored
+#'   before 6 months.
+#' * Physical activity: daily active play at ages 1-5; weekly moderate or
+#'   vigorous minutes at ages 6-19. Not scored before 1 year.
+#' * Nicotine exposure, sleep, BMI, blood lipids, and blood glucose: all
+#'   pediatric ages, with age-appropriate sleep ranges, growth-chart BMI
+#'   (weight-for-length or BMI percentile before age 2), and pediatric non-HDL
+#'   cholesterol bands. Glucose uses the adult table.
+#' * Blood pressure: AAP 2017 percentile categories at ages 1-12, adult bands
+#'   at ages 13-19. Not scored before 1 year.
+#'
+#' Components AHA does not define at a row's age are `NA` and are not counted
+#' toward `min_components`; a message notes any such inputs that were
+#' supplied. AHA recommends averaging the components that are available and
+#' appropriate for measurement in children (the NHANES analysis averaged as few
+#' as three), so pediatric analyses usually set a lower `min_components`.
+#' [add_pediatric_references()] can derive the growth-chart and
+#' blood-pressure reference inputs. See `vignette("pediatric-scoring")`.
+#'
+#' Where the sources conflict, the package follows the more specific rule:
+#' the supplement's 2-5 year diet rule (10 points per item) rather than the
+#' Table 1 bands; and, for 6-23 month weight, the supplement's explicit 0-point worst state
+#' (at or above the 99.7th percentile with rapid gain) rather than its
+#' decrements, which would leave 25. Nineteen-year-olds use the 13-18 year
+#' sleep range (8 to 10 hours), the last range AHA lists.
+#'
+#' @section Pediatric input columns:
+#' * `smoking_status`: `"never"` (never tried any nicotine product),
+#'   `"former"` (tried a nicotine product, but not within 30 days), or
+#'   `"current"` (combustible use within 30 days). `current_inhaled_nds` is
+#'   inhaled-NDS use within 30 days and caps the score at 25. Record
+#'   `"never"` and `FALSE` for young children without exposure;
+#'   `secondhand_smoke_home` applies at every age.
+#' * `active_play_minutes`: Ages 1-5. Average daily minutes of active play of
+#'   any intensity over 7 days.
+#' * `bmi_percentile` and `bmi_percent_of_p95`: Ages 2-19. CDC BMI-for-age
+#'   percentile (0-100) and BMI as a percentage of the 95th percentile (for
+#'   example, 125). The latter is used only at or above the 95th percentile.
+#'   Percentiles below the 5th are rejected because AHA defers to clinician
+#'   judgment.
+#' * `infant_weight_percentile` and `infant_weight_z_change`: Under age 2.
+#'   WHO weight-for-length (or BMI-for-age) percentile, and the increase in
+#'   the matching z-score since the prior routine visit (for example, since
+#'   age 1 month). The change is required from 6 months; 0.67 or more counts
+#'   as rapid weight gain.
+#' * `systolic_bp_p90`, `systolic_bp_p95`, `diastolic_bp_p90`, and
+#'   `diastolic_bp_p95`: Ages 1-12. The child's AAP 2017 90th and 95th
+#'   blood-pressure percentiles in mm Hg for age, sex, and height.
+#' * MEPA, ages 2-5: ten of the adult items. Vegetables are
+#'   `green_leafy_vegetables + other_vegetables` (at least 2 per day) and
+#'   fruit is `berries + other_fruit` (at least 14 per week, i.e. 2 per day);
+#'   `whole_grains` (3+ per day), `olive_oil` (1+ per day), `fish` (1+ per
+#'   week), `nuts` (4+ per week), `meat` (3 or fewer per week),
+#'   `butter_cream` (3 or fewer per week), `sweets_and_pastries` (3 or fewer
+#'   per week), and `fast_food` (2 or fewer per month, i.e. at most 24/52 per
+#'   week). For children under 6, `sweets_and_pastries` should include
+#'   sugar-sweetened beverages.
+#' * MEPA, ages 6-23 months: vegetables and fruit as above (at least 1 per
+#'   day before 12 months, 2 per day from 12 months), `whole_grains` (same
+#'   thresholds), no sweets or sugar-sweetened beverages, no fast food, and
+#'   `milk_source`: `"human"`, `"cow"`, `"formula"`, or `"other"`. Human milk
+#'   meets the item before 12 months; human or cow's milk from 12 months.
 #'
 #' @section Optional clinical-judgment columns:
 #' * `apply_lean_muscular_bmi_override`: A caller-adjudicated flag asserting
 #'   that a lean, higher-muscle-mass adult in the general BMI profile has a BMI
 #'   from 25 to less than 30 and should receive 100 BMI points. If absent, the
-#'   standard BMI band is used.
+#'   standard BMI band is used. Not defined for children.
 #' * `apply_sleep_apnea_penalty`: If `TRUE`, subtract 20 points for untreated
-#'   or undertreated sleep apnea. If absent, no discretionary penalty is
-#'   applied.
+#'   or undertreated sleep apnea (adults or children). If absent, no
+#'   discretionary penalty is applied.
 #' * `apply_prediabetes_metformin_penalty`: A caller-adjudicated flag asserting
-#'   that the adult has a history of prediabetes, is taking metformin to
+#'   that the person has a history of prediabetes, is taking metformin to
 #'   prevent diabetes, is currently normoglycemic, and the clinician chose to
 #'   apply the AHA's discretionary 20-point decrement. If absent, no
 #'   discretionary penalty is applied.
 #'
 #' @section Source-constrained behavior:
 #' The function derives the 0-to-16 MEPA total from the 16 raw screener
-#' responses. For population scoring, callers must supply a
-#' DASH or HEI-2015 percentile calculated against the relevant reference
-#' population; the rows in `data` are not their own reference distribution.
+#' responses. Raw DASH scoring uses the eight-component Fung index: five food
+#' groups receive 1 to 5 points by intake quintile; sodium, red/processed meat,
+#' and sweetened beverages receive 5 to 1. Intakes equal to a quintile cutpoint
+#' stay in the lower quintile. Their sum is `dash_total` (8 to 40).
+#'
+#' Raw HEI-2015 calls compute 13 density, fatty-acid-ratio, and energy-percentage
+#' components with proportional scoring between the published standards.
+#' Added sugars use 16 kcal per teaspoon equivalent; saturated fat uses
+#' 9 kcal per gram. Scores are capped at each component's maximum. Their sum
+#' is `hei2015_total` (0 to 100), which is distinct from the LE8 diet score.
+#' With zero saturated fat and positive unsaturated fat, the fatty-acid
+#' component receives 10 points; with all three fats zero it receives zero,
+#' following the NCI scoring macro. Missing inputs are never treated as zero;
+#' a total requires all of its diet components, regardless of `min_components`.
+#'
+#' Raw DASH and HEI-2015 totals are converted to LE8 scores of 0, 25, 50, 80,
+#' or 100 using fixed reference total-score cutpoints. Equality enters the
+#' higher LE8 band. Explicit cutpoints override the packaged reference and
+#' must come from a suitable fixed reference population, using appropriate
+#' survey weights and strata where applicable. Cutpoints are never inferred
+#' from `data`. For references requiring
+#' different cutpoints by stratum, score strata in separate calls. Alternatively,
+#' `diet_method = "percentile"` accepts externally calculated DASH or HEI-2015
+#' percentiles. The rows in `data` are never ranked against one another.
 #'
 #' The AHA table applies 20-point treatment decrements to blood-lipid and
 #' blood-pressure scores. These components are floored at zero, consistent
@@ -99,17 +317,77 @@
 #' Combinations without a source-defined score, including simultaneous current
 #' combustible smoking and current inhaled-NDS use, produce a structured error.
 #'
+#' Input errors inherit from `essential8_input_error` and `essential8_error`.
+#' General and adult errors also carry `essential8_adult_input_error`, as in
+#' earlier versions; pediatric-only errors carry
+#' `essential8_pediatric_input_error`.
+#'
+#' @section Multiple imputation:
+#' With `impute`, `score_le8()` fills in missing inputs with [mice::mice()]
+#' several times, scores every completed data set, and returns them stacked.
+#' The imputation:
+#'
+#' 1. checks the observed values, so data that cannot be scored stop before
+#'    imputation;
+#' 2. imputes an input only for participants whose age uses it (adult BMI is
+#'    never imputed for a child, for example), predicting it from age, the
+#'    other inputs available for the same participants, and any `auxiliary`
+#'    columns;
+#' 3. uses predictive mean matching for numeric inputs, so imputed values are
+#'    always values observed in someone else, and logistic or multinomial
+#'    regression for categorical inputs;
+#' 4. never imputes a combination the AHA scoring rules do not score, such as
+#'    diagnosed diabetes without an HbA1c, current smoking with current
+#'    inhaled-NDS use, or a fasting glucose of 126 mg/dL or more without
+#'    diagnosed diabetes.
+#'
+#' `min_components` then applies to each completed data set as usual.
+#' [summary()][summary.essential8_imputed_scores()], dplyr
+#' [summarise()][summarise.essential8_imputed_scores()], and `plot()` pool
+#' the results across imputations with Rubin's rules. See
+#' [le8_imputation_setup()] for the full rules, and to inspect or adjust them.
+#'
+#' Imputation assumes values are missing at random given the variables in the
+#' imputation models; include the variables used in later analyses, such as
+#' exposures and outcomes, with `le8_imputation_control(auxiliary = )`.
+#'
 #' @return
-#' A data frame containing the original columns plus
-#' `mepa_total` (missing for population-percentile rows),
-#' `physical_activity_moderate_equivalent_minutes`, the eight component score
-#' columns prefixed with `le8_`, `le8_n_components`, `le8_composite_score`,
-#' `le8_complete`, and `le8_category`. The component count reports how many
+#' An `essential8_scores` object: `data`, with its original class (so tibbles
+#' and grouped tibbles are returned as such) and columns, plus
+#' `mepa_total` (items met on the age-appropriate MEPA screener: 0-16 from
+#' age 6, 0-10 at ages 2-5, 0-6 at 6-23 months), `dash_total`, and
+#' `hei2015_total` (missing unless calculated from the corresponding raw
+#' inputs), `physical_activity_moderate_equivalent_minutes` (weekly minutes
+#' used for adults and children aged 6+), the eight component scores
+#' (`diet_score`, `physical_activity_score`, `nicotine_score`, `sleep_score`,
+#' `bmi_score`, `blood_lipids_score`, `blood_glucose_score`, and
+#' `blood_pressure_score`), `n_components`, `le8_composite_score`,
+#' `le8_complete`, `le8_category`, and `le8_population` (`"adult"` or
+#' `"pediatric"`). The component count reports how many
 #' scores contributed to the composite score; `le8_complete` is `TRUE`
 #' only when all eight components are available. Categories are `"low"` for
 #' scores below 50, `"moderate"` for scores from 50 to less than 80, and
 #' `"high"` for scores of at least 80. The category is missing when the
 #' composite score is missing.
+#' For raw DASH calls, the eight component scores (1 to 5 points each) are
+#' also appended as `dash_<field>_score`; they sum to `dash_total`.
+#' For raw HEI-2015 calls, the 13 component scores are also appended as
+#' `hei2015_<component>_score`, including `fatty_acids` and `saturated_fats`.
+#'
+#' With `impute`, an `essential8_imputed_scores` object instead: the scored
+#' completed data sets stacked, with the imputation number in `.imp` and the
+#' row of `data` in `.id`. It is a data frame, or a tibble for tibble input
+#' (ungrouped). The `mids` object from mice is kept as `attr(x, "mids")` for
+#' diagnostics, for example `plot(attr(x, "mids"))` to check convergence.
+#'
+#' `data` must not already contain any of these output columns (compared
+#' case-insensitively), or the `le8_`-prefixed component names used by
+#' essential8 0.3.0 and earlier; rename or remove them first.
+#'
+#' The `essential8_scores` class adds [summary()][summary.essential8_scores()],
+#' [tidy()][tidy.essential8_scores()], [plot()][plot.essential8_scores()], and
+#' dplyr [summarise()][summarise.essential8_scores()] methods. See
+#' [as_le8_scores()] for when the class is kept and how to restore it.
 #'
 #' @references
 #' Lloyd-Jones DM, Allen NB, Anderson CAM, et al. (2022). Life's Essential 8:
@@ -122,8 +400,32 @@
 #' Life's Essential 8 Metrics. *Circulation*, 146(11), 822-835.
 #' \doi{10.1161/CIRCULATIONAHA.122.060911}
 #'
-#' @examples
-#' patient <- data.frame(
+#' Flynn JT, Kaelber DC, Baker-Smith CM, et al. (2017). Clinical Practice
+#' Guideline for Screening and Management of High Blood Pressure in Children
+#' and Adolescents. *Pediatrics*, 140(3), e20171904.
+#' \doi{10.1542/peds.2017-1904}
+#'
+#' Fung TT, Chiuve SE, McCullough ML, et al. (2008). Adherence to a DASH-Style
+#' Diet and Risk of Coronary Heart Disease and Stroke in Women.
+#' *Archives of Internal Medicine*, 168(7), 713-720.
+#' \doi{10.1001/archinte.168.7.713}
+#'
+#' Krebs-Smith SM, Pannucci TE, Subar AF, et al. (2018). Update of the Healthy
+#' Eating Index: HEI-2015. *Journal of the Academy of Nutrition and Dietetics*,
+#' 118(9), 1591-1602. \doi{10.1016/j.jand.2018.05.021}
+#' See also the National Cancer Institute's
+#' \href{https://epi.grants.cancer.gov/hei/developing.html}{scoring standards}
+#' and \href{https://epi.grants.cancer.gov/hei/hei-scoring-method.html}{algorithm}.
+#'
+#' @seealso [summary.essential8_scores()], [tidy.essential8_scores()], and
+#'   [plot.essential8_scores()] to summarize, reshape, and plot the scores;
+#'   [add_pediatric_references()] to derive pediatric growth-chart and
+#'   blood-pressure inputs; [diet_reference()] for custom diet references.
+#'
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
+#' library(dplyr)
+#'
+#' patient <- tibble(
 #'   id = "patient_1",
 #'   age = 55,
 #'   sex = "female",
@@ -166,908 +468,250 @@
 #' )
 #'
 #' scores <- score_le8(patient, diet_method = "mepa")
-#' scores[
-#'   c(
-#'     "id",
-#'     "mepa_total",
-#'     "le8_diet_score",
-#'     "le8_composite_score",
-#'     "le8_category"
-#'   )
-#' ]
+#' select(scores, id, mepa_total, diet_score, le8_composite_score,
+#'        le8_category)
 #'
+#' # A 4-year-old with the preschool diet screener and no laboratory values.
+#' child <- tibble(
+#'   id = "child_1",
+#'   age = 4,
+#'   # Ten MEPA items apply at ages 2-5; sweets include sugary drinks.
+#'   green_leafy_vegetables = 1, other_vegetables = 1, # servings per day
+#'   berries = 7, other_fruit = 14,                     # servings per week
+#'   whole_grains = 2, olive_oil = 1,                   # servings per day
+#'   sweets_and_pastries = 2, meat = 2, fish = 1,       # servings per week
+#'   nuts = 2, butter_cream = 1,
+#'   fast_food = 0.25,                                  # times per week
+#'   active_play_minutes = 160,
+#'   smoking_status = "never", current_inhaled_nds = FALSE,
+#'   secondhand_smoke_home = FALSE,
+#'   sleep_hours = 11,
+#'   bmi_percentile = 60, bmi_percent_of_p95 = 85,
+#'   systolic_bp = 98, diastolic_bp = 58,
+#'   systolic_bp_p90 = 103, systolic_bp_p95 = 107,
+#'   diastolic_bp_p90 = 63, diastolic_bp_p95 = 67,
+#'   antihypertensive_treatment = FALSE
+#' )
+#'
+#' child_scores <- score_le8(child, min_components = 5)
+#' select(child_scores, id, mepa_total, ends_with("_score"), n_components)
+#'
+#' @examplesIf requireNamespace("mice", quietly = TRUE)
+#'
+#' # Multiply impute missing inputs, then pool the scores.
+#' adults <- read.csv(system.file(
+#'   "extdata", "le8-adult-example.csv", package = "essential8"
+#' ))
+#' adults <- adults[!startsWith(names(adults), "expected_")]
+#' adults$non_hdl_cholesterol[c(2, 5)] <- NA
+#'
+#' imputed <- score_le8(adults, impute = le8_imputation_control(m = 5, seed = 1))
+#' summary(imputed)
 #' @export
 score_le8 <- function(
   data,
   diet_method = "mepa",
   mepa_columns = NULL,
-  min_components = 7L
+  min_components = 7L,
+  dash_columns = NULL,
+  dash_cutpoints = NULL,
+  hei2015_columns = NULL,
+  hei2015_cutpoints = NULL,
+  reference = "nhanes_2015_2018",
+  impute = FALSE
 ) {
   min_components <- .validate_min_components(min_components)
-  diet_method <- .normalize_adult_diet_method(diet_method)
-  input_columns <- names(data)
-  data <- .validate_le8_adult_data(data, diet_method)
-  input_data <- data[input_columns]
-
-  sleep_apnea_penalty <- .optional_adult_flag(
-    data,
-    "apply_sleep_apnea_penalty"
+  diet_method <- .normalize_diet_method(diet_method)
+  .check_diet_arguments(
+    diet_method, mepa_columns, dash_columns, dash_cutpoints,
+    hei2015_columns, hei2015_cutpoints
   )
-  prediabetes_metformin_penalty <- .optional_adult_flag(
-    data,
-    "apply_prediabetes_metformin_penalty"
-  )
-  lean_muscular_bmi_override <- .optional_adult_flag(
-    data,
-    "apply_lean_muscular_bmi_override"
-  )
-
-  diet_methods <- rep(diet_method, nrow(data))
-  smoking_status <- as.character(data$smoking_status)
-  bmi_profile <- as.character(data$bmi_profile)
-  glucose_measure <- as.character(data$glucose_measure)
-
-  activity_minutes <- data$moderate_activity_minutes +
-    2 * data$vigorous_activity_minutes
-
-  mepa_rows <- diet_methods == "mepa"
-  percentile_rows <- diet_methods == "percentile"
-  mepa_total <- .compute_adult_mepa_total(
-    data = data,
-    rows = mepa_rows,
-    mepa_columns = mepa_columns,
-    require_schema = diet_method == "mepa"
-  )
-  diet_value <- rep(NA_real_, nrow(data))
-  diet_value[mepa_rows] <- mepa_total[mepa_rows]
-  if (any(percentile_rows)) {
-    diet_value[percentile_rows] <- data$diet_value[percentile_rows]
+  imputation <- .resolve_impute(impute)
+  if (!is.null(imputation)) {
+    return(.score_le8_with_imputation(
+      data,
+      control = imputation,
+      score_args = list(
+        diet_method = diet_method,
+        mepa_columns = mepa_columns,
+        min_components = min_components,
+        reference = reference
+      ),
+      call = rlang::current_env()
+    ))
   }
-  diet_score <- .score_adult_diet(method = diet_methods, value = diet_value)
-  physical_activity_score <- .score_adult_physical_activity(
-    activity_minutes
-  )
-  nicotine_score <- .score_adult_nicotine(
-    smoking_status = smoking_status,
-    years_since_quit = data$years_since_quit,
-    current_inhaled_nds = data$current_inhaled_nds,
-    secondhand_smoke_home = data$secondhand_smoke_home
-  )
-  sleep_score <- .score_adult_sleep(
-    hours = data$sleep_hours,
-    apply_apnea_penalty = sleep_apnea_penalty
-  )
-  bmi_score <- .score_adult_bmi(
-    bmi = data$bmi,
-    profile = bmi_profile,
-    apply_lean_muscular_override = lean_muscular_bmi_override
-  )
-  blood_lipids_score <- .score_adult_blood_lipids(
-    non_hdl = data$non_hdl_cholesterol,
-    treated = data$lipid_lowering_treatment
-  )
-  blood_glucose_score <- .score_adult_blood_glucose(
-    diabetes = data$diabetes,
-    measure = glucose_measure,
-    value = data$glucose_value,
-    apply_prevention_penalty = prediabetes_metformin_penalty
-  )
-  blood_pressure_score <- .score_adult_blood_pressure(
-    systolic = data$systolic_bp,
-    diastolic = data$diastolic_bp,
-    treated = data$antihypertensive_treatment
+
+  original_data <- data
+  input_columns <- names(data)
+  data <- .prepare_le8_data(data, diet_method)
+  age <- .le8_age(data)
+  .check_le8_domains(data, age, diet_method)
+
+  diet <- .score_le8_diet(
+    data, age, diet_method, input_columns,
+    mepa_columns = mepa_columns,
+    dash_columns = dash_columns,
+    dash_cutpoints = dash_cutpoints,
+    hei2015_columns = hei2015_columns,
+    hei2015_cutpoints = hei2015_cutpoints,
+    reference = reference
   )
 
   scores <- data.frame(
-    mepa_total = mepa_total,
-    physical_activity_moderate_equivalent_minutes = activity_minutes,
-    le8_diet_score = diet_score,
-    le8_physical_activity_score = physical_activity_score,
-    le8_nicotine_score = nicotine_score,
-    le8_sleep_score = sleep_score,
-    le8_bmi_score = bmi_score,
-    le8_blood_lipids_score = blood_lipids_score,
-    le8_blood_glucose_score = blood_glucose_score,
-    le8_blood_pressure_score = blood_pressure_score,
+    mepa_total = diet$mepa_total,
+    dash_total = diet$dash_total,
+    hei2015_total = diet$hei2015_total,
+    physical_activity_moderate_equivalent_minutes = .le8_activity_minutes(data, age),
+    diet_score = diet$score,
+    physical_activity_score = .score_le8_physical_activity(data, age),
+    nicotine_score = .score_le8_nicotine(data, age),
+    sleep_score = .score_le8_sleep(data, age),
+    bmi_score = .score_le8_bmi(data, age),
+    blood_lipids_score = .score_le8_blood_lipids(data, age),
+    blood_glucose_score = .score_le8_blood_glucose(data),
+    blood_pressure_score = .score_le8_blood_pressure(data, age),
     stringsAsFactors = FALSE,
     check.names = FALSE
   )
-
-  scores <- .add_le8_composite(scores, min_components)
-  le8_category <- rep(NA_character_, nrow(scores))
-  le8_category[which(scores$le8_composite_score < 50)] <- "low"
-  le8_category[
-    which(
-      scores$le8_composite_score >= 50 &
-        scores$le8_composite_score < 80
-    )
-  ] <- "moderate"
-  le8_category[which(scores$le8_composite_score >= 80)] <- "high"
-  scores$le8_category <- le8_category
-
-  cbind(input_data, scores)
-}
-
-.validate_min_components <- function(min_components) {
-  invalid <- length(min_components) != 1L ||
-    anyNA(min_components) ||
-    !is.numeric(min_components) ||
-    !is.finite(min_components) ||
-    min_components %% 1 != 0 ||
-    min_components < 1 ||
-    min_components > 8
-
-  if (invalid) {
-    .abort_adult_scoring(
-      "{.arg min_components} must be a single integer between 1 and 8."
-    )
+  if (!is.null(diet$components)) {
+    scores <- cbind(scores, diet$components)
   }
 
-  as.integer(min_components)
-}
+  applicable <- .le8_applicable_components(age, diet_method)
+  .inform_not_applicable(data, applicable)
+  component_columns <- .le8_component_score_columns()
+  for (column in component_columns) {
+    scores[[column]][!applicable[, column]] <- NA_real_
+  }
 
-.le8_component_score_columns <- function() {
-  c(
-    "le8_diet_score",
-    "le8_physical_activity_score",
-    "le8_nicotine_score",
-    "le8_sleep_score",
-    "le8_bmi_score",
-    "le8_blood_lipids_score",
-    "le8_blood_glucose_score",
-    "le8_blood_pressure_score"
+  scores <- .add_le8_composite(scores, min_components, applicable)
+  scores$le8_category <- .le8_category(scores$le8_composite_score)
+  scores$le8_population <- .le8_population_label(age)
+
+  # Assign into the caller's object so tibbles, grouped tibbles, and
+  # row names are preserved; the validated copy is only used internally.
+  original_data[names(scores)] <- scores
+  .new_le8_scores(
+    original_data,
+    diet_method = diet_method,
+    min_components = min_components
   )
 }
 
-.le8_component_labels <- function() {
-  c(
-    le8_diet_score = "Diet",
-    le8_physical_activity_score = "Physical activity",
-    le8_nicotine_score = "Nicotine exposure",
-    le8_sleep_score = "Sleep",
-    le8_bmi_score = "BMI",
-    le8_blood_lipids_score = "Blood lipids",
-    le8_blood_glucose_score = "Blood glucose",
-    le8_blood_pressure_score = "Blood pressure"
+# Component dispatch -------------------------------------------------------------
+#
+# Each component is scored with both definitions and the row's population picks
+# one. The scorers are vectorized and side-effect free, so this keeps the
+# routing in one visible place.
+
+.le8_activity_minutes <- function(data, age) {
+  moderate <- data$moderate_activity_minutes
+  vigorous <- data$vigorous_activity_minutes
+  pediatric <- moderate + vigorous
+  pediatric[!.pediatric_ages(age, 72, Inf)] <- NA_real_
+  .by_population(age, adult = moderate + 2 * vigorous, pediatric = pediatric)
+}
+
+.score_le8_physical_activity <- function(data, age) {
+  .by_population(
+    age,
+    adult = .score_adult_physical_activity(
+      data$moderate_activity_minutes + 2 * data$vigorous_activity_minutes
+    ),
+    pediatric = .score_pediatric_physical_activity(
+      weekly_minutes = data$moderate_activity_minutes +
+        data$vigorous_activity_minutes,
+      active_play_minutes = data$active_play_minutes,
+      months = age$months
+    )
   )
 }
 
-.add_le8_composite <- function(scores, min_components) {
-  score_columns <- .le8_component_score_columns()
-  score_matrix <- as.matrix(scores[score_columns])
-  component_count <- as.integer(rowSums(!is.na(score_matrix)))
-  component_mean <- rowMeans(score_matrix, na.rm = TRUE)
-  component_mean[component_count == 0L] <- NA_real_
-
-  composite_score <- rep(NA_real_, nrow(scores))
-  eligible <- component_count >= min_components & component_count > 0L
-  composite_score[eligible] <- component_mean[eligible]
-
-  scores$le8_n_components <- component_count
-  scores$le8_composite_score <- composite_score
-  scores$le8_complete <- component_count == 8L
-
-  if (nrow(scores) == 0L) {
-    return(scores)
-  }
-
-  component_labels <- .le8_component_labels()
-  structurally_missing <- vapply(
-    scores[names(component_labels)],
-    function(score) all(is.na(score)),
-    logical(1)
-  )
-  missing_components <- unname(component_labels[structurally_missing])
-
-  if (length(missing_components) == 0L) {
-    return(scores)
-  }
-
-  component_bullets <- stats::setNames(
-    missing_components,
-    rep("x", length(missing_components))
-  )
-  max_possible_components <- 8L - length(missing_components)
-  missing_header <- paste0(
-    "Some LE8 components could not be calculated ",
-    "for any observations."
-  )
-
-  if (min_components > max_possible_components) {
-    cli::cli_warn(
-      c(
-        "!" = missing_header,
-        component_bullets,
-        "i" = paste0(
-          "Only {max_possible_components} LE8 components are available, ",
-          "but {.arg min_components} is {min_components}."
-        ),
-        "i" = "No LE8 composite scores can be calculated."
-      ),
-      class = c(
-        "essential8_insufficient_components",
-        "essential8_warning"
-      ),
-      .envir = environment()
-    )
-  } else {
-    cli::cli_warn(
-      c(
-        "!" = missing_header,
-        component_bullets,
-        "i" = paste0(
-          "Overall LE8 composite scores will use the available components, ",
-          "subject to {.arg min_components}."
-        )
-      ),
-      class = c(
-        "essential8_missing_component",
-        "essential8_warning"
-      ),
-      .envir = environment()
-    )
-  }
-
-  scores
-}
-
-.complete_le8_adult_data <- function(data) {
-  numeric_columns <- c(
-    "moderate_activity_minutes",
-    "vigorous_activity_minutes",
-    "years_since_quit",
-    "sleep_hours",
-    "bmi",
-    "non_hdl_cholesterol",
-    "glucose_value",
-    "systolic_bp",
-    "diastolic_bp",
-    "diet_value"
-  )
-  logical_columns <- c(
-    "current_inhaled_nds",
-    "secondhand_smoke_home",
-    "lipid_lowering_treatment",
-    "diabetes",
-    "antihypertensive_treatment"
-  )
-  character_columns <- c(
-    "smoking_status",
-    "bmi_profile",
-    "glucose_measure"
-  )
-
-  for (column in setdiff(numeric_columns, names(data))) {
-    data[[column]] <- rep(NA_real_, nrow(data))
-  }
-  for (column in setdiff(logical_columns, names(data))) {
-    data[[column]] <- rep(NA, nrow(data))
-  }
-  for (column in setdiff(character_columns, names(data))) {
-    data[[column]] <- rep(NA_character_, nrow(data))
-  }
-
-  data
-}
-
-.le8_adult_output_columns <- function() {
-  c(
-    "mepa_total",
-    "physical_activity_moderate_equivalent_minutes",
-    "le8_diet_score",
-    "le8_physical_activity_score",
-    "le8_nicotine_score",
-    "le8_sleep_score",
-    "le8_bmi_score",
-    "le8_blood_lipids_score",
-    "le8_blood_glucose_score",
-    "le8_blood_pressure_score",
-    "le8_n_components",
-    "le8_composite_score",
-    "le8_complete",
-    # Reserve the pre-rename output name to prevent ambiguous results.
-    "le8_score",
-    "le8_category"
-  )
-}
-
-.normalize_adult_diet_method <- function(diet_method) {
-  supported_type <- is.character(diet_method) || is.factor(diet_method)
-  if (!supported_type || length(diet_method) != 1L || anyNA(diet_method)) {
-    .abort_adult_scoring(c(
-      "{.arg diet_method} must be one complete string.",
-      "i" = "Choose {.val mepa} or {.val percentile}."
-    ))
-  }
-
-  normalized <- tolower(trimws(as.character(diet_method)))
-  if (!nzchar(normalized)) {
-    .abort_adult_scoring(
-      "{.arg diet_method} must not be empty."
-    )
-  }
-
-  .validate_adult_choices(
-    normalized,
-    "diet_method",
-    c("mepa", "percentile")
-  )
-  normalized
-}
-
-.validate_legacy_adult_diet_method <- function(data, diet_method) {
-  index <- match("diet_method", tolower(names(data)))
-  if (is.na(index)) {
-    return(invisible(NULL))
-  }
-
-  column <- names(data)[index]
-  .validate_adult_character_column(data, column)
-  if (anyNA(data[[column]])) {
-    .abort_adult_scoring(
-      paste0(
-        "Legacy {.field {column}} values must be complete ",
-        "when the column is supplied."
-      )
-    )
-  }
-  legacy_method <- tolower(trimws(as.character(data[[column]])))
-  .validate_adult_choices(
-    legacy_method,
-    column,
-    c("mepa", "percentile")
-  )
-
-  if (any(legacy_method != diet_method)) {
-    .abort_adult_scoring(c(
-      "{.field {column}} conflicts with {.arg diet_method}.",
-      "x" = "A single diet method must apply to every row in one call.",
-      "i" = "Remove the legacy column and pass {.arg diet_method} directly."
-    ))
-  }
-
-  invisible(NULL)
-}
-
-.validate_le8_adult_data <- function(data, diet_method) {
-  if (!is.data.frame(data)) {
-    .abort_adult_scoring(c(
-      "{.arg data} must be a data frame.",
-      "x" = "You supplied {.cls {class(data)}}."
-    ))
-  }
-
-  normalized_names <- tolower(names(data))
-  duplicated_columns <- unique(
-    names(data)[duplicated(normalized_names)]
-  )
-  if (length(duplicated_columns) > 0L) {
-    .abort_adult_scoring(c(
-      "{.arg data} must have unique column names.",
-      "x" = "Duplicated after case normalization: {paste(duplicated_columns, collapse = ', ')}."
-    ))
-  }
-
-  .validate_legacy_adult_diet_method(data, diet_method)
-
-  missing_columns <- setdiff("age", names(data))
-  if (length(missing_columns) > 0L) {
-    .abort_adult_scoring(c(
-      "{.arg data} is missing a required adult LE8 eligibility column.",
-      "x" = "Missing: {paste(missing_columns, collapse = ', ')}."
-    ))
-  }
-
-  conflicting_columns <- names(data)[
-    tolower(names(data)) %in% tolower(.le8_adult_output_columns())
-  ]
-  if (length(conflicting_columns) > 0L) {
-    .abort_adult_scoring(c(
-      "{.arg data} already contains adult LE8 output columns.",
-      "x" = "Conflicting: {paste(conflicting_columns, collapse = ', ')}."
-    ))
-  }
-
-  data <- .complete_le8_adult_data(data)
-
-  numeric_columns <- c(
-    "age",
-    "moderate_activity_minutes",
-    "vigorous_activity_minutes",
-    "years_since_quit",
-    "sleep_hours",
-    "bmi",
-    "non_hdl_cholesterol",
-    "glucose_value",
-    "systolic_bp",
-    "diastolic_bp"
-  )
-  for (column in numeric_columns) {
-    .validate_adult_numeric_column(
-      data,
-      column,
-      allow_missing = column != "age"
-    )
-  }
-
-  logical_columns <- c(
-    "current_inhaled_nds",
-    "secondhand_smoke_home",
-    "lipid_lowering_treatment",
-    "diabetes",
-    "antihypertensive_treatment"
-  )
-  for (column in logical_columns) {
-    .validate_adult_logical_column(data, column)
-  }
-
-  optional_flags <- c(
-    "apply_lean_muscular_bmi_override",
-    "apply_sleep_apnea_penalty",
-    "apply_prediabetes_metformin_penalty"
-  )
-  for (column in intersect(optional_flags, names(data))) {
-    .validate_adult_logical_column(data, column)
-  }
-
-  character_columns <- c(
-    "smoking_status",
-    "bmi_profile",
-    "glucose_measure"
-  )
-  for (column in character_columns) {
-    .validate_adult_character_column(data, column)
-  }
-
-  .validate_adult_choices(
-    data$smoking_status,
-    "smoking_status",
-    c("never", "former", "current")
-  )
-  .validate_adult_choices(
-    data$bmi_profile,
-    "bmi_profile",
-    c("general", "asian_pacific")
-  )
-  .validate_adult_choices(
-    data$glucose_measure,
-    "glucose_measure",
-    c("fasting_glucose", "hba1c")
-  )
-
-  if (any(data$age < 20, na.rm = TRUE)) {
-    .abort_adult_scoring(
-      "{.field age} must be at least 20 for adult AHA scoring."
-    )
-  }
-  if (any(data$moderate_activity_minutes < 0, na.rm = TRUE) ||
-      any(data$vigorous_activity_minutes < 0, na.rm = TRUE)) {
-    .abort_adult_scoring(
-      "Weekly physical-activity minutes cannot be negative."
-    )
-  }
-  if (any(data$years_since_quit < 0, na.rm = TRUE)) {
-    .abort_adult_scoring(
-      "{.field years_since_quit} cannot be negative."
-    )
-  }
-
+.score_le8_nicotine <- function(data, age) {
   smoking_status <- as.character(data$smoking_status)
-  if (any(
-    smoking_status == "current" & data$current_inhaled_nds,
-    na.rm = TRUE
-  )) {
-    .abort_adult_scoring(c(
-      "AHA 2022 does not specify precedence for simultaneous current combustible smoking and current inhaled-NDS use.",
-      "i" = "Resolve the dual-use state before scoring rather than assuming a tie-break."
-    ))
-  }
-  if (any(
-    data$sleep_hours < 0 | data$sleep_hours > 24,
-    na.rm = TRUE
-  )) {
-    .abort_adult_scoring(
-      "{.field sleep_hours} must be between 0 and 24."
-    )
-  }
-  if (any(data$bmi < 18.5, na.rm = TRUE)) {
-    .abort_adult_scoring(c(
-      "BMI values below 18.5 require clinical judgment under AHA 2022.",
-      "i" = "This implementation does not guess an underweight score."
-    ))
-  }
-
-  bmi_profile <- as.character(data$bmi_profile)
-  lean_muscular_bmi_override <- .optional_adult_flag(
-    data,
-    "apply_lean_muscular_bmi_override"
-  )
-  valid_lean_muscular_override <-
-    bmi_profile == "general" & data$bmi >= 25 & data$bmi < 30
-  if (any(
-    lean_muscular_bmi_override & !valid_lean_muscular_override,
-    na.rm = TRUE
-  )) {
-    .abort_adult_scoring(c(
-      "The lean muscular BMI override requires the general BMI profile and BMI from 25 to less than 30.",
-      "i" = "Set the flag only after the AHA clinical-judgment condition is met."
-    ))
-  }
-  if (any(data$non_hdl_cholesterol < 0, na.rm = TRUE)) {
-    .abort_adult_scoring(
-      "{.field non_hdl_cholesterol} cannot be negative."
-    )
-  }
-  if (any(data$glucose_value <= 0, na.rm = TRUE)) {
-    .abort_adult_scoring(
-      "{.field glucose_value} must be greater than 0."
-    )
-  }
-  if (any(data$systolic_bp <= 0, na.rm = TRUE) ||
-      any(data$diastolic_bp <= 0, na.rm = TRUE)) {
-    .abort_adult_scoring(
-      "Blood-pressure values must be greater than 0."
-    )
-  }
-
-  mepa <- diet_method == "mepa"
-  percentile <- diet_method == "percentile"
-  if ("diet_value" %in% names(data)) {
-    .validate_adult_column_shape(data, "diet_value")
-    if (mepa && any(!is.na(data$diet_value))) {
-      .abort_adult_scoring(c(
-        "MEPA data must not supply a precomputed {.field diet_value}.",
-        "i" = "Provide the 16 raw MEPA screener responses; the package derives {.field mepa_total}."
-      ))
-    }
-    if (percentile) {
-      .validate_adult_numeric_column(data, "diet_value")
-      if (any(
-        data$diet_value < 1 | data$diet_value > 100,
-        na.rm = TRUE
-      )) {
-        .abort_adult_scoring(
-          "Percentile {.field diet_value} must be from 1 to 100."
-        )
-      }
-    }
-  }
-
-  diabetes <- data$diabetes
-  glucose_measure <- as.character(data$glucose_measure)
-  if (any(diabetes & glucose_measure != "hba1c", na.rm = TRUE)) {
-    .abort_adult_scoring(c(
-      "Diagnosed diabetes requires an HbA1c value for AHA 2022 scoring.",
-      "i" = "Use {.val hba1c} in {.field glucose_measure}."
-    ))
-  }
-
-  no_diabetes_fbg_range <- !diabetes &
-    glucose_measure == "fasting_glucose" &
-    data$glucose_value >= 126
-  no_diabetes_hba1c_range <- !diabetes &
-    glucose_measure == "hba1c" &
-    data$glucose_value >= 6.5
-  if (any(
-    no_diabetes_fbg_range | no_diabetes_hba1c_range,
-    na.rm = TRUE
-  )) {
-    .abort_adult_scoring(c(
-      "The AHA table does not score a diagnostic-range glucose value with no diabetes diagnosis.",
-      "i" = "Reconcile {.field diabetes} and the laboratory value before scoring."
-    ))
-  }
-
-  prevention_penalty <- .optional_adult_flag(
-    data,
-    "apply_prediabetes_metformin_penalty"
-  )
-  normoglycemic <- !diabetes & (
-    (glucose_measure == "fasting_glucose" & data$glucose_value < 100) |
-      (glucose_measure == "hba1c" & data$glucose_value < 5.7)
-  )
-  if (any(prevention_penalty & !normoglycemic, na.rm = TRUE)) {
-    .abort_adult_scoring(c(
-      "The optional prediabetes/metformin penalty requires a normoglycemic value and no diabetes diagnosis.",
-      "i" = "Set the flag only after every caller-attested AHA condition is met."
-    ))
-  }
-
-  as.data.frame(data, stringsAsFactors = FALSE)
-}
-
-.validate_adult_column_shape <- function(data, column) {
-  value <- data[[column]]
-  if (!is.null(dim(value)) || length(value) != nrow(data)) {
-    .abort_adult_scoring(
-      "{.field {column}} must be a one-dimensional column with one value per row."
-    )
-  }
-}
-
-.validate_adult_numeric_column <- function(
-  data,
-  column,
-  allow_missing = TRUE
-) {
-  value <- data[[column]]
-  .validate_adult_column_shape(data, column)
-  if (!is.numeric(value)) {
-    .abort_adult_scoring(
-      "{.field {column}} must be numeric."
-    )
-  }
-  if (!allow_missing && anyNA(value)) {
-    .abort_adult_scoring(
-      "{.field {column}} must contain complete values."
-    )
-  }
-  observed <- value[!is.na(value)]
-  if (any(!is.finite(observed))) {
-    .abort_adult_scoring(
-      "Observed values in {.field {column}} must be finite."
-    )
-  }
-}
-
-.validate_adult_logical_column <- function(data, column) {
-  value <- data[[column]]
-  .validate_adult_column_shape(data, column)
-  if (!is.logical(value)) {
-    .abort_adult_scoring(
-      "{.field {column}} must be logical."
-    )
-  }
-}
-
-.validate_adult_character_column <- function(data, column) {
-  value <- data[[column]]
-  .validate_adult_column_shape(data, column)
-  if (!is.character(value) && !is.factor(value)) {
-    .abort_adult_scoring(
-      "{.field {column}} must be character or factor."
-    )
-  }
-  observed <- as.character(value[!is.na(value)])
-  if (any(trimws(observed) == "")) {
-    .abort_adult_scoring(
-      "Observed values in {.field {column}} must not be empty."
-    )
-  }
-}
-
-.validate_adult_choices <- function(value, column, choices) {
-  value <- as.character(value)
-  value <- value[!is.na(value)]
-  unknown <- setdiff(unique(value), choices)
-  if (length(unknown) > 0L) {
-    .abort_adult_scoring(c(
-      "{.field {column}} contains unsupported values.",
-      "x" = "Unsupported: {paste(unknown, collapse = ', ')}.",
-      "i" = "Allowed: {paste(choices, collapse = ', ')}."
-    ))
-  }
-}
-
-.optional_adult_flag <- function(data, column) {
-  if (!column %in% names(data)) {
-    return(rep(FALSE, nrow(data)))
-  }
-  data[[column]]
-}
-
-.score_adult_diet <- function(method, value) {
-  score <- rep(NA_real_, length(value))
-
-  mepa <- method == "mepa"
-  score[mepa] <- ifelse(
-    value[mepa] >= 15,
-    100,
-    ifelse(
-      value[mepa] >= 12,
-      80,
-      ifelse(value[mepa] >= 8, 50, ifelse(value[mepa] >= 4, 25, 0))
+  .by_population(
+    age,
+    adult = .score_adult_nicotine(
+      smoking_status = smoking_status,
+      years_since_quit = data$years_since_quit,
+      current_inhaled_nds = data$current_inhaled_nds,
+      secondhand_smoke_home = data$secondhand_smoke_home
+    ),
+    pediatric = .score_pediatric_nicotine(
+      smoking_status = smoking_status,
+      current_inhaled_nds = data$current_inhaled_nds,
+      secondhand_smoke_home = data$secondhand_smoke_home
     )
   )
+}
 
-  percentile <- method == "percentile"
-  score[percentile] <- ifelse(
-    value[percentile] >= 95,
-    100,
-    ifelse(
-      value[percentile] >= 75,
-      80,
-      ifelse(
-        value[percentile] >= 50,
-        50,
-        ifelse(value[percentile] >= 25, 25, 0)
+.score_le8_sleep <- function(data, age) {
+  apnea_penalty <- .optional_flag(data, "apply_sleep_apnea_penalty")
+  .by_population(
+    age,
+    adult = .score_adult_sleep(data$sleep_hours, apnea_penalty),
+    pediatric = .score_pediatric_sleep(
+      data$sleep_hours, age$months, apnea_penalty
+    )
+  )
+}
+
+.score_le8_bmi <- function(data, age) {
+  .by_population(
+    age,
+    adult = .score_adult_bmi(
+      bmi = data$bmi,
+      profile = as.character(data$bmi_profile),
+      apply_lean_muscular_override = .optional_flag(
+        data, "apply_lean_muscular_bmi_override"
       )
-    )
-  )
-
-  score
-}
-
-.score_adult_physical_activity <- function(minutes) {
-  ifelse(
-    minutes >= 150,
-    100,
-    ifelse(
-      minutes >= 120,
-      90,
-      ifelse(
-        minutes >= 90,
-        80,
-        ifelse(
-          minutes >= 60,
-          60,
-          ifelse(minutes >= 30, 40, ifelse(minutes > 0, 20, 0))
-        )
-      )
+    ),
+    pediatric = .score_pediatric_bmi(
+      bmi_percentile = data$bmi_percentile,
+      bmi_percent_of_p95 = data$bmi_percent_of_p95,
+      infant_weight_percentile = data$infant_weight_percentile,
+      infant_weight_z_change = data$infant_weight_z_change,
+      months = age$months
     )
   )
 }
 
-.score_adult_nicotine <- function(
-  smoking_status,
-  years_since_quit,
-  current_inhaled_nds,
-  secondhand_smoke_home
-) {
-  score <- ifelse(
-    smoking_status == "never",
-    100,
-    ifelse(
-      smoking_status == "current",
-      0,
-      ifelse(years_since_quit >= 5, 75, ifelse(years_since_quit >= 1, 50, 25))
-    )
+.score_le8_blood_lipids <- function(data, age) {
+  non_hdl <- data$non_hdl_cholesterol
+  treated <- data$lipid_lowering_treatment
+  .by_population(
+    age,
+    adult = .score_adult_blood_lipids(non_hdl, treated),
+    pediatric = .score_pediatric_blood_lipids(non_hdl, treated)
   )
-
-  inhaled_nds <- which(current_inhaled_nds & score > 25)
-  score[inhaled_nds] <- 25
-  secondhand_smoke <- which(secondhand_smoke_home & score > 0)
-  score[secondhand_smoke] <- score[secondhand_smoke] - 20
-
-  required_missing <- is.na(smoking_status) |
-    is.na(current_inhaled_nds) |
-    is.na(secondhand_smoke_home) |
-    (smoking_status == "former" & is.na(years_since_quit))
-  score[which(required_missing)] <- NA_real_
-  score
 }
 
-.score_adult_sleep <- function(hours, apply_apnea_penalty) {
-  score <- ifelse(
-    hours < 4,
-    0,
-    ifelse(
-      hours < 5,
-      20,
-      ifelse(
-        hours < 6,
-        40,
-        ifelse(
-          hours < 7,
-          70,
-          ifelse(hours < 9, 100, ifelse(hours < 10, 90, 40))
-        )
-      )
+.score_le8_blood_glucose <- function(data) {
+  .score_adult_blood_glucose(
+    diabetes = data$diabetes,
+    measure = as.character(data$glucose_measure),
+    value = data$glucose_value,
+    apply_prevention_penalty = .optional_flag(
+      data, "apply_prediabetes_metformin_penalty"
     )
   )
-
-  pmax(0, score - ifelse(apply_apnea_penalty, 20, 0))
 }
 
-.score_adult_bmi <- function(
-  bmi,
-  profile,
-  apply_lean_muscular_override = rep(FALSE, length(bmi))
-) {
-  score <- rep(NA_real_, length(bmi))
-
-  general <- which(profile == "general")
-  score[general] <- ifelse(
-    bmi[general] < 25,
-    100,
-    ifelse(
-      bmi[general] < 30,
-      70,
-      ifelse(bmi[general] < 35, 30, ifelse(bmi[general] < 40, 15, 0))
+.score_le8_blood_pressure <- function(data, age) {
+  .by_population(
+    age,
+    adult = .score_adult_blood_pressure(
+      data$systolic_bp, data$diastolic_bp, data$antihypertensive_treatment
+    ),
+    pediatric = .score_pediatric_blood_pressure(
+      systolic = data$systolic_bp,
+      diastolic = data$diastolic_bp,
+      systolic_p90 = data$systolic_bp_p90,
+      systolic_p95 = data$systolic_bp_p95,
+      diastolic_p90 = data$diastolic_bp_p90,
+      diastolic_p95 = data$diastolic_bp_p95,
+      treated = data$antihypertensive_treatment,
+      months = age$months
     )
   )
-
-  asian_pacific <- which(profile == "asian_pacific")
-  score[asian_pacific] <- ifelse(
-    bmi[asian_pacific] < 23,
-    100,
-    ifelse(
-      bmi[asian_pacific] < 25,
-      75,
-      ifelse(
-        bmi[asian_pacific] < 30,
-        50,
-        ifelse(bmi[asian_pacific] < 35, 25, 0)
-      )
-    )
-  )
-
-  score[which(apply_lean_muscular_override)] <- 100
-  score[which(is.na(apply_lean_muscular_override))] <- NA_real_
-
-  score
-}
-
-.score_adult_blood_lipids <- function(non_hdl, treated) {
-  score <- ifelse(
-    non_hdl < 130,
-    100,
-    ifelse(
-      non_hdl < 160,
-      60,
-      ifelse(non_hdl < 190, 40, ifelse(non_hdl < 220, 20, 0))
-    )
-  )
-
-  pmax(0, score - ifelse(treated, 20, 0))
-}
-
-.score_adult_blood_glucose <- function(
-  diabetes,
-  measure,
-  value,
-  apply_prevention_penalty
-) {
-  score <- rep(NA_real_, length(value))
-
-  no_diabetes_fbg <- which(!diabetes & measure == "fasting_glucose")
-  score[no_diabetes_fbg] <- ifelse(
-    value[no_diabetes_fbg] < 100,
-    100,
-    60
-  )
-
-  no_diabetes_hba1c <- which(!diabetes & measure == "hba1c")
-  score[no_diabetes_hba1c] <- ifelse(
-    value[no_diabetes_hba1c] < 5.7,
-    100,
-    60
-  )
-
-  with_diabetes <- which(diabetes)
-  score[with_diabetes] <- ifelse(
-    value[with_diabetes] < 7,
-    40,
-    ifelse(
-      value[with_diabetes] < 8,
-      30,
-      ifelse(
-        value[with_diabetes] < 9,
-        20,
-        ifelse(value[with_diabetes] < 10, 10, 0)
-      )
-    )
-  )
-
-  pmax(0, score - ifelse(apply_prevention_penalty, 20, 0))
-}
-
-.score_adult_blood_pressure <- function(systolic, diastolic, treated) {
-  systolic_score <- ifelse(
-    systolic < 120,
-    100,
-    ifelse(
-      systolic < 130,
-      75,
-      ifelse(systolic < 140, 50, ifelse(systolic < 160, 25, 0))
-    )
-  )
-  diastolic_score <- ifelse(
-    diastolic < 80,
-    100,
-    ifelse(diastolic < 90, 50, ifelse(diastolic < 100, 25, 0))
-  )
-  score <- pmin(systolic_score, diastolic_score)
-
-  pmax(0, score - ifelse(treated, 20, 0))
 }

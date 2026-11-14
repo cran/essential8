@@ -6,8 +6,9 @@ knitr::opts_chunk$set(
 
 ## ----create-data--------------------------------------------------------------
 library(essential8)
+library(dplyr)
 
-adult_data <- data.frame(
+adult_data <- tibble(
   id = c("patient_1", "patient_2"),
   age = c(42, 61),
   sex = c("female", "male"),
@@ -49,50 +50,37 @@ adult_data <- data.frame(
 )
 
 ## ----score-data---------------------------------------------------------------
-scored <- score_le8(adult_data, diet_method = "mepa")
+scored <- adult_data |>
+  score_le8(diet_method = "mepa")
 
-scored[c(
-  "id",
-  "mepa_total",
-  "le8_diet_score",
-  "physical_activity_moderate_equivalent_minutes",
-  "le8_composite_score",
-  "le8_category"
-)]
+scored |>
+  select(id, mepa_total, diet_score, le8_composite_score, le8_category)
 
 ## ----component-scores---------------------------------------------------------
-component_columns <- setdiff(
-  grep("^le8_.*_score$", names(scored), value = TRUE),
-  "le8_composite_score"
-)
-
-scored[c("id", component_columns)]
+scored |>
+  select(id, ends_with("_score"), -le8_composite_score)
 
 ## ----percentile---------------------------------------------------------------
-percentile_data <- adult_data[1, , drop = FALSE]
-percentile_data$diet_value <- 95
-percentile_scores <- score_le8(
-  percentile_data,
-  diet_method = "percentile"
-)
-percentile_scores[
-  c("diet_value", "le8_diet_score", "le8_composite_score")
-]
+adult_data |>
+  mutate(diet_value = c(35, 95)) |>
+  score_le8(diet_method = "percentile") |>
+  select(id, diet_value, diet_score, le8_composite_score)
 
 ## ----incomplete-data----------------------------------------------------------
-incomplete_data <- adult_data
-incomplete_data$sleep_hours[1] <- NA_real_
-incomplete_data$bmi[2] <- NA_real_
+adult_data |>
+  mutate(sleep_hours = c(NA_real_, 6.5)) |>
+  score_le8(min_components = 7) |>
+  select(id, le8_composite_score, n_components, le8_complete)
 
-incomplete_scores <- score_le8(
-  incomplete_data,
-  min_components = 7
-)
+## ----summary------------------------------------------------------------------
+summary(scored)
 
-incomplete_scores[c(
-  "id",
-  "le8_composite_score",
-  "le8_n_components",
-  "le8_complete"
-)]
+## ----summarise----------------------------------------------------------------
+summarise(scored)
+
+## ----tidy---------------------------------------------------------------------
+tidy(scored, id_cols = "id")
+
+## ----plot, eval = requireNamespace("ggplot2", quietly = TRUE), fig.alt = "Bar chart of the mean LE8 composite and component scores, with dashed lines at the moderate (50) and high (80) thresholds."----
+plot(scored)
 
